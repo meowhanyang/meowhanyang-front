@@ -16,10 +16,14 @@ import { DiaryRegisterReqObj } from '@/app/diary/diaryType';
 import { useRouter } from 'next/navigation';
 import { CatType } from '@/types/cat';
 
+type DiaryRegisterReqWithCats = Omit<DiaryRegisterReqObj, 'taggedCats'> & {
+  taggedCats: CatType[];
+};
+
 interface DiaryWriteModalProps {
   onClose: () => void;
   id: number;
-  diaryDetail?: DiaryRegisterReqObj;
+  diaryDetail?: DiaryRegisterReqWithCats;
 }
 
 const DiaryWriteModal = ({
@@ -61,6 +65,7 @@ const DiaryWriteModal = ({
       )
     );
     setDiaryImageList(updateDiaryImages(diaryDetail?.images));
+    setTaggedCatList(diaryDetail.taggedCats);
   };
 
   const updateDiaryImages = (images: string[]) => {
@@ -98,7 +103,10 @@ const DiaryWriteModal = ({
     return `${year}-${month}-${date}`;
   };
 
+  console.log('diaryDetail', diaryDetail);
   const settingParams = () => {
+    console.log('taggedCatList', taggedCatList);
+
     const images = diaryImageList
       ?.filter(diary => diary.croppedImage)
       ?.map(diary => diary.croppedImage);
@@ -154,7 +162,7 @@ const DiaryWriteModal = ({
   });
 
   return (
-    <div className="fixed left-0 top-0 z-[50] h-screen w-full overflow-y-auto bg-gr-white">
+    <div className="fixed left-0 top-0 z-20 h-screen w-full overflow-y-auto bg-gr-white">
       <Topbar type="three">
         <Topbar.Back onClick={onClose} />
         <Topbar.Title title="일지쓰기" />
