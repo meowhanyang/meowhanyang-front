@@ -15,6 +15,7 @@ import { editDiaryOnServer, registerDiaryOnServer } from '@/services/diary';
 import { DiaryRegisterReqObj } from '@/app/diary/diaryType';
 import { useRouter } from 'next/navigation';
 import { CatType } from '@/types/cat';
+import CloseIcon from '../../../public/images/icons/close.svg';
 
 type DiaryRegisterReqWithCats = Omit<DiaryRegisterReqObj, 'taggedCats'> & {
   taggedCats: CatType[];
@@ -276,13 +277,16 @@ const DiaryWriteModal = ({
           <ul className="px-4 py-1 pb-20">
             {taggedCatList.map((cat: CatType) => {
               return (
-                <li key={cat.id} className="flex items-center gap-4 py-2">
+                <li
+                  key={cat.id}
+                  className="flex items-center justify-between gap-4 self-stretch py-2"
+                >
                   <img
                     src={cat.imageUrl}
                     alt="cat-image"
                     className="h-12 w-12 rounded-full border"
                   />
-                  <div className="flex gap-2">
+                  <div className="flex flex-1 items-center gap-2">
                     <h5 className="text-body-2 text-gr-900">{cat.name}</h5>
                     <img
                       src={`/images/icons/gender-${cat.sex}.svg`}
@@ -290,6 +294,18 @@ const DiaryWriteModal = ({
                       className={`rounded-full ${
                         cat.sex === 'F' ? 'bg-[#FFF2F1]' : 'bg-[#ECF5FF]'
                       }`}
+                    />
+                  </div>
+                  <div className="rounded-full border-[1.5px] border-gr-white bg-gr-200 p-1">
+                    <CloseIcon
+                      width={12}
+                      height={12}
+                      stroke="var(--gr-white)"
+                      onClick={() => {
+                        setTaggedCatList(prevList =>
+                          prevList.filter(prevCat => prevCat.id !== cat.id)
+                        );
+                      }}
                     />
                   </div>
                 </li>
