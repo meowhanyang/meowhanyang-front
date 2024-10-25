@@ -10,16 +10,20 @@ import TimeInput from '@/components/diary/TimeInput';
 import SearchCatModal from './SearchCatModal';
 import { useAtom } from 'jotai';
 import { diaryImageListAtom } from '@/atoms/imageAtom';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { editDiaryOnServer, registerDiaryOnServer } from '@/services/diary';
 import { DiaryRegisterReqObj } from '@/app/diary/diaryType';
 import { useRouter } from 'next/navigation';
 import { CatType } from '@/types/cat';
 
+type DiaryRegisterReqWithCats = Omit<DiaryRegisterReqObj, 'taggedCats'> & {
+  taggedCats: CatType[];
+};
+
 interface DiaryWriteModalProps {
   onClose: () => void;
   id: number;
-  diaryDetail?: DiaryRegisterReqObj;
+  diaryDetail?: DiaryRegisterReqWithCats;
 }
 
 const DiaryWriteModal = ({
@@ -28,6 +32,7 @@ const DiaryWriteModal = ({
   diaryDetail
 }: DiaryWriteModalProps) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const [textareaContent, setTextareaContent] = useState('');
   const [currentTime, setCurrentTime] = useState({
@@ -61,6 +66,7 @@ const DiaryWriteModal = ({
       )
     );
     setDiaryImageList(updateDiaryImages(diaryDetail?.images));
+    setTaggedCatList(diaryDetail.taggedCats);
   };
 
   const updateDiaryImages = (images: string[]) => {
@@ -144,6 +150,7 @@ const DiaryWriteModal = ({
     onSuccess: (response: any) => {
       if (response.status === 'OK') {
         onClose();
+        queryClient.invalidateQueries({ queryKey: ['diaryDetail'] });
       } else {
         console.error('일지 수정 중 오류:', response.message);
       }
@@ -154,7 +161,7 @@ const DiaryWriteModal = ({
   });
 
   return (
-    <div className="fixed left-0 top-0 z-[50] h-screen w-full overflow-y-auto bg-gr-white">
+    <div className="fixed left-0 top-0 z-20 h-screen w-full overflow-y-auto bg-gr-white">
       <Topbar type="three">
         <Topbar.Back onClick={onClose} />
         <Topbar.Title title="일지쓰기" />

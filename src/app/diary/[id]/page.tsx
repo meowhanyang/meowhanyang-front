@@ -49,7 +49,7 @@ const DiaryDetailPage = ({ params: { id } }: { params: { id: number } }) => {
   if (isError) return <div>에러</div>;
 
   return (
-    <div className="fixed left-0 top-0 z-50 h-screen overflow-y-auto bg-gr-white">
+    <div className="fixed left-0 top-0 z-50 h-screen w-screen overflow-y-auto bg-gr-white">
       <Topbar type="two">
         <Topbar.Back onClick={() => router.back()} />
         <Topbar.Title title="날짜 props" />
