@@ -10,7 +10,7 @@ import TimeInput from '@/components/diary/TimeInput';
 import SearchCatModal from './SearchCatModal';
 import { useAtom } from 'jotai';
 import { diaryImageListAtom } from '@/atoms/imageAtom';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { editDiaryOnServer, registerDiaryOnServer } from '@/services/diary';
 import { DiaryRegisterReqObj } from '@/app/diary/diaryType';
 import { useRouter } from 'next/navigation';
@@ -32,6 +32,7 @@ const DiaryWriteModal = ({
   diaryDetail
 }: DiaryWriteModalProps) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const [textareaContent, setTextareaContent] = useState('');
   const [currentTime, setCurrentTime] = useState({
@@ -103,10 +104,7 @@ const DiaryWriteModal = ({
     return `${year}-${month}-${date}`;
   };
 
-  console.log('diaryDetail', diaryDetail);
   const settingParams = () => {
-    console.log('taggedCatList', taggedCatList);
-
     const images = diaryImageList
       ?.filter(diary => diary.croppedImage)
       ?.map(diary => diary.croppedImage);
@@ -152,6 +150,7 @@ const DiaryWriteModal = ({
     onSuccess: (response: any) => {
       if (response.status === 'OK') {
         onClose();
+        queryClient.invalidateQueries({ queryKey: ['diaryDetail'] });
       } else {
         console.error('일지 수정 중 오류:', response.message);
       }

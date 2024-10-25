@@ -60,6 +60,7 @@ export const useDiaryDetail = (id: number, showWriteModal: boolean) => {
 
   return useQuery({
     queryKey: ['diaryDetail', id, showWriteModal],
-    queryFn: () => fetchDiaryDetail(id)
+    queryFn: () => fetchDiaryDetail(id),
+    staleTime: 1000 * 60 * 10
   });
 };
