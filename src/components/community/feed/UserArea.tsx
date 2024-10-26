@@ -2,6 +2,8 @@ import Profile from '@/components/ui/Profile';
 import React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { jwtDecode } from 'jwt-decode';
+import { getCookie } from '@/utils/common';
 
 interface UserProps {
   nickname: string;
@@ -19,8 +21,16 @@ const UserArea = ({
   onClick
 }: UserProps) => {
   const router = useRouter();
+
+  const token = getCookie('Authorization');
+  const decodedToken: { memberId: number } = jwtDecode(token);
+
   const navigateDetailProfile = () => {
-    router.push(`/profile/${writerId}`);
+    if (writerId === decodedToken.memberId) {
+      router.push(`/profile`);
+    } else {
+      router.push(`/profile/${writerId}`);
+    }
   };
 
   return (

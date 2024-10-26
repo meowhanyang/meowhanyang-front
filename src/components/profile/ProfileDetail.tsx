@@ -26,7 +26,7 @@ export default function Detail({
         <div className="font-bold">{postCount}</div>
         <div className="text-gr-600">게시물</div>
       </section>
-      {bookmarkCount && (
+      {bookmarkCount !== undefined && (
         <>
           <div className="h-5 w-[1px] bg-gr-100" aria-hidden="true"></div>
           <section
