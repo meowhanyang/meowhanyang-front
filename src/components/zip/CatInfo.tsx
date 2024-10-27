@@ -64,16 +64,28 @@ export default function CatInfo({
   [];
 
   const formatDate = (input: string): string => {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(input)) {
+      return input;
+    }
+
+    if (!input || typeof input !== 'string') {
+      const today = new Date();
+      return today.toISOString().split('T')[0];
+    }
+
     const parts = input
       .replace(/년|월|일/g, '')
       .split('/')
       .map(part => part.trim());
 
-    const year = parts[0];
-    const month = parts[1].padStart(2, '0');
-    const day = parts[2].padStart(2, '0');
+    if (parts.length !== 3) {
+      const today = new Date();
+      return today.toISOString().split('T')[0];
+    }
 
-    return `${year}-${month}-${day}`;
+    const [year, month, day] = parts;
+
+    return `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
   };
 
   const updateCatData = () => {
@@ -87,7 +99,10 @@ export default function CatInfo({
       ...catData,
       sex: selectedSex,
       isNeutered: selectedNeutered,
-      metAt: formatDate(selectedItem as string),
+      metAt:
+        type === 'edit' && selectedItem === catData.metAt
+          ? formatDate(catData.metAt)
+          : formatDate(selectedItem as string),
       memo: textareaContent,
       image: type === 'edit' ? selectedImage.croppedImage : catData.image
     };
