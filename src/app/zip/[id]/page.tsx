@@ -81,12 +81,9 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
           }}
         >
           <div className="flex pt-2">
-            {coParents.map((coParent: CoParent) => (
+            {catDetail.coParents?.map((coParent: CoParent) => (
               <ZipDetailCoParents key={coParent.memberId} {...coParent} />
             ))}
-            {/* {catDetail.coParents?.map((coParent: CoParent) => (
-              <ZipDetailCoParents key={coParent.memberId} {...coParent} />
-            ))} */}
           </div>
         </DetailCardLayout>
         <DetailCardLayout
