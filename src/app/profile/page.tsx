@@ -1,7 +1,6 @@
 'use client';
 import Image from 'next/image';
-import { profileImageAtom } from '@/atoms/imageAtom';
-import { useAtom } from 'jotai';
+import { ImageUploadData } from '@/atoms/imageAtom';
 import OnboardProfileUploader from '@/components/onboard/OnboardProfileUploader';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
@@ -15,10 +14,12 @@ import {
 import FeedCard from '@/components/community/FeedCard';
 import { FeedType } from '@/types/communityType';
 import { getMyBookmarks, getMyFeeds, getMyProfile } from '@/services/profile';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function ProfilePage() {
-  const [profileImage, setProfileImage] = useAtom(profileImageAtom);
+  const [profileImage, setProfileImage] = useState([
+    { key: 1, imageSrc: null, croppedImage: null } as ImageUploadData
+  ]);
   const router = useRouter();
 
   const feedReqObj = {
@@ -43,7 +44,12 @@ export default function ProfilePage() {
   });
 
   useEffect(() => {
-    setProfileImage(myProfile?.profileImageUrl);
+    setProfileImage(prevList =>
+      prevList.map(prev => ({
+        ...prev,
+        croppedImage: myProfile?.profileImageUrl
+      }))
+    );
   }, [myProfile]);
 
   return (
