@@ -8,7 +8,7 @@ import OnboardProfileUploader from '@/components/onboard/OnboardProfileUploader'
 import Topbar from '@/components/ui/Topbar';
 import Image from 'next/image';
 import { updateProfileOnServer } from '@/services/nickname';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface OnboardProfileModalProps {
   onClose: () => void;
@@ -22,6 +22,8 @@ const OnboardProfileModal = ({
   onClose,
   myProfile
 }: OnboardProfileModalProps) => {
+  const queryClient = useQueryClient();
+
   const [nickname, setNickname] = useState('');
   const [debouncedNickname, setDebouncedNickname] = useState('');
   const [profileImage, setProfileImage] = useState([
@@ -113,6 +115,7 @@ const OnboardProfileModal = ({
       updateProfileOnServer(reqObj),
     onSuccess: (data: any) => {
       if (data.status === 'OK') {
+        queryClient.invalidateQueries({ queryKey: ['myProfile'] });
         onClose();
       } else {
         console.log('프로필 업데이트 에러: ', data);
