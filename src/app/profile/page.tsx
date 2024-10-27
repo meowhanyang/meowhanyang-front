@@ -1,8 +1,5 @@
 'use client';
 import Image from 'next/image';
-import { profileImageAtom } from '@/atoms/imageAtom';
-import { useAtom } from 'jotai';
-import OnboardProfileUploader from '@/components/onboard/OnboardProfileUploader';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import Detail from '@/components/profile/ProfileDetail';
@@ -15,11 +12,14 @@ import {
 import FeedCard from '@/components/community/FeedCard';
 import { FeedType } from '@/types/communityType';
 import { getMyBookmarks, getMyFeeds, getMyProfile } from '@/services/profile';
-import { useEffect } from 'react';
+import { useState } from 'react';
+import OnboardProfileModal from '@/components/onboard/OnboardProfileModal';
+import PencilIcon from '../../../public/images/icons/pencil.svg';
 
 export default function ProfilePage() {
-  const [profileImage, setProfileImage] = useAtom(profileImageAtom);
   const router = useRouter();
+
+  const [showProfileModal, setShowProfileModal] = useState(false);
 
   const feedReqObj = {
     page: 0,
@@ -41,10 +41,6 @@ export default function ProfilePage() {
     queryKey: ['myProfile'],
     queryFn: () => getMyProfile()
   });
-
-  useEffect(() => {
-    setProfileImage(myProfile?.profileImageUrl);
-  }, [myProfile]);
 
   return (
     <>
@@ -74,10 +70,25 @@ export default function ProfilePage() {
           defaultValue="myContents"
           className="max-w-[390px] sm:max-w-[600px]"
         >
-          <OnboardProfileUploader
-            data={profileImage}
-            setProfileImage={setProfileImage}
-          />
+          <div className="relative mx-auto my-4 flex h-[72px] w-[72px] flex-col items-center justify-center gap-1 rounded-full">
+            <Image
+              src={myProfile?.profileImageUrl || '/images/icons/camera.svg'}
+              alt="icon"
+              width={72}
+              height={72}
+              className="rounded-full"
+            />
+            <div className="absolute bottom-0 right-0 rounded-16">
+              <div className="h-full w-full rounded-full border-[1.5px] border-gr-white bg-gr-700 p-1">
+                <PencilIcon
+                  width={16}
+                  height={16}
+                  stroke="var(--gr-white)"
+                  onClick={() => setShowProfileModal(true)}
+                />
+              </div>
+            </div>
+          </div>
           <Detail
             catCount={myProfile?.catCount}
             postCount={myProfile?.postCount}
@@ -115,6 +126,12 @@ export default function ProfilePage() {
           </TabsContent>
         </Tabs>
       </div>
+      {showProfileModal && (
+        <OnboardProfileModal
+          onClose={() => setShowProfileModal(false)}
+          myProfile={myProfile}
+        />
+      )}
     </>
   );
 }
