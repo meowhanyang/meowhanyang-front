@@ -54,6 +54,9 @@ export default function ProfilePage() {
               width={24}
               height={24}
             />
+            {myProfile?.existsNewNotification && (
+              <div className="absolute right-[3.2rem] top-1 h-2 w-2 rounded-full bg-blue-400"></div>
+            )}
           </button>
           <button onClick={() => router.push('/profile/setting')}>
             <Image
