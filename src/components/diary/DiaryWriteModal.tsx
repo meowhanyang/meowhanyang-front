@@ -8,8 +8,7 @@ import { Button } from '@/components/ui/Button';
 import BottomSheet from '@/components/ui/BottomSheet';
 import TimeInput from '@/components/diary/TimeInput';
 import SearchCatModal from './SearchCatModal';
-import { useAtom } from 'jotai';
-import { diaryImageListAtom } from '@/atoms/imageAtom';
+import { ImageUploadData } from '@/atoms/imageAtom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { editDiaryOnServer, registerDiaryOnServer } from '@/services/diary';
 import { DiaryRegisterReqObj } from '@/app/diary/diaryType';
@@ -47,7 +46,11 @@ const DiaryWriteModal = ({
   const [searchCatModal, setSearchCatModal] = useState(false);
   const [selectTimeBottomSheet, setSelectTimeBottomSheet] = useState(false);
   const [taggedCatList, setTaggedCatList] = useState<CatType[]>([]);
-  const [diaryImageList, setDiaryImageList] = useAtom(diaryImageListAtom);
+  const [diaryImageList, setDiaryImageList] = useState<ImageUploadData[]>([
+    { key: 1, imageSrc: null, croppedImage: null },
+    { key: 2, imageSrc: null, croppedImage: null },
+    { key: 3, imageSrc: null, croppedImage: null }
+  ]);
 
   const settingDiaryDetail = () => {
     if (!diaryDetail) return;
@@ -160,6 +163,12 @@ const DiaryWriteModal = ({
       console.error('일지 수정 중 오류:', error);
     }
   });
+
+  useEffect(() => {
+    return () => {
+      setDiaryImageList([]);
+    };
+  }, []);
 
   return (
     <div className="fixed left-0 top-0 z-20 h-screen w-full overflow-y-auto bg-gr-white">
