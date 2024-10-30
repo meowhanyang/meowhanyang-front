@@ -73,16 +73,16 @@ export default function ProfilePage() {
           defaultValue="myContents"
           className="max-w-[390px] sm:max-w-[600px]"
         >
-          <div className="relative mx-auto my-4 flex h-[72px] w-[72px] flex-col items-center justify-center gap-1 rounded-full">
+          <div className="relative mx-auto my-4 flex h-[120px] w-[120px] flex-col items-center justify-center gap-1">
             <Image
-              src={myProfile?.profileImageUrl || '/images/icons/camera.svg'}
+              src={myProfile?.profileImageUrl || '/images/icons/can.svg'}
               alt="icon"
               width={72}
               height={72}
-              className="rounded-full"
+              className="w-full rounded-[48px]"
             />
             <div className="absolute bottom-0 right-0 rounded-16">
-              <div className="h-full w-full rounded-full border-[1.5px] border-gr-white bg-gr-700 p-1">
+              <div className="h-full w-full rounded-full border-[1.5px] border-gr-white bg-gr-700 p-2">
                 <PencilIcon
                   width={16}
                   height={16}
