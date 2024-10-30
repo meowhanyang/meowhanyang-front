@@ -3,7 +3,7 @@ import { Input } from '@/components/ui/Input';
 import { debounce } from 'lodash';
 import { NICKNAME } from '@/components/onboard/NICKNAME';
 import { useNickname } from '@/hooks/useNickname';
-import { ImageUploadData } from '@/atoms/imageAtom';
+import { ImageUploadData } from '@/components/diary/ImageUploader';
 import OnboardProfileUploader from '@/components/onboard/OnboardProfileUploader';
 import Topbar from '@/components/ui/Topbar';
 import Image from 'next/image';

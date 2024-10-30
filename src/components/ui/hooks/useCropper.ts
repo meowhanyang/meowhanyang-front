@@ -1,5 +1,5 @@
 import { Dispatch, MutableRefObject, SetStateAction, useEffect } from 'react';
-import { ImageUploadData } from '@/atoms/imageAtom';
+import { ImageUploadData } from '@/components/diary/ImageUploader';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 

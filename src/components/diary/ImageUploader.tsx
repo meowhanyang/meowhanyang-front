@@ -12,8 +12,12 @@ import Image from 'next/image';
 import useCropper from '@/components/ui/hooks/useCropper';
 import CloseIcon from '../../../public/images/icons/close.svg';
 import PencilIcon from '../../../public/images/icons/pencil.svg';
-import { ImageUploadData } from '@/atoms/imageAtom';
 
+export interface ImageUploadData {
+  key: number;
+  imageSrc: string | null;
+  croppedImage: string | null;
+}
 interface ImageUploaderProps {
   width?: string;
   height?: string;
@@ -93,7 +97,7 @@ const ImageUploader = ({
     <div
       className={`${width || 'w-[90px]'} ${height || 'h-[90px]'} ${
         radius || 'rounded-16'
-      } relative flex  flex-col items-center justify-center bg-gr-50 `}
+      } relative flex flex-col items-center justify-center bg-gr-50`}
     >
       {/* 파일 업로드 */}
       {!data?.imageSrc && (
@@ -169,7 +173,7 @@ const ImageUploader = ({
       {/* crop image */}
       <section className="w-full">
         {data?.imageSrc && !data?.croppedImage && (
-          <div className="fixed left-0 top-0 z-[200] ">
+          <div className="fixed left-0 top-0 z-[200]">
             <div className="h-screen w-screen bg-gr-white">
               <Image
                 ref={imageElement}

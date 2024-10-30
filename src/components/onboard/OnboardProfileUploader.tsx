@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import ImageUploader from '@/components/diary/ImageUploader';
-import { ImageUploadData } from '@/atoms/imageAtom';
+import ImageUploader, {
+  ImageUploadData
+} from '@/components/diary/ImageUploader';
 
 interface OnboardProfileUploaderProps {
   data: ImageUploadData[];

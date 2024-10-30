@@ -1,8 +1,8 @@
-import { feedImageListAtom } from '@/atoms/imageAtom';
-import ImageUploader from '@/components/diary/ImageUploader';
+import ImageUploader, {
+  ImageUploadData
+} from '@/components/diary/ImageUploader';
 import Textarea from '@/components/ui/Textarea';
 import Topbar from '@/components/ui/Topbar';
-import { useAtom } from 'jotai';
 import React, { useEffect, useState } from 'react';
 import { FeedType } from '@/types/communityType';
 import { useMutation } from '@tanstack/react-query';
@@ -18,7 +18,11 @@ const FeedWriteModal = ({ onClose, feedDetail }: FeedWriteModalProps) => {
   const router = useRouter();
 
   const [textareaContent, setTextareaContent] = useState('');
-  const [feedImageList, setFeedImageList] = useAtom(feedImageListAtom);
+  const [feedImageList, setFeedImageList] = useState<ImageUploadData[]>([
+    { key: 1, imageSrc: null, croppedImage: null },
+    { key: 2, imageSrc: null, croppedImage: null },
+    { key: 3, imageSrc: null, croppedImage: null }
+  ]);
 
   const settingFeedDetail = () => {
     if (!feedDetail) return;
@@ -98,6 +102,12 @@ const FeedWriteModal = ({ onClose, feedDetail }: FeedWriteModalProps) => {
       console.error('게시글 수정 중 오류:', error);
     }
   });
+
+  useEffect(() => {
+    return () => {
+      setFeedImageList([]);
+    };
+  }, []);
 
   return (
     <div className="fixed left-0 top-0 z-20 h-screen w-full overflow-y-auto bg-gr-white">
