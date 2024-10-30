@@ -1,4 +1,6 @@
-import ImageUploader from '@/components/diary/ImageUploader';
+import ImageUploader, {
+  ImageUploadData
+} from '@/components/diary/ImageUploader';
 import Chip from '@/components/ui/Chip';
 import Textarea from '@/components/ui/Textarea';
 import Topbar from '@/components/ui/Topbar';
@@ -8,7 +10,6 @@ import { Button } from '@/components/ui/Button';
 import BottomSheet from '@/components/ui/BottomSheet';
 import TimeInput from '@/components/diary/TimeInput';
 import SearchCatModal from './SearchCatModal';
-import { ImageUploadData } from '@/atoms/imageAtom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { editDiaryOnServer, registerDiaryOnServer } from '@/services/diary';
 import { DiaryRegisterReqObj } from '@/app/diary/diaryType';
