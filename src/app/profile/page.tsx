@@ -15,6 +15,7 @@ import { getMyBookmarks, getMyFeeds, getMyProfile } from '@/services/profile';
 import { useState } from 'react';
 import OnboardProfileModal from '@/components/onboard/OnboardProfileModal';
 import PencilIcon from '../../../public/images/icons/pencil.svg';
+import EmptyState from '@/components/profile/EmptyState';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -54,6 +55,9 @@ export default function ProfilePage() {
               width={24}
               height={24}
             />
+            {myProfile?.existsNewNotification && (
+              <div className="absolute right-[3.2rem] top-1 h-2 w-2 rounded-full bg-blue-400"></div>
+            )}
           </button>
           <button onClick={() => router.push('/profile/setting')}>
             <Image
@@ -66,10 +70,7 @@ export default function ProfilePage() {
         </div>
       </div>
       <div className="flex gap-2">
-        <Tabs
-          defaultValue="myContents"
-          className="max-w-[390px] sm:max-w-[600px]"
-        >
+        <Tabs defaultValue="myContents" className="w-full sm:max-w-[600px]">
           <div className="relative mx-auto my-4 flex h-[120px] w-[120px] flex-col items-center justify-center gap-1">
             <Image
               src={myProfile?.profileImageUrl || '/images/icons/can.svg'}
@@ -99,17 +100,21 @@ export default function ProfilePage() {
             <TabsTrigger value="savedContents">저장한 글</TabsTrigger>
           </TabsList>
           <TabsContent value="myContents">
-            {myFeedList?.map((feed: FeedType) => (
-              <FeedCard
-                likeFeed={() => {}}
-                unLikeFeed={() => {}}
-                bookmarkFeed={() => {}}
-                cancelBookmarkFeed={() => {}}
-                key={feed.id}
-                content={feed}
-                goToDetail={() => router.push(`/community/${feed.id}`)}
-              />
-            ))}
+            {myFeedList?.length === 0 ? (
+              <EmptyState />
+            ) : (
+              myFeedList?.map((feed: FeedType) => (
+                <FeedCard
+                  likeFeed={() => {}}
+                  unLikeFeed={() => {}}
+                  bookmarkFeed={() => {}}
+                  cancelBookmarkFeed={() => {}}
+                  key={feed.id}
+                  content={feed}
+                  goToDetail={() => router.push(`/community/${feed.id}`)}
+                />
+              ))
+            )}
           </TabsContent>
           <TabsContent value="savedContents">
             {myBookmarksList?.map((feed: FeedType) => (
