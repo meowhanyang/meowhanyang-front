@@ -18,27 +18,6 @@ import Link from 'next/link';
 import CatInfo from '@/components/zip/CatInfo';
 import { deleteCat } from '@/services/cat';
 
-const coParents = [
-  {
-    memberId: 1,
-    imageUrl: 'https://github.com/shadcn.png',
-    nickname: '민지',
-    isRequested: true
-  },
-  {
-    memberId: 2,
-    imageUrl: 'https://github.com/shadcn.png',
-    nickname: '해린',
-    isRequested: true
-  },
-  {
-    memberId: 3,
-    imageUrl: 'https://github.com/shadcn.png',
-    nickname: '소미',
-    isRequested: true
-  }
-];
-
 const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
   const router = useRouter();
 
@@ -86,19 +65,21 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
             ))}
           </div>
         </DetailCardLayout>
-        <DetailCardLayout
-          titleObj={{ title: '일지' }}
-          btnObj={{
-            text: '더보기',
-            onClick: () => router.push(`/diary`)
-          }}
-        >
-          {catDetail.diaries?.slice(0, 3).map((diary: DiaryObj) => (
-            <Link href={`/diary/${diary.id}`} key={diary.id}>
-              <ZipDetailDiary {...diary} />
-            </Link>
-          ))}
-        </DetailCardLayout>
+        {catDetail.diaries !== undefined && (
+          <DetailCardLayout
+            titleObj={{ title: '일지' }}
+            btnObj={{
+              text: '더보기',
+              onClick: () => router.push(`/diary`)
+            }}
+          >
+            {catDetail.diaries?.slice(0, 3).map((diary: DiaryObj) => (
+              <Link href={`/diary/${diary.id}`} key={diary.id}>
+                <ZipDetailDiary {...diary} />
+              </Link>
+            ))}
+          </DetailCardLayout>
+        )}
       </section>
 
       <MoreBtnBottomSheet
@@ -117,7 +98,7 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
       <CoParentsBottomSheet
         isVisible={coParentsBottomSheet}
         setIsVisible={() => setCoParentsBottomSheet(!coParentsBottomSheet)}
-        coParents={coParents}
+        coParents={catDetail.coParents}
       />
 
       {showCatEditModal && catData && (
