@@ -1,3 +1,4 @@
+import Bookmark from '@/components/community/feed/Bookmark';
 import Image from 'next/image';
 import React from 'react';
 
@@ -47,7 +48,7 @@ const ButtonArea = ({
           <h6 className="text-body-3 text-gr-400">{comment}</h6>
         </div>
       </div>
-      <Image
+      {/* <Image
         src="/images/icons/bookmark.svg"
         alt="bookmark"
         width={24}
@@ -56,7 +57,8 @@ const ButtonArea = ({
           e.stopPropagation(), toggleBookmark();
         }}
         height={24}
-      />
+      /> */}
+      <Bookmark />
     </div>
   );
 };
