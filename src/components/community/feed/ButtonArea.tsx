@@ -48,17 +48,7 @@ const ButtonArea = ({
           <h6 className="text-body-3 text-gr-400">{comment}</h6>
         </div>
       </div>
-      {/* <Image
-        src="/images/icons/bookmark.svg"
-        alt="bookmark"
-        width={24}
-        // onClick={toggleBookmark}
-        onClick={e => {
-          e.stopPropagation(), toggleBookmark();
-        }}
-        height={24}
-      /> */}
-      <Bookmark />
+      <Bookmark isBookmarked={isBookmarked} toggleBookmark={toggleBookmark} />
     </div>
   );
 };
