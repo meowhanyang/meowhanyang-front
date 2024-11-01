@@ -1,26 +1,32 @@
-import { useRive, useStateMachineInput } from '@rive-app/react-canvas';
+import { useRive } from '@rive-app/react-canvas';
+import { useEffect } from 'react';
 
-export default function Bookmark() {
+interface BookmarkProps {
+  isBookmarked: boolean;
+  toggleBookmark: () => void;
+}
+
+export default function Bookmark({
+  isBookmarked,
+  toggleBookmark
+}: BookmarkProps) {
   const { rive, RiveComponent } = useRive({
     src: '/images/icons/bookmark.riv',
-    stateMachines: 'State Machine 1',
-    autoplay: false
+    stateMachines: 'State Machine 1'
   });
 
-  // const triggerInput = useStateMachineInput(rive, 'State Machine 1', 'save');
-
-  const handleClick = () => {
-    rive?.play();
-    // console.log('rive', rive);
-    // if (triggerInput) {
-    //   triggerInput.fire();
-    // }
-    // console.log('triggerInput', triggerInput);
-  };
+  useEffect(() => {
+    if (!rive) return;
+    rive?.play(isBookmarked ? 'save-click' : 'unsave-click');
+  }, [isBookmarked, rive]);
 
   return (
     <div className="h-6 w-6">
-      <RiveComponent onClick={handleClick} />
+      <RiveComponent
+        onClick={e => {
+          e.stopPropagation(), toggleBookmark();
+        }}
+      />
     </div>
   );
 }
