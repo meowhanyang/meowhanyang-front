@@ -10,6 +10,7 @@ import ImageUploader from '../diary/ImageUploader';
 import { Input } from '../ui/Input';
 import useCatNameHandler from '@/hooks/zip/useCatNameHandler';
 import { DiaryObj } from '@/app/diary/diaryType';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface SignInMainProps {
   setStep: () => void;
@@ -34,6 +35,8 @@ export default function CatInfo({
   setPrev,
   type
 }: SignInMainProps) {
+  const queryClient = useQueryClient();
+
   const [openBottomSheet, setOpenBottomSheet] = useState(false);
   const [textareaContent, setTextAreaContent] = useState('');
   const [selectedSex, setSelectedSex] = useState<string | null>(null);
@@ -124,6 +127,7 @@ export default function CatInfo({
         setStep();
       }
     }
+    queryClient.invalidateQueries({ queryKey: ['getCats'] });
   };
 
   return (

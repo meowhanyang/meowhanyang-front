@@ -28,8 +28,6 @@ export default function CatRegisterModal({
     croppedImage: null
   });
 
-  console.log('catData', catData);
-
   return (
     <div>
       <div className="fixed left-0 top-0 z-[50] h-screen w-full overflow-y-auto bg-gr-white">
