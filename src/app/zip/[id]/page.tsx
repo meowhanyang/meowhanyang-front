@@ -65,7 +65,7 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
             ))}
           </div>
         </DetailCardLayout>
-        {catDetail.diaries !== undefined && (
+        {catDetail.isMine && (
           <DetailCardLayout
             titleObj={{ title: '일지' }}
             btnObj={{
