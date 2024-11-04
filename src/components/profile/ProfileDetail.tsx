@@ -1,6 +1,6 @@
 interface ProfileDetailProps {
-  catCount: number;
-  postCount: number;
+  catCount?: number;
+  postCount?: number;
   bookmarkCount?: number;
 }
 
