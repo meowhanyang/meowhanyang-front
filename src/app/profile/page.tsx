@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import Detail from '@/components/profile/ProfileDetail';
+import { Skeleton } from '@/components/ui/skeleton';
 import {
   Tabs,
   TabsContent,
@@ -28,17 +29,17 @@ export default function ProfilePage() {
     // offset: 0
   };
 
-  const { data: myFeedList } = useQuery({
+  const { data: myFeedList, isLoading: isFeedLoading } = useQuery({
     queryKey: ['myFeeds'],
     queryFn: () => getMyFeeds(feedReqObj)
   });
 
-  const { data: myBookmarksList } = useQuery({
+  const { data: myBookmarksList, isLoading: isBookmarksLoading } = useQuery({
     queryKey: ['myBookmarks'],
     queryFn: () => getMyBookmarks(feedReqObj)
   });
 
-  const { data: myProfile } = useQuery({
+  const { data: myProfile, isLoading: isProfileLoading } = useQuery({
     queryKey: ['myProfile'],
     queryFn: () => getMyProfile()
   });
@@ -71,36 +72,93 @@ export default function ProfilePage() {
       </div>
       <div className="flex gap-2">
         <Tabs defaultValue="myContents" className="w-full sm:max-w-[600px]">
-          <div className="relative mx-auto my-4 flex h-[120px] w-[120px] flex-col items-center justify-center gap-1">
-            <Image
-              src={myProfile?.profileImageUrl || '/images/icons/can.svg'}
-              alt="icon"
-              width={72}
-              height={72}
-              className="w-full rounded-[48px]"
-            />
-            <div className="absolute bottom-0 right-0 rounded-16">
-              <div className="h-full w-full rounded-full border-[1.5px] border-gr-white bg-gr-700 p-2">
-                <PencilIcon
-                  width={16}
-                  height={16}
-                  stroke="var(--gr-white)"
-                  onClick={() => setShowProfileModal(true)}
-                />
+          {isProfileLoading ? (
+            <>
+              <div className="relative mx-auto my-4 flex flex-col items-center justify-center gap-2">
+                <Skeleton className="h-[72px] w-[72px] rounded-full" />
+                <Skeleton className="h-[16px] w-[50px]" />
               </div>
-            </div>
-          </div>
-          <Detail
-            catCount={myProfile?.catCount}
-            postCount={myProfile?.postCount}
-            bookmarkCount={myProfile?.bookmarkCount}
-          />
+              <div className="flex justify-around border-gr-200 px-4 py-3">
+                <div className="flex flex-col items-center gap-1">
+                  <Skeleton className="h-[16px] w-[25px]" />
+                  <Skeleton className="h-[16px] w-[40px]" />
+                </div>
+                <div className="flex flex-col items-center gap-1">
+                  <Skeleton className="h-[16px] w-[25px]" />
+                  <Skeleton className="h-[16px] w-[40px]" />
+                </div>
+                <div className="flex flex-col items-center gap-1">
+                  <Skeleton className="h-[16px] w-[25px]" />
+                  <Skeleton className="h-[16px] w-[40px]" />
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="relative mx-auto my-4 flex h-[72px] w-[72px] flex-col items-center justify-center gap-1">
+                <Image
+                  src={myProfile?.profileImageUrl || '/images/icons/can.svg'}
+                  alt="icon"
+                  width={72}
+                  height={72}
+                  className="w-full rounded-[48px]"
+                />
+                <p>{myProfile?.nickname}</p>
+                <div className="absolute bottom-0 right-0 rounded-16">
+                  <div className="h-full w-full rounded-full border-[1.5px] border-gr-white bg-gr-700 p-2">
+                    <PencilIcon
+                      width={16}
+                      height={16}
+                      stroke="var(--gr-white)"
+                      onClick={() => setShowProfileModal(true)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <Detail
+                catCount={myProfile?.catCount}
+                postCount={myProfile?.postCount}
+                bookmarkCount={myProfile?.bookmarkCount}
+              />
+            </>
+          )}
           <TabsList>
             <TabsTrigger value="myContents">작성한 글</TabsTrigger>
             <TabsTrigger value="savedContents">저장한 글</TabsTrigger>
           </TabsList>
           <TabsContent value="myContents">
-            {myFeedList?.length === 0 ? (
+            {isFeedLoading ? (
+              <div className="flex flex-col gap-4 p-4">
+                {[1, 2, 3].map(item => (
+                  <div key={item} className="flex flex-col gap-3">
+                    {/* 프로필 영역 */}
+                    <div className="flex items-center gap-2">
+                      <Skeleton className="h-[40px] w-[40px] rounded-full" />
+                      <div className="flex flex-col gap-1">
+                        <Skeleton className="h-[16px] w-[80px]" />
+                        <Skeleton className="h-[14px] w-[60px]" />
+                      </div>
+                    </div>
+
+                    {/* 본문 텍스트 영역 */}
+                    <div className="flex flex-col gap-2">
+                      <Skeleton className="h-[16px] w-full" />
+                      <Skeleton className="h-[16px] w-[90%]" />
+                      <Skeleton className="h-[16px] w-[50%]" />
+                    </div>
+
+                    {/* 이미지 영역 */}
+                    <Skeleton className="h-[240px] w-full rounded-lg" />
+
+                    {/* 하단 액션 버튼 영역 */}
+                    <div className="flex gap-4">
+                      <Skeleton className="h-[24px] w-[60px]" />
+                      <Skeleton className="h-[24px] w-[60px]" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : myFeedList?.length === 0 ? (
               <EmptyState />
             ) : (
               myFeedList?.map((feed: FeedType) => (
