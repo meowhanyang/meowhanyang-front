@@ -34,7 +34,7 @@ const ProfileIdPage = ({ params: { id } }: { params: { id: number } }) => {
   });
 
   const { likeFeed, unLikeFeed, bookmarkFeed, cancelBookmarkFeed } =
-    useFeedMutations();
+    useFeedMutations(['otherUserFeeds']);
 
   return (
     <>

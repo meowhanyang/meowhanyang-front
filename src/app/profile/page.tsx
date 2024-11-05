@@ -17,6 +17,7 @@ import { useState } from 'react';
 import OnboardProfileModal from '@/components/onboard/OnboardProfileModal';
 import PencilIcon from '../../../public/images/icons/pencil.svg';
 import EmptyState from '@/components/profile/EmptyState';
+import useFeedMutations from '@/hooks/community/useFeedMutations';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -43,6 +44,9 @@ export default function ProfilePage() {
     queryKey: ['myProfile'],
     queryFn: () => getMyProfile()
   });
+
+  const { likeFeed, unLikeFeed, bookmarkFeed, cancelBookmarkFeed } =
+    useFeedMutations(['myFeeds', 'myBookmarks']);
 
   return (
     <div className="bg-gr-white pb-32">
@@ -163,13 +167,13 @@ export default function ProfilePage() {
             ) : (
               myFeedList?.map((feed: FeedType) => (
                 <FeedCard
-                  likeFeed={() => {}}
-                  unLikeFeed={() => {}}
-                  bookmarkFeed={() => {}}
-                  cancelBookmarkFeed={() => {}}
                   key={feed.id}
                   content={feed}
                   goToDetail={() => router.push(`/community/${feed.id}`)}
+                  likeFeed={() => likeFeed(feed)}
+                  unLikeFeed={() => unLikeFeed(feed)}
+                  bookmarkFeed={() => bookmarkFeed(feed)}
+                  cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
                 />
               ))
             )}
@@ -177,13 +181,13 @@ export default function ProfilePage() {
           <TabsContent value="savedContents">
             {myBookmarksList?.map((feed: FeedType) => (
               <FeedCard
-                likeFeed={() => {}}
-                unLikeFeed={() => {}}
-                bookmarkFeed={() => {}}
-                cancelBookmarkFeed={() => {}}
                 key={feed.id}
                 content={feed}
                 goToDetail={() => router.push(`/community/${feed.id}`)}
+                likeFeed={() => likeFeed(feed)}
+                unLikeFeed={() => unLikeFeed(feed)}
+                bookmarkFeed={() => bookmarkFeed(feed)}
+                cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
               />
             ))}
           </TabsContent>
