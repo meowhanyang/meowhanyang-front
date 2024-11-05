@@ -43,7 +43,7 @@ export default function ProfilePage() {
   });
 
   return (
-    <>
+    <div className="bg-gr-white pb-32">
       <div className="flex h-12 w-full items-center justify-between bg-gr-white px-4 align-middle text-heading-3 text-gr-900">
         <h1>프로필</h1>
         <div className="flex gap-3">
@@ -132,6 +132,6 @@ export default function ProfilePage() {
           myProfile={myProfile}
         />
       )}
-    </>
+    </div>
   );
 }
