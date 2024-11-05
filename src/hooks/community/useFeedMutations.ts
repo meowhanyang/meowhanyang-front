@@ -10,8 +10,14 @@ import {
 import { FeedType } from '@/types/communityType';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-const useFeedMutations = () => {
+const useFeedMutations = (queryKeyList: string[]) => {
   const queryClient = useQueryClient();
+
+  const invalidateQueryFucn = (queryKeyList: string[]) => {
+    queryKeyList.forEach((key: string) => {
+      queryClient.invalidateQueries({ queryKey: [key] });
+    });
+  };
 
   const deleteFeed = (feed: FeedType) => {
     if (!feed) return;
@@ -22,7 +28,7 @@ const useFeedMutations = () => {
     mutationFn: (id: number) => deleteFeedOnServer(id),
     onSuccess: (response: any) => {
       if (response.status === 'OK') {
-        queryClient.invalidateQueries({ queryKey: ['feeds'] });
+        invalidateQueryFucn(queryKeyList);
       } else {
         console.error('게시물 삭제 중 오류:', response.message);
       }
@@ -41,7 +47,7 @@ const useFeedMutations = () => {
     mutationFn: (id: number) => blockWriterOnServer(id),
     onSuccess: (response: any) => {
       if (response.status === 'OK') {
-        queryClient.invalidateQueries({ queryKey: ['feeds'] });
+        invalidateQueryFucn(queryKeyList);
       } else {
         console.error('게시물 차단 중 오류:', response.message);
       }
@@ -60,7 +66,7 @@ const useFeedMutations = () => {
     mutationFn: (id: number) => reportFeedOnServer(id),
     onSuccess: (response: any) => {
       if (response.status === 'OK') {
-        queryClient.invalidateQueries({ queryKey: ['feeds'] });
+        invalidateQueryFucn(queryKeyList);
       } else {
         console.error('게시물 신고 중 오류:', response.message);
       }
@@ -79,8 +85,7 @@ const useFeedMutations = () => {
     mutationFn: (id: number) => likeFeedOnServer(id),
     onSuccess: (response: any) => {
       if (response.status === 'OK') {
-        queryClient.invalidateQueries({ queryKey: ['feeds'] });
-        queryClient.invalidateQueries({ queryKey: ['feedDetail'] });
+        invalidateQueryFucn(queryKeyList);
       } else {
         console.error('게시물 좋아요 중 오류:', response.message);
       }
@@ -99,8 +104,7 @@ const useFeedMutations = () => {
     mutationFn: (id: number) => unlikeFeedOnServer(id),
     onSuccess: (response: any) => {
       if (response.status === 'OK') {
-        queryClient.invalidateQueries({ queryKey: ['feeds'] });
-        queryClient.invalidateQueries({ queryKey: ['feedDetail'] });
+        invalidateQueryFucn(queryKeyList);
       } else {
         console.error('게시물 좋아요 중 오류:', response.message);
       }
@@ -119,8 +123,7 @@ const useFeedMutations = () => {
     mutationFn: (id: number) => bookmarkFeedOnServer(id),
     onSuccess: (response: any) => {
       if (response.status === 'OK') {
-        queryClient.invalidateQueries({ queryKey: ['feeds'] });
-        queryClient.invalidateQueries({ queryKey: ['feedDetail'] });
+        invalidateQueryFucn(queryKeyList);
       } else {
         console.error('게시물 좋아요 중 오류:', response.message);
       }
@@ -139,8 +142,7 @@ const useFeedMutations = () => {
     mutationFn: (id: number) => cancelBookmarkFeedOnServer(id),
     onSuccess: (response: any) => {
       if (response.status === 'OK') {
-        queryClient.invalidateQueries({ queryKey: ['feeds'] });
-        queryClient.invalidateQueries({ queryKey: ['feedDetail'] });
+        invalidateQueryFucn(queryKeyList);
       } else {
         console.error('게시물 좋아요 중 오류:', response.message);
       }

@@ -33,7 +33,7 @@ const CommunityContents = () => {
     unLikeFeed,
     bookmarkFeed,
     cancelBookmarkFeed
-  } = useFeedMutations();
+  } = useFeedMutations(['feeds']);
 
   useEffect(() => {
     if (showWriteModal) return;

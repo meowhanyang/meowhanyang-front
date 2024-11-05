@@ -44,7 +44,7 @@ const DetailPage = ({ params: { slug } }: { params: { slug: number } }) => {
     unLikeFeed,
     bookmarkFeed,
     cancelBookmarkFeed
-  } = useFeedMutations();
+  } = useFeedMutations(['feeds', 'feedDetail']);
 
   const { blockComment, reportComment, deleteComment } = useCommentMutation();
 
