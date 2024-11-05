@@ -9,6 +9,8 @@ import {
   TabsList,
   TabsTrigger
 } from '@/components/ui/TabsWithLine';
+import { useQuery } from '@tanstack/react-query';
+import { getNotifications } from '@/services/profile';
 
 const Alarm = () => {
   const router = useRouter();
@@ -56,6 +58,13 @@ const Alarm = () => {
       read: false
     }
   ]);
+
+  const { data: notifications } = useQuery({
+    queryKey: ['getNotifications'],
+    queryFn: () => getNotifications(),
+    staleTime: 1000 * 60 * 10
+  });
+
   return (
     <div>
       <Topbar type="three">
@@ -69,11 +78,9 @@ const Alarm = () => {
           <TabsTrigger value="savedContents">공동냥육</TabsTrigger>
         </TabsList>
         <TabsContent value="notice">
-          <p>활동 알림</p>
           <AlarmList alarmList={alarmList} />
         </TabsContent>
         <TabsContent value="savedContents">
-          <p>공동냥육</p>
           <AlarmList alarmList={alarmList} />
         </TabsContent>
       </Tabs>

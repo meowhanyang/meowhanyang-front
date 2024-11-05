@@ -179,3 +179,26 @@ export const getOtherUserFeeds = async ({
     }
   }
 };
+
+export const getNotifications = async () => {
+  try {
+    const memberToken = getCookie('Authorization');
+
+    const response = await fetchExtendedAuth('/notifications', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${memberToken}`
+      }
+    });
+
+    const responseBody = response.body as { items?: any[] };
+    return responseBody?.items;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error('내 소식 조회 중 오류 발생: ' + error.message);
+    } else {
+      throw new Error('내 소식 조회 중 오류 발생');
+    }
+  }
+};
