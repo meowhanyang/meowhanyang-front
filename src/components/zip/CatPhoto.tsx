@@ -21,10 +21,14 @@ export default function CatPhoto({
     imageSrc: string;
     croppedImage: string | null;
   }>({
-    key: 0,
-    imageSrc: '',
+    key: DEFAULT_CAT_IMAGES[0].key,
+    imageSrc: DEFAULT_IMAGE_SRC,
     croppedImage: null
   });
+
+  const [selectedKey, setSelectedKey] = useState<number | null>(
+    DEFAULT_CAT_IMAGES[0].key
+  );
 
   const handleImageSelect = (key: number, imageSrc: string) => {
     setSelectedImage({
@@ -32,6 +36,33 @@ export default function CatPhoto({
       imageSrc,
       croppedImage: null
     });
+    setSelectedKey(key);
+  };
+
+  const handleImageUpload = (data: any) => {
+    setSelectedImage(data);
+    setSelectedKey(null); // 이미지 업로드 시 선택 해제
+  };
+  const clickCompleteButton = (prev: CatRegisterReqObj) => {
+    // 기본 이미지 선택한 경우
+    if (
+      DEFAULT_CAT_IMAGES.some(img => img.imageSrc === selectedImage.imageSrc)
+    ) {
+      return {
+        ...prev,
+        imageUrl: selectedImage.imageSrc,
+        image: null,
+        croppedImage: null
+      };
+    }
+
+    // 사용자 업로드 이미지인 경우
+    return {
+      ...prev,
+      image: selectedImage.imageSrc,
+      croppedImage: selectedImage.croppedImage, // 크롭된 이미지가 없으면 원본 이미지 사용
+      imageUrl: selectedImage.imageSrc
+    };
   };
 
   return (
@@ -41,11 +72,7 @@ export default function CatPhoto({
         <Topbar.Title title="고양이 등록(2/3)" />
         <Topbar.Complete
           onClick={() => {
-            setCatData((prev: CatRegisterReqObj) => ({
-              ...prev,
-              image: selectedImage.imageSrc,
-              croppedImage: selectedImage.croppedImage
-            }));
+            setCatData(clickCompleteButton);
             setStep();
           }}
         />
@@ -54,7 +81,11 @@ export default function CatPhoto({
         <div className="flex items-center justify-center">
           <img
             className="rounded-[48px]"
-            src={selectedImage.croppedImage || DEFAULT_IMAGE_SRC}
+            src={
+              selectedImage.croppedImage
+                ? selectedImage.croppedImage
+                : selectedImage.imageSrc
+            }
             width={120}
             height={120}
             alt="고양이 사진"
@@ -69,11 +100,15 @@ export default function CatPhoto({
           <ImageUploader
             width="w-16"
             height="h-16"
-            data={selectedImage}
+            data={
+              DEFAULT_CAT_IMAGES.some(
+                img => img.imageSrc === selectedImage.imageSrc
+              )
+                ? { key: 0, imageSrc: '', croppedImage: null }
+                : selectedImage
+            }
             deleteBtn
-            onUpload={(data: any) => {
-              setSelectedImage(data);
-            }}
+            onUpload={handleImageUpload}
           />
           {DEFAULT_CAT_IMAGES.map(data => (
             <Filter
@@ -81,6 +116,7 @@ export default function CatPhoto({
               id={data.key}
               imageUrl={data.imageSrc}
               type="cat"
+              isSelected={selectedKey === data.key}
               onClick={() => handleImageSelect(data.key, data.imageSrc)}
             />
           ))}
