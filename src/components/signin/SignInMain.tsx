@@ -35,8 +35,8 @@ const SignInMain = ({ setStep }: SignInMainProps) => {
           <div className="flex items-end justify-center gap-6">
             <button
               onClick={() =>
-                signIn('google', {
-                  // callbackUrl: 'http://localhost:3000/signin/kakao',
+                signIn('kakao', {
+                  // callbackUrl: 'http://localhost:3000/signin/google',
                   redirect: true
                 })
               }

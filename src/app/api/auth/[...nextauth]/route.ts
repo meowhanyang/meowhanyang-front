@@ -1,5 +1,6 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
+import KakaoProvider from 'next-auth/providers/kakao';
 import returnFetchJson from '@/utils/returnFetchJson';
 import { cookies } from 'next/headers';
 import { checkMembershipByEmail } from '@/services/signin';
@@ -18,6 +19,10 @@ const handler = NextAuth({
       httpOptions: {
         timeout: 10000
       }
+    }),
+    KakaoProvider({
+      clientId: process.env.KAKAO_CLIENT_ID!,
+      clientSecret: process.env.KAKAO_CLIENT_SECRET!
     })
   ],
   callbacks: {
