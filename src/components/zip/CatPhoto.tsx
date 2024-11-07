@@ -3,6 +3,7 @@ import ImageUploader from '@/components/diary/ImageUploader';
 import { CatRegisterReqObj } from '@/app/zip/catType';
 import Filter from '../diary/Filter';
 import { useState } from 'react';
+import { DEFAULT_CAT_IMAGES, DEFAULT_IMAGE_SRC } from '@/constants/cats';
 
 interface SignInMainProps {
   setStep: () => void;
@@ -20,54 +21,6 @@ export default function CatPhoto({
     imageSrc: '',
     croppedImage: null
   });
-
-  const defaultImagesrc =
-    'https://i.pinimg.com/originals/81/6d/a5/816da533638aee63cfbd315ea24cccbd.jpg';
-
-  const catImages = [
-    {
-      key: 0,
-      imageSrc:
-        'https://i.pinimg.com/originals/81/6d/a5/816da533638aee63cfbd315ea24cccbd.jpg',
-      croppedImage: null
-    },
-    {
-      key: 1,
-      imageSrc:
-        'https://i.pinimg.com/originals/81/6d/a5/816da533638aee63cfbd315ea24cccbd.jpg',
-      croppedImage: null
-    },
-    {
-      key: 2,
-      imageSrc:
-        'https://i.pinimg.com/originals/81/6d/a5/816da533638aee63cfbd315ea24cccbd.jpg',
-      croppedImage: null
-    },
-    {
-      key: 3,
-      imageSrc:
-        'https://i.pinimg.com/originals/81/6d/a5/816da533638aee63cfbd315ea24cccbd.jpg',
-      croppedImage: null
-    },
-    {
-      key: 4,
-      imageSrc:
-        'https://i.pinimg.com/originals/81/6d/a5/816da533638aee63cfbd315ea24cccbd.jpg',
-      croppedImage: null
-    },
-    {
-      key: 5,
-      imageSrc:
-        'https://i.pinimg.com/originals/81/6d/a5/816da533638aee63cfbd315ea24cccbd.jpg',
-      croppedImage: null
-    },
-    {
-      key: 6,
-      imageSrc:
-        'https://i.pinimg.com/originals/81/6d/a5/816da533638aee63cfbd315ea24cccbd.jpg',
-      croppedImage: null
-    }
-  ];
 
   return (
     <div className="fixed bottom-0 left-0 right-0 top-0 z-50 h-full min-w-[320px] bg-gr-white">
@@ -89,7 +42,7 @@ export default function CatPhoto({
         <div className="flex items-center justify-center">
           <img
             className="rounded-[48px]"
-            src={selectedImage.croppedImage || defaultImagesrc}
+            src={selectedImage.croppedImage || DEFAULT_IMAGE_SRC}
             width={120}
             height={120}
             alt="고양이 사진"
@@ -110,7 +63,7 @@ export default function CatPhoto({
               setSelectedImage(data);
             }}
           />
-          {catImages.map(data => (
+          {DEFAULT_CAT_IMAGES.map(data => (
             <Filter
               key={data.key}
               id={data.key}
