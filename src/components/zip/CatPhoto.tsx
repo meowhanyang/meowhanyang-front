@@ -16,11 +16,23 @@ export default function CatPhoto({
   setCatData,
   setPrev
 }: SignInMainProps) {
-  const [selectedImage, setSelectedImage] = useState({
+  const [selectedImage, setSelectedImage] = useState<{
+    key: number;
+    imageSrc: string;
+    croppedImage: string | null;
+  }>({
     key: 0,
     imageSrc: '',
     croppedImage: null
   });
+
+  const handleImageSelect = (key: number, imageSrc: string) => {
+    setSelectedImage({
+      key,
+      imageSrc,
+      croppedImage: imageSrc
+    });
+  };
 
   return (
     <div className="fixed bottom-0 left-0 right-0 top-0 z-50 h-full min-w-[320px] bg-gr-white">
@@ -69,6 +81,7 @@ export default function CatPhoto({
               id={data.key}
               imageUrl={data.imageSrc}
               type="cat"
+              onClick={() => handleImageSelect(data.key, data.imageSrc)}
             />
           ))}
         </div>
