@@ -30,7 +30,7 @@ export default function CatPhoto({
     setSelectedImage({
       key,
       imageSrc,
-      croppedImage: imageSrc
+      croppedImage: null
     });
   };
 
