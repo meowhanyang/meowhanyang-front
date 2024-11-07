@@ -202,3 +202,26 @@ export const getNotifications = async () => {
     }
   }
 };
+
+export const getCoParentNotifications = async () => {
+  try {
+    const memberToken = getCookie('Authorization');
+
+    const response = await fetchExtendedAuth('/notifications/co-parent', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${memberToken}`
+      }
+    });
+
+    const responseBody = response.body as { items?: any[] };
+    return responseBody?.items;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error('공동 냥육 알림 조회 중 오류 발생: ' + error.message);
+    } else {
+      throw new Error('공동 냥육 알림 조회 중 오류 발생');
+    }
+  }
+};
