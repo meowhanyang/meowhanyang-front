@@ -8,6 +8,7 @@ interface FilterProps {
   onClick?: () => void;
   name?: string;
   type?: 'cat';
+  isSelected?: boolean;
 }
 
 const Filter = ({
@@ -16,16 +17,21 @@ const Filter = ({
   isCoParented,
   name,
   type,
-  onClick
+  onClick,
+  isSelected
 }: FilterProps) => {
   return (
     <>
       <section
         className={`flex flex-col items-center justify-center bg-gr-white ${type === 'cat' ? 'px-0 py-0' : 'gap-2 px-2 py-3'}`}
       >
-        <button className="relative flex h-16 w-16 items-center justify-center rounded-3xl border-2 border-gr-100 bg-gr-white active:border-pr-500">
+        <button
+          className={`relative flex h-16 w-16 items-center justify-center rounded-3xl border-2 border-gr-100 bg-gr-white active:border-pr-500 ${
+            isSelected ? 'border-pr-500' : ''
+          }`}
+          onClick={onClick}
+        >
           <Profile
-            onClick={onClick}
             items={[
               {
                 id: id,

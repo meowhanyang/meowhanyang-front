@@ -51,7 +51,6 @@ export default function CatRegisterModal({
               type="register"
               setStep={() => setStep('complete')}
               catData={catData}
-              setCatData={setCatData}
               setPrev={() => setStep('photo')}
             />
           </Funnel.Step>

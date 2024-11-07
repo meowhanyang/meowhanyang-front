@@ -106,7 +106,6 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
           type="edit"
           setStep={() => setShowCatEditModal(false)}
           catData={catData}
-          setCatData={setCatData}
           setPrev={() => setShowCatEditModal(false)}
         />
       )}

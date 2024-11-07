@@ -15,7 +15,6 @@ import { useQueryClient } from '@tanstack/react-query';
 interface SignInMainProps {
   setStep: () => void;
   catData: CatRegisterReqObj;
-  setCatData: (data: any) => void;
   setPrev: () => void;
   type: 'register' | 'edit';
 }
@@ -31,7 +30,6 @@ const todayToDateString = () => {
 export default function CatInfo({
   setStep,
   catData,
-  setCatData,
   setPrev,
   type
 }: SignInMainProps) {
@@ -107,27 +105,28 @@ export default function CatInfo({
           ? formatDate(catData.metAt)
           : formatDate(selectedItem as string),
       memo: textareaContent,
-      image: type === 'edit' ? selectedImage.croppedImage : catData.image
+      imageUrl: selectedImage.imageSrc || catData.imageUrl, // 기본 이미지 선택 시 imageUrl 설정
+      image: selectedImage.croppedImage, // 크롭된 이미지 설정
+      croppedImage: selectedImage.croppedImage
     };
-
-    setCatData(updatedCatData);
     return updatedCatData;
   };
 
   const handleOnClick = async () => {
     const newCatData = updateCatData();
-    if (type === 'edit') {
-      const response = await editCat(newCatData);
+    try {
+      const response =
+        type === 'edit'
+          ? await editCat(newCatData)
+          : await registerCat(newCatData);
+
       if (response && response.status === 200) {
         setStep();
+        queryClient.invalidateQueries({ queryKey: ['getCats'] });
       }
-    } else if (type === 'register') {
-      const response = await registerCat(newCatData);
-      if (response && response.status === 200) {
-        setStep();
-      }
+    } catch (error) {
+      console.error('Error:', error);
     }
-    queryClient.invalidateQueries({ queryKey: ['getCats'] });
   };
 
   return (
@@ -145,7 +144,9 @@ export default function CatInfo({
             <>
               <div
                 className="flex h-16 w-16 items-center justify-center gap-[10px] rounded-full bg-contain bg-no-repeat"
-                style={{ backgroundImage: `url(${catData?.croppedImage})` }}
+                style={{
+                  backgroundImage: `url(${catData?.croppedImage || catData?.imageUrl})`
+                }}
               ></div>
               <p className="flex flex-col justify-center text-center text-heading-1 font-bold">
                 <span className="block">
@@ -161,7 +162,10 @@ export default function CatInfo({
               height="h-[120px]"
               radius="rounded-[48px]"
               preview={
-                <img className="h-full w-full" src={catData?.imageUrl} />
+                <img
+                  className="h-full w-full"
+                  src={selectedImage.imageSrc || catData?.imageUrl}
+                />
               }
               editBtn
               data={selectedImage}
