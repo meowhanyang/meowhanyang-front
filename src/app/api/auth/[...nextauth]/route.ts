@@ -112,6 +112,7 @@ const signUpOnServerWithSocialLogin = async (reqObj: {
   oauthId: string;
   loginType: string;
 }) => {
+  console.log('signUpOnServerWithSocialLogin', reqObj);
   try {
     const requestOptions = {
       method: 'POST',
