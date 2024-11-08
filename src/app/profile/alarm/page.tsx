@@ -10,58 +10,49 @@ import {
   TabsTrigger
 } from '@/components/ui/TabsWithLine';
 import { useQuery } from '@tanstack/react-query';
-import { getNotifications } from '@/services/profile';
+import { getCoParentNotifications, getNotifications } from '@/services/profile';
 
 const Alarm = () => {
   const router = useRouter();
   const [alarmList] = useState([
     {
       id: 1,
-      profiles: [
-        {
-          id: 1,
-          imageUrl: 'https://via.placeholder.com/150',
-          style: 'w-10 h-10'
-        }
-      ],
+      title: 'USER1004',
       user: 'USER1004',
+      link: '',
       content: '님이 댓글을 남겼어요.',
       createdAt: '방금',
-      read: false
+      isRead: false
     },
     {
       id: 2,
-      profiles: [
-        {
-          id: 2,
-          imageUrl: 'https://via.placeholder.com/150',
-          style: 'w-10 h-10'
-        }
-      ],
+      title: 'USER1004',
       user: 'USER1004',
+      link: '',
       content: '님이 댓글을 남겼어요.',
       createdAt: '방금',
-      read: true
+      isRead: true
     },
     {
       id: 3,
-      profiles: [
-        {
-          id: 3,
-          imageUrl: 'https://via.placeholder.com/150',
-          style: 'w-10 h-10'
-        }
-      ],
+      title: 'USER1004',
       user: 'USER1004',
+      link: '',
       content: '님이 댓글을 남겼어요.',
       createdAt: '방금',
-      read: false
+      isRead: false
     }
   ]);
 
   const { data: notifications } = useQuery({
     queryKey: ['getNotifications'],
     queryFn: () => getNotifications(),
+    staleTime: 1000 * 60 * 10
+  });
+
+  const { data: coParentsNoti } = useQuery({
+    queryKey: ['getCoparentsNotifications'],
+    queryFn: () => getCoParentNotifications(),
     staleTime: 1000 * 60 * 10
   });
 
@@ -80,7 +71,7 @@ const Alarm = () => {
         <TabsContent value="notice">
           <AlarmList alarmList={alarmList} />
         </TabsContent>
-        <TabsContent value="savedContents">
+        <TabsContent value="coParentNotice">
           <AlarmList alarmList={alarmList} />
         </TabsContent>
       </Tabs>
