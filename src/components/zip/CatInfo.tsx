@@ -163,7 +163,7 @@ export default function CatInfo({
               radius="rounded-[48px]"
               preview={
                 <img
-                  className="h-full w-full"
+                  className="h-full w-full rounded-[48px]"
                   src={selectedImage.imageSrc || catData?.imageUrl}
                 />
               }
