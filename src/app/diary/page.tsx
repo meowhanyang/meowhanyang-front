@@ -15,6 +15,8 @@ import { diaryDateAtom } from '@/atoms/diaryAtom';
 import { useQueryClient, useQuery } from '@tanstack/react-query';
 import { catsAtom } from '@/atoms/catsAtom';
 import { getCatsOnServer } from '@/services/cat';
+import DiaryEmptyState from '@/components/diary/DiaryEmptyState';
+import DiarySkeleton from '@/components/diary/DiarySkeleton';
 
 const DiaryPage = () => {
   const router = useRouter();
@@ -73,14 +75,20 @@ const DiaryPage = () => {
             ))}
           </section>
           <section className="p-4">
-            {!isLoading &&
+            {isLoading ? (
+              <DiarySkeleton />
+            ) : diaryList?.length === 0 ? (
+              <DiarySkeleton />
+            ) : (
+              // <DiaryEmptyState />
               diaryList?.map((diary: DiaryObj) => (
                 <DiaryCard
                   key={diary.id}
                   {...diary}
                   onClick={() => openDetailModal(diary)}
                 />
-              ))}
+              ))
+            )}
           </section>
         </DiaryListLayout>
       )}
