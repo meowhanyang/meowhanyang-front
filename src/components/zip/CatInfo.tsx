@@ -123,6 +123,7 @@ export default function CatInfo({
       if (response && response.status === 200) {
         setStep();
         queryClient.invalidateQueries({ queryKey: ['getCats'] });
+        queryClient.invalidateQueries({ queryKey: ['catDetail'] });
       }
     } catch (error) {
       console.error('Error:', error);
