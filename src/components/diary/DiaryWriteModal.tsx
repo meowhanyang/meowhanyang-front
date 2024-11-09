@@ -16,6 +16,7 @@ import { DiaryRegisterReqObj } from '@/app/diary/diaryType';
 import { useRouter } from 'next/navigation';
 import { CatType } from '@/types/cat';
 import CloseIcon from '../../../public/images/icons/close.svg';
+import Image from 'next/image';
 
 type DiaryRegisterReqWithCats = Omit<DiaryRegisterReqObj, 'taggedCats'> & {
   taggedCats: CatType[];
@@ -291,16 +292,20 @@ const DiaryWriteModal = ({
                   key={cat.id}
                   className="flex items-center justify-between gap-4 self-stretch py-2"
                 >
-                  <img
+                  <Image
                     src={cat.imageUrl}
                     alt="cat-image"
-                    className="h-12 w-12 rounded-full border"
+                    width={48}
+                    height={48}
+                    className="h-12 w-12 rounded-full"
                   />
                   <div className="flex flex-1 items-center gap-2">
                     <h5 className="text-body-2 text-gr-900">{cat.name}</h5>
-                    <img
+                    <Image
                       src={`/images/icons/gender-${cat.sex}.svg`}
-                      alt="tag cat"
+                      alt="cat-gender"
+                      width={16}
+                      height={16}
                       className={`rounded-full ${
                         cat.sex === 'F' ? 'bg-[#FFF2F1]' : 'bg-[#ECF5FF]'
                       }`}

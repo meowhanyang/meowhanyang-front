@@ -7,6 +7,7 @@ import BottomSheet from '@/components/ui/BottomSheet';
 import Topbar from '../ui/Topbar';
 import { TermsType } from '@/constants/general';
 import Terms from './Terms';
+import Image from 'next/image';
 
 interface SignupAgreeBottomSheetProps {
   open: boolean;
@@ -85,9 +86,11 @@ const SignupAgreeBottomSheet = ({
                   </h5>
                 </label>
               </div>
-              <img
+              <Image
                 src="/images/icons/right.svg"
                 alt="right"
+                width={24}
+                height={24}
                 className="h-6 w-6"
                 onClick={openTermsOfUseModal}
               />
@@ -110,9 +113,11 @@ const SignupAgreeBottomSheet = ({
                   </h5>
                 </label>
               </div>
-              <img
+              <Image
                 src="/images/icons/right.svg"
                 alt="right"
+                width={24}
+                height={24}
                 className="h-6 w-6"
                 onClick={openPrivacyModal}
               />
@@ -130,7 +135,7 @@ const SignupAgreeBottomSheet = ({
         </div>
       </BottomSheet>
       {termsModal !== '' && (
-        <div className="fixed left-0 top-0 z-[50] h-screen w-full overflow-y-auto  bg-gr-white">
+        <div className="fixed left-0 top-0 z-[50] h-screen w-full overflow-y-auto bg-gr-white">
           <Topbar type="three">
             <Topbar.Back onClick={() => setTermsModal('')} />
             <Topbar.Title

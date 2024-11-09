@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils';
 import { HTMLAttributes } from 'react';
+import Image from 'next/image';
 
 interface LabelProps {
   content?: string;
@@ -30,7 +31,15 @@ const Icon = ({
 }: LabelProps & HTMLAttributes<HTMLSpanElement>) => {
   return (
     <div className={cn(labelTypeVariants['icon'], className)}>
-      <img src={src} className="h-4 w-4" />
+      {src && (
+        <Image
+          src={src}
+          alt="right"
+          width={16}
+          height={16}
+          className="h-4 w-4"
+        />
+      )}
     </div>
   );
 };

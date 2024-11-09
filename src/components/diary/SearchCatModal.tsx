@@ -2,6 +2,8 @@ import Topbar from '@/components/ui/Topbar';
 import { useEffect, useState } from 'react';
 import { useCats } from '@/hooks/useCats';
 import { CatType } from '@/types/cat';
+import Image from 'next/image';
+
 interface SearchCatModalProps {
   setSearchCatModal: React.Dispatch<React.SetStateAction<boolean>>;
   setTaggedCatList: React.Dispatch<React.SetStateAction<CatType[]>>;
@@ -64,16 +66,20 @@ export default function SearchCatModal({
                   className="flex items-center gap-4 py-2"
                   onClick={() => selectCat(cat)}
                 >
-                  <img
+                  <Image
                     src={cat.imageUrl}
                     alt="cat-image"
-                    className="h-12 w-12 rounded-full border"
+                    width={48}
+                    height={48}
+                    className="h-12 w-12 rounded-full"
                   />
                   <div className="flex gap-2">
                     <h5 className="text-body-2 text-gr-900">{cat.name}</h5>
-                    <img
+                    <Image
                       src={`/images/icons/gender-${cat.sex}.svg`}
-                      alt="tag cat"
+                      alt="cat-gender"
+                      width={16}
+                      height={16}
                       className={`rounded-full ${
                         cat.sex === 'F' ? 'bg-[#FFF2F1]' : 'bg-[#ECF5FF]'
                       }`}

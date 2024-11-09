@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 const EmptyState = () => {
   const router = useRouter();
@@ -21,7 +22,13 @@ const EmptyState = () => {
         onClick={onClick}
       >
         글 쓰기
-        <img src="/images/icons/right.svg" alt="right" className="h-6 w-6" />
+        <Image
+          src="/images/icons/right.svg"
+          alt="right"
+          width={24}
+          height={24}
+          className="h-6 w-6"
+        />
       </button>
     </section>
   );

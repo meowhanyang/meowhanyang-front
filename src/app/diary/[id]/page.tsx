@@ -11,6 +11,7 @@ import { useDiaryDetail } from '@/hooks/useDiaries';
 import { useRouter } from 'next/navigation';
 import DiaryWriteModal from '@/components/diary/DiaryWriteModal';
 import { CatType } from '@/types/cat';
+import Image from 'next/image';
 
 const DiaryDetailPage = ({ params: { id } }: { params: { id: number } }) => {
   const router = useRouter();
@@ -26,7 +27,7 @@ const DiaryDetailPage = ({ params: { id } }: { params: { id: number } }) => {
 
   useEffect(() => {
     if (!diaryDetail) return;
-  }, [id]);
+  }, [diaryDetail, id]);
 
   const deleteDidary = () => {
     deleteDiaryMutation.mutate(id);
@@ -89,16 +90,20 @@ const DiaryDetailPage = ({ params: { id } }: { params: { id: number } }) => {
         </h3>
         {diaryDetail?.taggedCats?.map((cat: CatType) => (
           <article key={cat.id} className="flex items-center gap-4 py-2">
-            <img
+            <Image
               src={cat.imageUrl}
               alt="cat-image"
+              width={48}
+              height={48}
               className="h-12 w-12 rounded-full"
             />
             <div className="flex items-center gap-2">
               <h4 className="text-body-3 text-gr-900">{cat.name}</h4>
-              <img
+              <Image
                 src={`/images/icons/gender-${cat.sex}.svg`}
-                alt=""
+                alt="cat-gender"
+                width={16}
+                height={16}
                 className={`rounded-full ${
                   cat.sex === 'F' ? 'bg-[#FFF2F1]' : 'bg-[#ECF5FF]'
                 }`}
