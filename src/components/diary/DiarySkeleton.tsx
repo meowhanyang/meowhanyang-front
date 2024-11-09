@@ -3,7 +3,7 @@ import React from 'react';
 
 const DiarySkeleton = () => {
   return (
-    <>
+    <div>
       <Skeleton className="h-[300px] w-full rounded-b-none rounded-t-2xl bg-gr-100" />
       <div className="flex flex-col gap-2 rounded-b-2xl bg-gr-white p-4">
         <div className="flex gap-1">
@@ -26,7 +26,7 @@ const DiarySkeleton = () => {
           <Skeleton className="h-4 w-[100px] rounded-[4px] bg-gr-100" />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
