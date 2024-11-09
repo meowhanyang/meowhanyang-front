@@ -17,6 +17,7 @@ import { catsAtom } from '@/atoms/catsAtom';
 import { getCatsOnServer } from '@/services/cat';
 import DiaryEmptyState from '@/components/diary/DiaryEmptyState';
 import DiarySkeleton from '@/components/diary/DiarySkeleton';
+import FilterSkeleton from '@/components/diary/FilterSkeleton';
 
 const DiaryPage = () => {
   const router = useRouter();
@@ -32,7 +33,7 @@ const DiaryPage = () => {
     router.push(`/diary/${item.id}`);
   };
 
-  const { data: catData } = useQuery({
+  const { data: catData, isLoading: isCatsLoading } = useQuery({
     queryKey: ['getCats'],
     queryFn: () => getCatsOnServer({ page: 0, size: 10 }),
     staleTime: 1000 * 60 * 10
@@ -44,11 +45,7 @@ const DiaryPage = () => {
     }
   }, [catData]);
 
-  const {
-    data: diaryList,
-    error,
-    isLoading
-  } = useDiaries({
+  const { data: diaryList, isLoading: isDiaryLoading } = useDiaries({
     date: dateToString(diaryDate),
     page: 0,
     size: 10
@@ -61,10 +58,12 @@ const DiaryPage = () => {
 
   return (
     <>
-      {!isLoading && (
-        <DiaryListLayout>
-          <section className="flex justify-start overflow-scroll bg-gr-white">
-            {cats?.map((cat: any) => (
+      <DiaryListLayout>
+        <section className="flex justify-start overflow-scroll bg-gr-white">
+          {isCatsLoading ? (
+            <FilterSkeleton />
+          ) : (
+            cats?.map((cat: any) => (
               <Filter
                 key={cat.id}
                 id={cat.id}
@@ -72,26 +71,28 @@ const DiaryPage = () => {
                 isCoParented={cat.isCoparented}
                 name={cat.name}
               />
-            ))}
-          </section>
-          <section className="p-4">
-            {isLoading ? (
+            ))
+          )}
+        </section>
+        <section className="p-4">
+          {isDiaryLoading ? (
+            <div className="flex flex-col gap-4">
               <DiarySkeleton />
-            ) : diaryList?.length === 0 ? (
               <DiarySkeleton />
-            ) : (
-              // <DiaryEmptyState />
-              diaryList?.map((diary: DiaryObj) => (
-                <DiaryCard
-                  key={diary.id}
-                  {...diary}
-                  onClick={() => openDetailModal(diary)}
-                />
-              ))
-            )}
-          </section>
-        </DiaryListLayout>
-      )}
+            </div>
+          ) : diaryList?.length === 0 ? (
+            <DiaryEmptyState />
+          ) : (
+            diaryList?.map((diary: DiaryObj) => (
+              <DiaryCard
+                key={diary.id}
+                {...diary}
+                onClick={() => openDetailModal(diary)}
+              />
+            ))
+          )}
+        </section>
+      </DiaryListLayout>
 
       <FloatingActionButton onClick={() => setShowWriteModal(true)} />
 

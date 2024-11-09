@@ -4,6 +4,7 @@ import { CatRegisterReqObj } from '@/app/zip/catType';
 import Filter from '../diary/Filter';
 import { useState } from 'react';
 import { DEFAULT_CAT_IMAGES, DEFAULT_IMAGE_SRC } from '@/constants/cats';
+import Image from 'next/image';
 
 interface SignInMainProps {
   setStep: () => void;
@@ -79,16 +80,16 @@ export default function CatPhoto({
       </Topbar>
       <section className="pt-20">
         <div className="flex items-center justify-center">
-          <img
-            className="rounded-[48px]"
+          <Image
             src={
               selectedImage.croppedImage
                 ? selectedImage.croppedImage
                 : selectedImage.imageSrc
             }
+            alt="고양이 사진"
             width={120}
             height={120}
-            alt="고양이 사진"
+            className="rounded-[48px]"
           />
         </div>
       </section>
