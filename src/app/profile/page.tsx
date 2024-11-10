@@ -98,7 +98,7 @@ export default function ProfilePage() {
               </div>
             </>
           ) : (
-            <>
+            <div className="flex flex-col items-center justify-center">
               <div className="relative mx-auto my-4 flex h-[72px] w-[72px] flex-col items-center justify-center gap-1">
                 <Image
                   src={myProfile?.profileImageUrl || '/images/icons/can.svg'}
@@ -107,24 +107,24 @@ export default function ProfilePage() {
                   height={72}
                   className="w-full rounded-[48px]"
                 />
-                <p>{myProfile?.nickname}</p>
                 <div className="absolute bottom-0 right-0 rounded-16">
-                  <div className="h-full w-full rounded-full border-[1.5px] border-gr-white bg-gr-700 p-2">
+                  <div className="h-full w-full rounded-full border-[1.5px] border-gr-white bg-gr-700 p-[6px]">
                     <PencilIcon
-                      width={16}
-                      height={16}
+                      width={12}
+                      height={12}
                       stroke="var(--gr-white)"
                       onClick={() => setShowProfileModal(true)}
                     />
                   </div>
                 </div>
               </div>
+              <p>{myProfile?.nickname}</p>
               <Detail
                 catCount={myProfile?.catCount}
                 postCount={myProfile?.postCount}
                 bookmarkCount={myProfile?.bookmarkCount}
               />
-            </>
+            </div>
           )}
           <TabsList>
             <TabsTrigger value="myContents">작성한 글</TabsTrigger>
