@@ -27,9 +27,21 @@ export const registerCat = async (
     dDay?: number;
   }
 ) => {
-  const { croppedImage, image, ...catObj } = catDataObj;
+  const { croppedImage, image, imageUrl, ...catObj } = catDataObj;
   const formData = new FormData();
 
+  // 기본 이미지인 경우
+  if (imageUrl) {
+    formData.append(
+      'cat',
+      new Blob([JSON.stringify({ ...catObj, imageUrl })], {
+        type: 'application/json'
+      })
+    );
+    return fetchExtended('/cats', { method: 'POST', body: formData });
+  }
+
+  // 사용자 업로드 이미지인 경우
   formData.append(
     'cat',
     new Blob([JSON.stringify(catObj)], {
@@ -37,22 +49,14 @@ export const registerCat = async (
     })
   );
 
-  const file = base64ToFile(croppedImage, 'image.jpg');
-  file && formData.append('image', file);
-
-  const requestOptions = { method: 'POST', body: formData };
-
-  try {
-    const response = await fetchExtended('/cats', requestOptions);
-    return response;
-  } catch (error) {
-    console.error(error);
-    if (error instanceof Error) {
-      throw new Error('고양이 등록 중 오류 발생:' + error.message);
-    } else {
-      throw new Error('고양이 등록 중 오류 발생:');
-    }
+  // 크롭된 이미지가 있으면 크롭된 이미지를, 없으면 원본 이미지를 사용
+  const imageToUpload = croppedImage || image;
+  if (imageToUpload) {
+    const file = base64ToFile(imageToUpload, 'image.jpg');
+    if (file) formData.append('image', file);
   }
+
+  return fetchExtended('/cats', { method: 'POST', body: formData });
 };
 
 export const editCat = async (

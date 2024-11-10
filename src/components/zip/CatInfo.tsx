@@ -98,22 +98,26 @@ export default function CatInfo({
       dDay?: number;
     } = {
       ...catData,
-      sex: selectedSex,
-      isNeutered: selectedNeutered,
-      metAt:
-        type === 'edit' && selectedItem === catData.metAt
-          ? formatDate(catData.metAt)
-          : formatDate(selectedItem as string),
-      memo: textareaContent,
-      imageUrl: selectedImage.imageSrc || catData.imageUrl, // 기본 이미지 선택 시 imageUrl 설정
-      image: selectedImage.croppedImage, // 크롭된 이미지 설정
-      croppedImage: selectedImage.croppedImage
+      sex: selectedSex || 'UNDEFINED',
+      isNeutered: selectedNeutered || 'UNDEFINED',
+      metAt: formatDate(selectedItem as string),
+      memo: textareaContent || '',
+      imageUrl: selectedImage.imageSrc || catData.imageUrl,
+      image: selectedImage.imageSrc || catData.image,
+      croppedImage: selectedImage.croppedImage || catData.croppedImage
     };
+
+    // 필수 필드 검증
+    if (!updatedCatData.sex || !updatedCatData.metAt) {
+      throw new Error('필수 정보를 입력해주세요');
+    }
+
     return updatedCatData;
   };
 
   const handleOnClick = async () => {
     const newCatData = updateCatData();
+    console.log(newCatData, 'newCatData');
     try {
       const response =
         type === 'edit'
