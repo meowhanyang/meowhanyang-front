@@ -60,9 +60,9 @@ export default function CatPhoto({
     // 사용자 업로드 이미지인 경우
     return {
       ...prev,
+      imageUrl: null,
       image: selectedImage.imageSrc,
-      croppedImage: selectedImage.croppedImage, // 크롭된 이미지가 없으면 원본 이미지 사용
-      imageUrl: selectedImage.imageSrc
+      croppedImage: selectedImage.croppedImage
     };
   };
 
