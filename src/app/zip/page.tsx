@@ -9,6 +9,9 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import FloatingActionButton from '@/components/ui/FloatingActionButton';
 import CatRegisterModal from '@/components/zip/CatRegisterModal';
+import ZipSkeleton from '@/components/zip/ZipSkeleton';
+import ZipEmptyState from '@/components/zip/ZipEmptyState';
+
 const ZipPage = () => {
   const router = useRouter();
 
@@ -16,7 +19,7 @@ const ZipPage = () => {
   const [selectedModal, setSelectedModal] = useState({} as CatListObj);
   const [showWriteModal, setShowWriteModal] = useState(false);
 
-  const { data: catList } = useCats({ page: 0, size: 10 });
+  const { data: catList, isLoading } = useCats({ page: 0, size: 10 });
 
   useEffect(() => {
     if (catList) {
@@ -35,15 +38,23 @@ const ZipPage = () => {
         모음집
       </h1>
       <section className="bg-gr-50 p-4 pb-28">
-        <div className="grid grid-cols-2 gap-4">
-          {cats.map(cat => (
-            <ZipCard
-              key={cat.id}
-              {...cat}
-              onClick={() => openDetailModal(cat)}
-            />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-2 gap-4">
+            <ZipSkeleton />
+          </div>
+        ) : cats?.length === 0 ? (
+          <ZipEmptyState />
+        ) : (
+          <div className="grid grid-cols-2 gap-4">
+            {cats.map(cat => (
+              <ZipCard
+                key={cat.id}
+                {...cat}
+                onClick={() => openDetailModal(cat)}
+              />
+            ))}
+          </div>
+        )}
         <FloatingActionButton onClick={() => setShowWriteModal(true)} />
         {showWriteModal && (
           <CatRegisterModal
