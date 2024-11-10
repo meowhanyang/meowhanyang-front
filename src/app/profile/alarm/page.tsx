@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/TabsWithLine';
 import { useQuery } from '@tanstack/react-query';
 import { getCoParentNotifications, getNotifications } from '@/services/profile';
+import AlarmEmptyState from '@/components/alarm/AlarmEmptyState';
 
 const Alarm = () => {
   const router = useRouter();
@@ -57,20 +58,29 @@ const Alarm = () => {
   });
 
   return (
-    <div>
+    <div className="fixed left-0 top-0 z-20 h-screen w-full overflow-y-auto bg-gr-white">
       <Topbar type="three">
         <Topbar.Back onClick={() => router.back()} />
         <Topbar.Title title="내 소식" />
         <Topbar.Empty />
       </Topbar>
-      <Tabs defaultValue="notice" className="pt-14">
-        <TabsList>
+      <Tabs
+        defaultValue="notice"
+        className="h-screen items-end bg-gr-white pt-12"
+      >
+        <TabsList className="h-11 items-end">
           <TabsTrigger value="notice">활동 알림</TabsTrigger>
           <TabsTrigger value="savedContents">공동냥육</TabsTrigger>
         </TabsList>
-        <TabsContent value="notice">
-          <AlarmList alarmList={alarmList} />
-        </TabsContent>
+        {notifications?.length === 0 ? (
+          <div className="flex h-[calc(100vh-84px)] items-center justify-center bg-gr-50">
+            <AlarmEmptyState />
+          </div>
+        ) : (
+          <TabsContent value="notice">
+            <AlarmList alarmList={alarmList} />
+          </TabsContent>
+        )}
         <TabsContent value="coParentNotice">
           <AlarmList alarmList={alarmList} />
         </TabsContent>
