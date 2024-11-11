@@ -4,7 +4,7 @@ import Topbar from '../ui/Topbar';
 import Textarea from '../ui/Textarea';
 import BottomSheet from '../ui/BottomSheet';
 import DatePicker from '../common/DatePicker';
-import { Button } from '../ui/Button';
+import Button from '../ui/Button';
 import { editCat, registerCat } from '@/services/cat';
 import ImageUploader from '../diary/ImageUploader';
 import { Input } from '../ui/Input';
@@ -202,33 +202,34 @@ export default function CatInfo({
           </article>
           <article className="flex items-start justify-between gap-3 self-stretch pt-4">
             <Button
-              variant={selectedSex === 'F' ? 'tertiaryReverse' : 'tertiary'}
-              size="lg"
-              className="rounded-8"
               onClick={() => setSelectedSex('F')}
+              className={`${selectedSex === 'F' ? 'border-pr-500 bg-gr-white' : 'border-gr-50 bg-gr-50'} w-full gap-1 rounded-lg border-[1.6px] px-3 py-[10px]`}
             >
-              여아
-              <img src={`/images/icons/gender-F.svg`} alt="Female" />
+              <Button.Icon icon="/images/icons/gender-F.svg" alt="Female" />
+              <Button.Text
+                text="여아"
+                className={`${selectedSex === 'F' ? 'text-pr-500' : 'text-gr-300'} text-btn-2`}
+              />
             </Button>
             <Button
-              variant={selectedSex === 'M' ? 'tertiaryReverse' : 'tertiary'}
-              size="lg"
-              className="rounded-8"
               onClick={() => setSelectedSex('M')}
+              className={`${selectedSex === 'M' ? 'border-pr-500 bg-gr-white' : 'border-gr-50 bg-gr-50'} w-full gap-1 rounded-lg border-[1.6px] px-3 py-[10px]`}
             >
-              남아
-              <img src={`/images/icons/gender-M.svg`} alt="Male" />
+              <Button.Icon icon="/images/icons/gender-M.svg" alt="Male" />
+              <Button.Text
+                text="남아"
+                className={`${selectedSex === 'M' ? 'text-pr-500' : 'text-gr-300'} text-btn-2`}
+              />
             </Button>
             <Button
-              variant={
-                selectedSex === 'UNDEFINED' ? 'tertiaryReverse' : 'tertiary'
-              }
-              size="lg"
-              className="rounded-8"
               onClick={() => setSelectedSex('UNDEFINED')}
+              className={`${selectedSex === 'UNDEFINED' ? 'border-pr-500 bg-gr-white' : 'border-gr-50 bg-gr-50'} w-full gap-1 rounded-lg border-[1.6px] px-3 py-[10px]`}
             >
-              <img src={`/images/icons/question.svg`} alt="Unknown" />
-              모름
+              <Button.Icon icon="/images/icons/question.svg" alt="UNDEFINED" />
+              <Button.Text
+                text="모름"
+                className={`${selectedSex === 'UNDEFINED' ? 'text-pr-500' : 'text-gr-300'} text-btn-2`}
+              />
             </Button>
           </article>
         </article>
@@ -249,36 +250,31 @@ export default function CatInfo({
           </article>
           <article className="flex items-start justify-center gap-3 self-stretch">
             <Button
-              variant={
-                selectedNeutered === 'Y' ? 'tertiaryReverse' : 'tertiary'
-              }
-              size="lg"
-              className="rounded-8"
               onClick={() => setSelectedNeutered('Y')}
+              className={`${selectedNeutered === 'Y' ? 'border-pr-500 bg-gr-white' : 'border-gr-50 bg-gr-50'} w-full gap-1 rounded-lg border-[1.6px] px-3 py-[10px]`}
             >
-              완료
+              <Button.Text
+                text="완료"
+                className={`${selectedNeutered === 'Y' ? 'text-pr-500' : 'text-gr-300'} text-btn-2`}
+              />
             </Button>
             <Button
-              variant={
-                selectedNeutered === 'N' ? 'tertiaryReverse' : 'tertiary'
-              }
-              size="lg"
-              className="rounded-8"
               onClick={() => setSelectedNeutered('N')}
+              className={`${selectedNeutered === 'N' ? 'border-pr-500 bg-gr-white' : 'border-gr-50 bg-gr-50'} w-full gap-1 rounded-lg border-[1.6px] px-3 py-[10px]`}
             >
-              미완료
+              <Button.Text
+                text="미완료"
+                className={`${selectedNeutered === 'N' ? 'text-pr-500' : 'text-gr-300'} text-btn-2`}
+              />
             </Button>
             <Button
-              variant={
-                selectedNeutered === 'UNDEFINED'
-                  ? 'tertiaryReverse'
-                  : 'tertiary'
-              }
-              size="lg"
-              className="rounded-8"
               onClick={() => setSelectedNeutered('UNDEFINED')}
+              className={`${selectedNeutered === 'UNDEFINED' ? 'border-pr-500 bg-gr-white' : 'border-gr-50 bg-gr-50'} w-full gap-1 rounded-lg border-[1.6px] px-3 py-[10px]`}
             >
-              모름
+              <Button.Text
+                text="모름"
+                className={`${selectedNeutered === 'UNDEFINED' ? 'text-pr-500' : 'text-gr-300'} text-btn-2`}
+              />
             </Button>
           </article>
         </article>

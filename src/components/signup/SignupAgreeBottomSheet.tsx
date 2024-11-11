@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Checkbox } from '@/components/ui/Checkbox';
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 import BottomSheet from '@/components/ui/BottomSheet';
 import Topbar from '../ui/Topbar';
 import { TermsType } from '@/constants/general';
@@ -124,13 +124,14 @@ const SignupAgreeBottomSheet = ({
             </li>
           </ul>
           <Button
-            variant="primary"
-            size="lg"
-            className="w-full"
-            disabled={!agreeAll ? true : false}
             onClick={onClick}
+            className="w-full rounded-16 bg-pr-500 px-4 py-2 disabled:bg-gr-200"
+            disabled={!agreeAll ? true : false}
           >
-            동의하고 시작하기
+            <Button.Text
+              text="동의하고 시작하기"
+              className="text-btn-1 text-gr-white"
+            />
           </Button>
         </div>
       </BottomSheet>

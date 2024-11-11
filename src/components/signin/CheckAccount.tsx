@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../ui/Button';
+import Button from '@/components/ui/Button';
 import { useUser } from '@/contexts/EmailContext';
 import Image from 'next/image';
 import { hideEmail } from '@/utils/common';
@@ -27,8 +27,14 @@ export default function Email({ setStep }: CheckAccountProps) {
         />
         <div className="ml-4 text-heading-5 font-regular">{hiddenEmail}</div>
       </div>
-      <Button onClick={() => signIn()} className="w-full">
-        기존 계정으로 로그인하기
+      <Button
+        onClick={() => signIn()}
+        className="w-full rounded-16 bg-pr-500 px-4 py-2"
+      >
+        <Button.Text
+          text="기존 계정으로 로그인하기"
+          className="text-btn-1 text-gr-white"
+        />
       </Button>
     </div>
   );

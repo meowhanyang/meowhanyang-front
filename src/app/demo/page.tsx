@@ -13,7 +13,7 @@ import { Toaster } from '@/components/ui/Toaster';
 import { useToast } from '@/components/ui/hooks/useToast';
 import { Input } from '@/components/ui/Input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs';
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 import BottomSheet from '@/components/ui/BottomSheet';
 import Badge from '@/components/ui/Badge';
 import { Checkbox } from '@/components/ui/Checkbox';
@@ -76,37 +76,25 @@ const DemoPage = () => {
     <div className="p-4">
       <section className="border-b p-3">
         <h1 className="pb-1">🐶 Button</h1>
-        <div className="flex flex-wrap gap-2 ">
-          <Button
-            variant="primary"
-            size="lg"
-            onClick={() => console.log('pr lg')}
-          >
-            primary
-          </Button>
-          <Button variant="primary" size="lg" disabled>
-            primary
-          </Button>
-          <Button
-            variant="secondary"
-            size="md"
-            onClick={() => console.log('sc md')}
-          >
-            secondary
-          </Button>
-          <Button variant="tertiary" size="sm">
-            tertiary
-          </Button>
-          <Button variant="outline" size="lg">
-            outline
-          </Button>
-          <Button variant="text" icon="/images/icons/arrow.svg">
-            text
-          </Button>
-          <Button variant="text" disabled>
-            text
-          </Button>
-        </div>
+        <Button
+          onClick={() => console.log('text btn')}
+          className="h-8 w-full rounded-md bg-pr-500"
+        >
+          <Button.Text text="text btn" className="text-body-3 text-gr-white" />
+        </Button>
+        <Button onClick={() => console.log('icon btn')}>
+          <Button.Icon icon="/images/icons/arrow.svg" alt="Icon" />
+        </Button>
+        <Button
+          onClick={() => console.log('text and icon btn')}
+          className="h-8 w-full rounded-md bg-pr-500"
+        >
+          <Button.Text
+            text="text and icon btn"
+            className="text-body-3 text-gr-white"
+          />
+          <Button.Icon icon="/images/icons/arrow.svg" alt="Icon" />
+        </Button>
       </section>
       <section className="border-b p-3">
         <h1 className="pb-1">🐱 Chip</h1>
@@ -315,8 +303,14 @@ const DemoPage = () => {
           <Tooltip
             content="이것은 툴팁입니다."
             trigger={
-              <Button variant="primary" size="lg">
-                Tooltip Btn1
+              <Button
+                onClick={() => console.log('Tooltip Btn1')}
+                className="h-8 w-full rounded-md bg-pr-500"
+              >
+                <Button.Text
+                  text="Tooltip Btn1"
+                  className="text-body-3 text-gr-white"
+                />
               </Button>
             }
           />
@@ -325,8 +319,14 @@ const DemoPage = () => {
           <Tooltip
             content="This is a Tooltip."
             trigger={
-              <Button variant="primary" size="lg">
-                Tooltip Btn2
+              <Button
+                onClick={() => console.log('Tooltip Btn2')}
+                className="h-8 w-full rounded-md bg-pr-500"
+              >
+                <Button.Text
+                  text="Tooltip Btn2"
+                  className="text-body-3 text-gr-white"
+                />
               </Button>
             }
           />
@@ -336,11 +336,10 @@ const DemoPage = () => {
         <h1 className="pb-1">🦋 Modal</h1>
         <div className="relative flex items-center">
           <Button
-            variant="primary"
-            size="lg"
             onClick={() => setOpenModal(true)}
+            className="h-8 w-full rounded-md bg-pr-500"
           >
-            primary
+            <Button.Text text="primary" className="text-body-3 text-gr-white" />
           </Button>
         </div>
         {openModal && (
@@ -349,17 +348,15 @@ const DemoPage = () => {
             scrim={true}
             buttons={[
               {
-                variant: 'primary',
-                size: 'lg',
                 content: 'Confirm',
-                style: 'w-full rounded-[16px] px-4 py-2',
+                btnStyle: 'w-full rounded-16 px-4 py-2 bg-sm-error-500',
+                textStyle: 'text-gr-white text-btn-1',
                 onClick: () => setOpenModal(false)
               },
               {
-                variant: 'primary',
-                size: 'lg',
                 content: 'Cancel',
-                style: 'w-full rounded-[16px] px-4 py-2 bg-sm-error-700',
+                btnStyle: 'w-full rounded-16 px-4 py-2 bg-gr-white',
+                textStyle: 'text-gr-300 text-btn-1',
                 onClick: () => setOpenModal(false)
               }
             ]}

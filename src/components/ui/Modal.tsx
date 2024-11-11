@@ -1,5 +1,5 @@
 import React, { createRef, useEffect, ReactNode } from 'react';
-import { Button } from './Button';
+import Button from './Button';
 
 interface ModalProps {
   contents?: {
@@ -8,10 +8,9 @@ interface ModalProps {
     img?: string;
   };
   buttons?: {
-    variant: 'text' | 'primary' | 'secondary' | 'tertiary' | 'outline';
-    size: 'lg' | 'md' | 'sm' | 'icon';
     content: string;
-    style: string;
+    btnStyle: string;
+    textStyle: string;
     onClick?: () => void;
   }[];
   scrim?: boolean;
@@ -55,12 +54,10 @@ const Modal = ({ contents, buttons, scrim, customContent }: ModalProps) => {
           {buttons?.map(btn => (
             <Button
               key={btn.content}
-              variant={btn.variant}
-              size={btn.size}
-              className={`${btn.style}`}
               onClick={btn.onClick}
+              className={btn.btnStyle}
             >
-              {btn.content}
+              <Button.Text text={btn.content} className={btn.textStyle} />
             </Button>
           ))}
         </section>

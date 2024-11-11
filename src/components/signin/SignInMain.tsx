@@ -1,6 +1,6 @@
-import { Button } from '@/components/ui/Button';
 import Image from 'next/image';
 import { signIn } from 'next-auth/react';
+import Button from '@/components/ui/Button';
 
 interface SignInMainProps {
   setStep: () => void;
@@ -24,8 +24,14 @@ const SignInMain = ({ setStep }: SignInMainProps) => {
           />
         </div>
         <div className="flex-col items-center p-4">
-          <Button className="w-full" onClick={setStep}>
-            이메일로 계속하기
+          <Button
+            onClick={setStep}
+            className="w-full rounded-16 bg-pr-500 px-4 py-2"
+          >
+            <Button.Text
+              text="이메일로 계속하기"
+              className="text-btn-1 text-gr-white"
+            />
           </Button>
         </div>
         <div className="flex flex-col items-center justify-end gap-6 py-6">

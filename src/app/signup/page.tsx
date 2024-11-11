@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Input } from '../../components/ui/Input';
-import { Button } from '../../components/ui/Button';
+import Button from '../../components/ui/Button';
 import { useUser } from '@/contexts/EmailContext';
 import { useMutation } from '@tanstack/react-query';
 import { signUpOnServer } from '@/services/signup';
@@ -24,13 +24,6 @@ const SignUpPage = () => {
 
   const { email } = useUser();
 
-  const openTermsOfUseModal = () => {
-    console.log('openTermsOfUse');
-  };
-  const openPrivacyModal = () => {
-    console.log('openPrivacy');
-  };
-
   const signUp = () => {
     signUpMutation.mutate({
       email: email,
@@ -48,6 +41,7 @@ const SignUpPage = () => {
     onSuccess: (data: any) => {
       if (data.status !== 'OK') {
         data.message && setErrorMsg(data.message);
+        setOpenAgreeBottom(false);
         setOpenModal(true);
       } else {
         signInOnServer({
@@ -104,9 +98,8 @@ const SignUpPage = () => {
       </article>
       <article className="py-4">
         <Button
-          variant="primary"
-          size="lg"
-          className="w-full"
+          onClick={() => setOpenAgreeBottom(true)}
+          className="w-full rounded-16 bg-pr-500 px-4 py-2 disabled:bg-gr-200"
           disabled={
             !password.value ||
             !passwordCheck.value ||
@@ -115,9 +108,8 @@ const SignUpPage = () => {
               ? true
               : false
           }
-          onClick={() => setOpenAgreeBottom(true)}
         >
-          가입하기
+          <Button.Text text="가입하기" className="text-btn-1 text-gr-white" />
         </Button>
       </article>
       <SignupAgreeBottomSheet
@@ -131,10 +123,9 @@ const SignUpPage = () => {
           scrim={true}
           buttons={[
             {
-              variant: 'primary',
-              size: 'lg',
               content: '확인',
-              style: 'w-full rounded-[16px] px-4 py-2 bg-sm-error-700',
+              btnStyle: 'w-full rounded-16 px-4 py-2 bg-sm-error-700',
+              textStyle: 'text-gr-white text-btn-1',
               onClick: () => {
                 setOpenModal(false), setOpenAgreeBottom(false);
               }

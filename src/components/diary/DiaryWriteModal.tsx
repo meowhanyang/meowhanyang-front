@@ -6,7 +6,7 @@ import Textarea from '@/components/ui/Textarea';
 import Topbar from '@/components/ui/Topbar';
 import React, { useEffect, useState } from 'react';
 import BackIcon from '../../../public/images/icons/back.svg';
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 import BottomSheet from '@/components/ui/BottomSheet';
 import TimeInput from '@/components/diary/TimeInput';
 import SearchCatModal from './SearchCatModal';
@@ -179,16 +179,19 @@ const DiaryWriteModal = ({
         <Topbar.Title title="일지쓰기" />
         <Topbar.Complete onClick={saveDiary} />
       </Topbar>
-      <section className="flex items-center justify-between px-4 py-2">
+      <section className="flex items-center justify-between px-4 py-2 pt-12">
         <h5 className="py-2 text-heading-5 text-gr-900">돌봄 시간</h5>
         <Button
-          variant="secondary"
-          size="sm"
           onClick={() => {
             setSelectTimeBottomSheet(!selectTimeBottomSheet);
           }}
+          className="h-[37px] w-fit rounded-[20px] border border-gr-100 bg-gr-white px-4 py-[10px]"
+          disabled={false}
         >
-          {displayTime()}
+          <Button.Text
+            text={displayTime()}
+            className="text-btn-2 text-gr-800"
+          />
         </Button>
       </section>
       <section className="flex flex-col gap-4">

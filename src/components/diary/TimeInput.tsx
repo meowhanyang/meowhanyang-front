@@ -1,6 +1,6 @@
 import React, { useState, useEffect, use } from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/Tabs';
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 
 type TimeObject = {
   hour: string;
@@ -109,25 +109,23 @@ const TimeInput = ({
       </div>
       <div className="p-[0 16px] flex h-[48px] justify-center gap-2 pt-14">
         <Button
-          className="w-[11rem]"
-          variant="secondary"
-          size="lg"
           onClick={() => {
             setSelectTimeBottomSheet(false);
           }}
+          className="h-12 w-full rounded-16 border border-gr-100 bg-gr-white px-4 py-2"
+          disabled={false}
         >
-          취소
+          <Button.Text text="취소" className="text-btn-1 text-gr-800" />
         </Button>
         <Button
-          className="w-[11rem]"
-          variant="primary"
-          size="lg"
           onClick={() => {
             setTime(localTime);
             setSelectTimeBottomSheet(false);
           }}
+          className="h-12 w-full rounded-16 bg-pr-500 px-4 py-2"
+          disabled={false}
         >
-          입력하기
+          <Button.Text text="입력하기" className="text-btn-1 text-gr-white" />
         </Button>
       </div>
     </div>

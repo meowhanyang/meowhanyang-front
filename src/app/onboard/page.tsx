@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import OnboardProfileModal from '@/components/onboard/OnboardProfileModal';
@@ -24,7 +24,10 @@ const OnBoardPage = () => {
       <section className="px-4 pt-[60px]">
         <article className="flex items-center justify-center">
           <Image
-            src={myProfile?.profileImageUrl || '/images/icons/camera.svg'}
+            src={
+              myProfile?.profileImageUrl ||
+              'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg'
+            }
             alt="profile"
             width={120}
             height={120}
@@ -39,22 +42,21 @@ const OnBoardPage = () => {
         </article>
         <article className="flex flex-col gap-1">
           <Button
-            variant="primary"
-            size="lg"
-            className="w-full"
-            disabled={false}
             onClick={() => router.push('/diary')}
+            className="w-full rounded-16 bg-pr-500 px-4 py-2"
+            disabled={false}
           >
-            시작하기
+            <Button.Text text="시작하기" className="text-btn-1 text-gr-white" />
           </Button>
           <Button
-            variant="text"
-            size="lg"
-            className="w-full text-gr-300"
-            disabled={false}
             onClick={() => setShowProfileModal(true)}
+            className="w-full rounded-16 bg-gr-white px-4 py-2"
+            disabled={false}
           >
-            프로필 설정하기
+            <Button.Text
+              text="프로필 설정하기"
+              className="text-btn-1 text-gr-300"
+            />
           </Button>
         </article>
       </section>

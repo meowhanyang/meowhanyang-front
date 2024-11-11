@@ -1,7 +1,7 @@
 import BottomSheet from '@/components/ui/BottomSheet';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 import { CoParent } from '@/app/zip/catType';
 import { useToast } from '@/components/ui/hooks/useToast';
 
@@ -69,10 +69,8 @@ const CoParentsRequestBottomSheet = ({
         <p className="text-body-2 text-gr-800">{contents.message}</p>
       </div>
 
-      <div className="px-4">
+      <div className="flex flex-col gap-1 px-4">
         <Button
-          variant={contents.btnVariant as 'primary' | 'outline'}
-          size="lg"
           onClick={() => {
             toggleRequestCoParenting(),
               setIsVisible(false),
@@ -80,17 +78,23 @@ const CoParentsRequestBottomSheet = ({
                 description: `${coParent.nickname}님께 공동냥육 요청을 보냈습니다.`
               });
           }}
-          className="w-full"
+          className="w-full rounded-16 border border-pr-500 bg-pr-500 px-4 py-2"
+          disabled={false}
         >
-          {contents.ok}
+          <Button.Text
+            text={contents.ok}
+            className="text-btn-1 text-gr-white"
+          />
         </Button>
         <Button
-          variant="text"
-          size="lg"
           onClick={() => setIsVisible(false)}
-          className="w-full text-gr-300"
+          className="w-full rounded-16 bg-gr-white px-4 py-2"
+          disabled={false}
         >
-          {contents.cancel}
+          <Button.Text
+            text={contents.cancel}
+            className="text-btn-1 text-gr-300"
+          />
         </Button>
       </div>
     </BottomSheet>

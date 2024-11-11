@@ -1,3 +1,5 @@
+import CoParentButton from '@/components/profile/CoParentButton';
+
 interface AlarmListProps {
   alarmList: {
     id: number;
@@ -23,6 +25,9 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
             {alarm.content}
           </p>
           <p className="text-body-4 text-gr-400">{alarm.createdAt}</p>
+          <div className="pt-2">
+            <CoParentButton />
+          </div>
         </div>
       ))}
     </>
