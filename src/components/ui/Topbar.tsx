@@ -2,7 +2,7 @@ import Image from 'next/image';
 import BackIcon from '../../../public/images/icons/back.svg';
 import { Input } from '@/components/ui/Input';
 import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 import { HTMLAttributes } from 'react';
 
 const Home = () => {
@@ -104,16 +104,16 @@ const SearchInput = ({
 
 const Next = ({ onClick }: { onClick: () => void }) => {
   return (
-    <Button variant="text" size="md" className="text-pr-500" onClick={onClick}>
-      다음
+    <Button onClick={onClick} className="px-[10px] py-1">
+      <Button.Text text="다음" className="text-btn-1 text-gr-white" />
     </Button>
   );
 };
 
 const Complete = ({ onClick }: { onClick: () => void }) => {
   return (
-    <Button variant="text" size="md" className="text-pr-500" onClick={onClick}>
-      완료
+    <Button onClick={onClick} className="px-[10px] py-1">
+      <Button.Text text="완료" className="text-btn-2 text-pr-500" />
     </Button>
   );
 };

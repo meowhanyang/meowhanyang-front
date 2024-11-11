@@ -1,5 +1,5 @@
 import { Input } from '../../components/ui/Input';
-import { Button } from '../../components/ui/Button';
+import Button from '../../components/ui/Button';
 import { resetPwdOnServer } from '../../services/signup';
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -71,9 +71,8 @@ const ResetPwdContent = () => {
       </article>
       <article className="py-4">
         <Button
-          variant="primary"
-          size="lg"
-          className="w-full"
+          onClick={resetPwd}
+          className="w-full rounded-16 bg-pr-500 px-4 py-2 disabled:bg-gr-200"
           disabled={
             !password.value ||
             !passwordCheck.value ||
@@ -82,9 +81,8 @@ const ResetPwdContent = () => {
               ? true
               : false
           }
-          onClick={resetPwd}
         >
-          재설정하기
+          <Button.Text text="재설정하기" className="text-btn-2 text-gr-white" />
         </Button>
       </article>
       {openModal && (
@@ -93,10 +91,9 @@ const ResetPwdContent = () => {
           scrim={true}
           buttons={[
             {
-              variant: 'primary',
-              size: 'lg',
               content: '확인',
-              style: 'w-full rounded-[16px] px-4 py-2 bg-sm-error-700',
+              btnStyle: 'w-full rounded-16 px-4 py-2 bg-sm-error-700',
+              textStyle: 'text-gr-white text-btn-1',
               onClick: () => setOpenModal(false)
             }
           ]}

@@ -1,9 +1,9 @@
-import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import useEmailHandler from '@/utils/useEmailHandler';
 import { checkMembershipByEmail } from '@/services/signin';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/EmailContext';
+import Button from '@/components/ui/Button';
 type Step = 'email' | 'accountInfo' | 'password' | 'main' | 'complete';
 
 interface EmailProps {
@@ -48,10 +48,13 @@ const Email = ({ setStep }: EmailProps) => {
       </div>
       <Button
         onClick={handleVerifyAccount}
-        className="w-full"
+        className="w-full rounded-16 bg-pr-500 px-4 py-2 disabled:bg-gr-200"
         disabled={!email.value || email.error}
       >
-        계정 확인하기
+        <Button.Text
+          text="계정 확인하기"
+          className="text-btn-1 text-gr-white"
+        />
       </Button>
     </section>
   );

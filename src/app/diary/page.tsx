@@ -62,7 +62,7 @@ const DiaryPage = () => {
   return (
     <>
       <DiaryListLayout>
-        <section className="flex justify-start overflow-scroll bg-gr-white">
+        <section className="flex h-28 justify-start overflow-scroll bg-gr-white px-2">
           {isCatsLoading ? (
             <FilterSkeleton />
           ) : cats?.length === 0 ? (

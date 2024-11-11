@@ -101,7 +101,10 @@ export default function ProfilePage() {
             <div className="flex flex-col items-center justify-center">
               <div className="relative mx-auto my-4 flex h-[72px] w-[72px] flex-col items-center justify-center gap-1">
                 <Image
-                  src={myProfile?.profileImageUrl || '/images/icons/can.svg'}
+                  src={
+                    myProfile?.profileImageUrl ||
+                    'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg'
+                  }
                   alt="icon"
                   width={72}
                   height={72}

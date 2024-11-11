@@ -73,17 +73,15 @@ const SettingPage = () => {
           scrim={true}
           buttons={[
             {
-              variant: 'primary',
-              size: 'lg',
               content: '허용',
-              style: 'w-full rounded-[16px] px-4 py-2 bg-pr-500',
+              btnStyle: 'w-full rounded-16 px-4 py-2 bg-pr-500',
+              textStyle: 'text-gr-white text-btn-1',
               onClick: () => allowNotify()
             },
             {
-              variant: 'text',
-              size: 'lg',
               content: '허용 안함',
-              style: 'w-full rounded-[16px] px-4 py-2 text-gr-300',
+              btnStyle: 'w-full rounded-16 px-4 py-2 bg-gr-white',
+              textStyle: 'text-pr-400 text-btn-1',
               onClick: () => disallowNotify()
             }
           ]}
@@ -143,17 +141,15 @@ const SettingPage = () => {
               scrim={true}
               buttons={[
                 {
-                  variant: 'primary',
-                  size: 'lg',
                   content: '로그아웃',
-                  style: 'w-full rounded-[16px] px-4 py-2 bg-sm-error-700',
+                  btnStyle: 'w-full rounded-16 px-4 py-2 bg-sm-error-500',
+                  textStyle: 'text-gr-white text-btn-1',
                   onClick: () => logOut()
                 },
                 {
-                  variant: 'text',
-                  size: 'lg',
                   content: '취소',
-                  style: 'w-full rounded-[16px] px-4 py-2 text-gr-300',
+                  btnStyle: 'w-full rounded-16 px-4 py-2 bg-gr-white',
+                  textStyle: 'text-gr-300 text-btn-1',
                   onClick: () => setLogOutModal(false)
                 }
               ]}
@@ -168,17 +164,15 @@ const SettingPage = () => {
               scrim={true}
               buttons={[
                 {
-                  variant: 'primary',
-                  size: 'lg',
                   content: '탈퇴하기',
-                  style: 'w-full rounded-[16px] px-4 py-2 bg-sm-error-700',
+                  btnStyle: 'w-full rounded-16 px-4 py-2 bg-sm-error-500',
+                  textStyle: 'text-gr-white text-btn-1',
                   onClick: () => deleteAccountOnServer()
                 },
                 {
-                  variant: 'text',
-                  size: 'lg',
                   content: '취소',
-                  style: 'w-full rounded-[16px] px-4 py-2 text-gr-300',
+                  btnStyle: 'w-full rounded-16 px-4 py-2 bg-gr-white',
+                  textStyle: 'text-gr-300 text-btn-1',
                   onClick: () => setWithdrawModal(false)
                 }
               ]}

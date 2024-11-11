@@ -37,6 +37,7 @@ const MoreBtnBottomSheet: React.FC<MoreBtnBottomSheetProps> = ({
     title: string;
     body?: string;
     primaryBtn: { content: string; onClick: () => void };
+    secondaryBtn: { content: string };
   }>();
 
   const token = getCookie('Authorization');
@@ -57,6 +58,9 @@ const MoreBtnBottomSheet: React.FC<MoreBtnBottomSheetProps> = ({
         onClick: () => {
           onDelete && onDelete(), setShowModal(false);
         }
+      },
+      secondaryBtn: {
+        content: '나중에 할게요'
       }
     });
   };
@@ -70,6 +74,9 @@ const MoreBtnBottomSheet: React.FC<MoreBtnBottomSheetProps> = ({
         onClick: () => {
           onReport && onReport(), setShowModal(false);
         }
+      },
+      secondaryBtn: {
+        content: '취소'
       }
     });
   };
@@ -84,6 +91,9 @@ const MoreBtnBottomSheet: React.FC<MoreBtnBottomSheetProps> = ({
         onClick: () => {
           onBlock && onBlock(), setShowModal(false);
         }
+      },
+      secondaryBtn: {
+        content: '취소'
       }
     });
   };
@@ -146,17 +156,15 @@ const MoreBtnBottomSheet: React.FC<MoreBtnBottomSheetProps> = ({
           scrim={true}
           buttons={[
             {
-              variant: 'primary',
-              size: 'lg',
               content: modalContent?.primaryBtn.content || '',
-              style: 'w-full rounded-[16px] px-4 py-2 bg-sm-error-700',
+              btnStyle: 'w-full rounded-16 px-4 py-2 bg-sm-error-500',
+              textStyle: 'text-gr-white text-btn-1',
               onClick: modalContent?.primaryBtn.onClick
             },
             {
-              variant: 'text',
-              size: 'lg',
-              content: '나중에 할게요',
-              style: 'w-full rounded-[16px] px-4 py-2 text-gr-300',
+              content: modalContent?.secondaryBtn.content || '취소',
+              btnStyle: 'w-full rounded-16 px-4 py-2 bg-gr-white',
+              textStyle: 'text-gr-300 text-btn-1',
               onClick: () => setShowModal(false)
             }
           ]}

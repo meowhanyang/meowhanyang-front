@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import usePasswordHandler from '@/utils/usePasswordHandler';
 import { useUser } from '@/contexts/EmailContext';
@@ -85,18 +85,19 @@ export default function Password({ setStep }: PasswordProps) {
       </div>
       <Button
         onClick={signIn}
-        className="w-full"
+        className="w-full rounded-16 bg-pr-500 px-4 py-2 disabled:bg-gr-200"
         disabled={!password.value || password.error}
       >
-        로그인하기
+        <Button.Text text="로그인하기" className="text-btn-1 text-gr-white" />
       </Button>
       <Button
-        variant="secondary"
-        size="sm"
-        className="mt-8"
-        onClick={() => findPassword()}
+        onClick={findPassword}
+        className="mx-auto mt-8 h-fit w-fit rounded-16 border border-gr-100 bg-gr-white px-3 py-2"
       >
-        비밀번호를 잊으셨나요?
+        <Button.Text
+          text="비밀번호를 잊으셨나요?"
+          className="text-btn-3 text-gr-500"
+        />
       </Button>
       {showModal && (
         <Modal
@@ -107,10 +108,9 @@ export default function Password({ setStep }: PasswordProps) {
           scrim={true}
           buttons={[
             {
-              variant: 'primary',
-              size: 'lg',
               content: '확인',
-              style: 'w-full rounded-[16px] px-4 py-2',
+              btnStyle: 'w-full rounded-[16px] px-4 py-2 bg-pr-500',
+              textStyle: 'text-gr-white text-btn-1',
               onClick: () => setShowModal(false)
             }
           ]}
@@ -125,10 +125,9 @@ export default function Password({ setStep }: PasswordProps) {
           scrim={true}
           buttons={[
             {
-              variant: 'primary',
-              size: 'lg',
               content: '확인',
-              style: 'w-full rounded-[16px] px-4 py-2',
+              btnStyle: 'w-full rounded-[16px] px-4 py-2 bg-pr-500',
+              textStyle: 'text-gr-white text-btn-1',
               onClick: () => setShowFindModal(false)
             }
           ]}

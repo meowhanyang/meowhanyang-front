@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 import React from 'react';
 
 interface DetailCardLayoutProps {
@@ -27,14 +27,13 @@ const DetailCardLayout = ({
         {titleObj.title}
       </h1>
       <div className="px-5">{children}</div>
-      <div className="mx-5 mb-6 mt-4 rounded-lg bg-gr-50">
+      <div className="mx-auto px-5 pb-6 pt-4">
         <Button
-          variant="text"
-          icon="/images/icons/right.svg"
-          className="px-0 text-btn-2 text-gr-600"
           onClick={() => btnObj.onClick()}
+          className="h-12 w-full rounded-lg bg-gr-50 px-4 py-2"
         >
-          {btnObj.text}
+          <Button.Text text={btnObj.text} className="text-btn-2 text-gr-600" />
+          <Button.Icon icon="/images/icons/right.svg" alt="right" />
         </Button>
       </div>
     </section>

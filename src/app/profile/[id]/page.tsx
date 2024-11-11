@@ -5,7 +5,7 @@ import ProfileDetail from '@/components/profile/ProfileDetail';
 import { getClickedUserProfile, getOtherUserFeeds } from '@/services/profile';
 import Profile from '@/components/ui/Profile';
 import Topbar from '@/components/ui/Topbar';
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 import { FeedType } from '@/types/communityType';
 import FeedCard from '@/components/community/FeedCard';
 import useFeedMutations from '@/hooks/community/useFeedMutations';
@@ -66,16 +66,21 @@ const ProfileIdPage = ({ params: { id } }: { params: { id: number } }) => {
       <div className="w-full border-gr-100" />
       <section className="flex items-center justify-between px-4 py-3">
         <div className="text-heading-4 text-gr-900">피드</div>
-        <div className="rounded-full border-16 border-gr-50 bg-gr-50 text-gr-300">
-          <Button
-            variant="text"
+        <Button
+          onClick={() => setShowZipModal(true)}
+          className="h-[28px] rounded-16 bg-gr-50 py-2 pl-3 pr-[6px]"
+        >
+          <Button.Text
+            text="모음집 구경하기"
+            className="text-btn-3 text-gr-500"
+          />
+          <Button.Icon
             icon="/images/icons/right.svg"
-            className="px-0 py-2 text-btn-3 text-gr-600"
-            onClick={() => setShowZipModal(true)}
-          >
-            모음집 구경하기
-          </Button>
-        </div>
+            height={16}
+            width={16}
+            alt="right"
+          />
+        </Button>
       </section>
       <section className="pb-32">
         {otherUserFeedList?.map((feed: FeedType) => (

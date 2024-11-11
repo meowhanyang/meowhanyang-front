@@ -7,7 +7,7 @@ import {
   SetStateAction,
   useRef
 } from 'react';
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 import Image from 'next/image';
 import useCropper from '@/components/ui/hooks/useCropper';
 import CloseIcon from '../../../public/images/icons/close.svg';
@@ -182,9 +182,16 @@ const ImageUploader = ({
                 width={24}
                 height={24}
               />
-              <div className="fixed left-1/2 top-8 -translate-x-1/2">
-                <Button variant="secondary" size="md" onClick={handleCrop}>
-                  이미지 자르기
+              <div className="fixed left-1/2 top-20 -translate-x-1/2">
+                <Button
+                  onClick={handleCrop}
+                  className="w-full rounded-full border border-white bg-transparent px-4 py-2"
+                  disabled={false}
+                >
+                  <Button.Text
+                    text="이미지 자르기"
+                    className="text-btn-1 text-gr-white"
+                  />
                 </Button>
               </div>
             </div>

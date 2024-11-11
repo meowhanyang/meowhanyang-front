@@ -35,9 +35,10 @@ const SignInPage = () => {
           </Funnel.Step>
           <Funnel.Step name="accountInfo">
             <div className="fixed top-0 w-full">
-              <Topbar type="two">
+              <Topbar type="three">
                 <Topbar.Back onClick={() => history.go(-1)} />
                 <Topbar.Title title="계정 확인" />
+                <Topbar.Empty />
               </Topbar>
             </div>
             <CheckAccount setStep={() => setStep('complete')} />
