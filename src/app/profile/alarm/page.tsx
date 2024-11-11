@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/TabsWithLine';
 import { useQuery } from '@tanstack/react-query';
 import { getCoParentNotifications, getNotifications } from '@/services/profile';
-import AlarmEmptyState from '@/components/alarm/AlarmEmptyState';
+import AlarmEmptyState from '@/components/profile/AlarmEmptyState';
 
 const Alarm = () => {
   const router = useRouter();
