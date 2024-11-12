@@ -2,10 +2,14 @@ import React from 'react';
 import Button from '@/components/ui/Button';
 import RightIcon from '../../../public/images/icons/right.svg';
 
-const CoParentButton = () => {
+interface CoParentButtonProps {
+  onClick: () => void;
+}
+
+const CoParentButton = ({ onClick }: CoParentButtonProps) => {
   return (
     <Button
-      onClick={() => console.log('요청 메시지 보내기')}
+      onClick={onClick}
       className="h-9 w-full rounded-md bg-gr-white px-4 py-2"
       disabled={false}
     >
