@@ -24,7 +24,7 @@ const CoParentAlarmModal = ({ onClick }: CoParentAlarmModalProps) => {
 
   const reject = () => {
     console.log('거절');
-    setOpenBottomSheet(true);
+    onClick();
   };
 
   const accept = () => {
