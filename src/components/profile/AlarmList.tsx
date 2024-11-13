@@ -1,4 +1,5 @@
 import AlarmMessage from '@/components/profile/AlarmMessage';
+import CoParentAlarmModal from '@/components/profile/CoParentAlarmModal';
 import CoParentButton from '@/components/profile/CoParentButton';
 import { useState } from 'react';
 
@@ -15,6 +16,7 @@ interface AlarmListProps {
 }
 
 const AlarmList = ({ alarmList }: AlarmListProps) => {
+  const [showMessage, setShowMessage] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -30,11 +32,19 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
           </p>
           <p className="text-body-4 text-gr-400">{alarm.createdAt}</p>
           <div className="pt-2">
-            <CoParentButton onClick={() => setShowModal(true)} />
+            <CoParentButton onClick={() => setShowMessage(true)} />
           </div>
         </div>
       ))}
-      {showModal && <AlarmMessage />}
+
+      {showMessage && (
+        <AlarmMessage
+          onClick={() => {
+            setShowModal(true), setShowMessage(false);
+          }}
+        />
+      )}
+      {showModal && <CoParentAlarmModal onClick={() => setShowModal(false)} />}
     </>
   );
 };
