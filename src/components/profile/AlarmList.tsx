@@ -1,4 +1,5 @@
 import AlarmMessage from '@/components/profile/AlarmMessage';
+import CoParentAcceptBottomSheet from '@/components/profile/CoParentAcceptBottomSheet';
 import CoParentAlarmModal from '@/components/profile/CoParentAlarmModal';
 import CoParentButton from '@/components/profile/CoParentButton';
 import { useToast } from '@/components/ui/hooks/useToast';
@@ -22,6 +23,7 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
 
   const [showMessage, setShowMessage] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [openBottomSheet, setOpenBottomSheet] = useState(false);
 
   const isExpried = false;
 
@@ -52,6 +54,12 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
         </div>
       ))}
       <Toaster />
+      <CoParentAcceptBottomSheet
+        isVisible={openBottomSheet}
+        setIsVisible={() => {
+          setOpenBottomSheet(!openBottomSheet);
+        }}
+      />
       {showMessage && (
         <AlarmMessage
           onClick={() => {
@@ -59,7 +67,12 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
           }}
         />
       )}
-      {showModal && <CoParentAlarmModal onClick={() => setShowModal(false)} />}
+      {showModal && (
+        <CoParentAlarmModal
+          onClick={() => setShowModal(false)}
+          openBottomSheet={() => setOpenBottomSheet(true)}
+        />
+      )}
     </>
   );
 };
