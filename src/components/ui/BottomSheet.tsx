@@ -15,6 +15,7 @@ interface BottomSheetProps extends MotionProps {
   topBar?: React.ReactNode;
   children: React.ReactNode;
   heightPercent: string[];
+  overflow?: string;
 }
 
 const BottomSheet: React.FC<BottomSheetProps> = ({
@@ -23,6 +24,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   topBar,
   children,
   heightPercent,
+  overflow,
   ...props
 }) => {
   const [windowHeight, setWindowHeight] = useState<number>(0);
@@ -117,7 +119,8 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
             dragConstraints={{ top: 0 }}
             onDragEnd={handleDragEnd}
             style={{ y, height: bottomSheetHeight }}
-            className="fixed inset-x-0 bottom-0 z-50 overflow-hidden rounded-tl-3xl rounded-tr-3xl bg-white shadow-lg"
+            // className="fixed inset-x-0 bottom-0 z-50 overflow-hidden bg-white shadow-lg rounded-tl-3xl rounded-tr-3xl"
+            className={`fixed inset-x-0 bottom-0 z-50 rounded-tl-3xl rounded-tr-3xl bg-white shadow-lg ${overflow ? overflow : 'overflow-hidden'}`}
             {...props}
           >
             {topBar && (
@@ -126,7 +129,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
                 {topBar}
               </div>
             )}
-            {/* <div className="content overflow-auto overflow-x-hidden p-8 ">
+            {/* <div className="p-8 overflow-auto overflow-x-hidden content ">
               {children}
             </div> */}
             {children}

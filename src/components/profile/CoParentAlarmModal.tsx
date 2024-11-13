@@ -1,14 +1,17 @@
 import Topbar from '@/components/ui/Topbar';
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Button from '@/components/ui/Button';
 import Label from '@/components/ui/Label';
+import CoParentAcceptBottomSheet from '@/components/profile/CoParentAcceptBottomSheet';
 
 interface CoParentAlarmModalProps {
   onClick: () => void;
 }
 
 const CoParentAlarmModal = ({ onClick }: CoParentAlarmModalProps) => {
+  const [openBottomSheet, setOpenBottomSheet] = useState(false);
+
   const catData = {
     coParentId: 0,
     catName: '농농',
@@ -21,10 +24,12 @@ const CoParentAlarmModal = ({ onClick }: CoParentAlarmModalProps) => {
 
   const reject = () => {
     console.log('거절');
+    onClick();
   };
 
   const accept = () => {
     console.log('수락');
+    setOpenBottomSheet(true);
   };
 
   return (
@@ -92,6 +97,12 @@ const CoParentAlarmModal = ({ onClick }: CoParentAlarmModalProps) => {
           </article>
         </div>
       </section>
+      <CoParentAcceptBottomSheet
+        isVisible={openBottomSheet}
+        setIsVisible={() => {
+          setOpenBottomSheet(!openBottomSheet);
+        }}
+      />
     </div>
   );
 };
