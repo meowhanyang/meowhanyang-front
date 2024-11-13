@@ -155,6 +155,42 @@ export const requestCoParenting = async (reqObj: {
   }
 };
 
+export const acceptCoParenting = async (coParentId: number) => {
+  try {
+    const response = await fetchExtendedAuth(
+      `/cats/co-parents/${coParentId}/accept`,
+      { method: 'POST' }
+    );
+
+    return response.body;
+  } catch (error) {
+    console.error(error);
+    if (error instanceof Error) {
+      throw new Error('공동냥육 신청 수락 중 오류 발생:' + error.message);
+    } else {
+      throw new Error('공동냥육 신청 수락 중 오류 발생:');
+    }
+  }
+};
+
+export const rejectCoParenting = async (coParentId: number) => {
+  try {
+    const response = await fetchExtendedAuth(
+      `/cats/co-parents/${coParentId}/reject`,
+      { method: 'POST' }
+    );
+
+    return response.body;
+  } catch (error) {
+    console.error(error);
+    if (error instanceof Error) {
+      throw new Error('공동냥육 신청 거절 중 오류 발생:' + error.message);
+    } else {
+      throw new Error('공동냥육 신청 거절 중 오류 발생:');
+    }
+  }
+};
+
 export const cancelCoParenting = async (reqObj: {
   catId: number;
   memberId: number;
@@ -173,9 +209,9 @@ export const cancelCoParenting = async (reqObj: {
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {
-      throw new Error('고양이 공동냥육 취소 중 오류 발생:' + error.message);
+      throw new Error('공동냥육 신청 취소 중 오류 발생:' + error.message);
     } else {
-      throw new Error('고양이 공동냥육 취소 중 오류 발생:');
+      throw new Error('공동냥육 신청 취소 중 오류 발생:');
     }
   }
 };

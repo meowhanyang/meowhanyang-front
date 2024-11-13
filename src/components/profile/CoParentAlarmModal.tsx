@@ -1,16 +1,20 @@
 import Topbar from '@/components/ui/Topbar';
-import React, { useState } from 'react';
 import Image from 'next/image';
 import Button from '@/components/ui/Button';
 import Label from '@/components/ui/Label';
-import CoParentAcceptBottomSheet from '@/components/profile/CoParentAcceptBottomSheet';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { acceptCoParenting, rejectCoParenting } from '@/services/cat';
 
 interface CoParentAlarmModalProps {
   onClick: () => void;
+  openBottomSheet: () => void;
 }
 
-const CoParentAlarmModal = ({ onClick }: CoParentAlarmModalProps) => {
-  const [openBottomSheet, setOpenBottomSheet] = useState(false);
+const CoParentAlarmModal = ({
+  onClick,
+  openBottomSheet
+}: CoParentAlarmModalProps) => {
+  const queryClient = useQueryClient();
 
   const catData = {
     coParentId: 0,
@@ -22,15 +26,31 @@ const CoParentAlarmModal = ({ onClick }: CoParentAlarmModalProps) => {
     isNeutered: 'Y'
   };
 
-  const reject = () => {
-    console.log('거절');
-    onClick();
-  };
+  const acceptCoParentingMutation = useMutation({
+    mutationFn: (coParentId: number) => acceptCoParenting(coParentId),
+    onSuccess: (data: any) => {
+      if (data.status !== 'OK') {
+        console.log('error');
+      } else {
+        queryClient.invalidateQueries({
+          queryKey: ['getCoparentsNotifications']
+        });
+      }
+    }
+  });
 
-  const accept = () => {
-    console.log('수락');
-    setOpenBottomSheet(true);
-  };
+  const rejectCoParentingMutation = useMutation({
+    mutationFn: (coParentId: number) => rejectCoParenting(coParentId),
+    onSuccess: (data: any) => {
+      if (data.status !== 'OK') {
+        console.log('error', data.message);
+      } else {
+        queryClient.invalidateQueries({
+          queryKey: ['getCoparentsNotifications']
+        });
+      }
+    }
+  });
 
   return (
     <div className="fixed left-0 top-0 z-50 h-screen w-full overflow-y-auto bg-gr-white">
@@ -83,13 +103,20 @@ const CoParentAlarmModal = ({ onClick }: CoParentAlarmModalProps) => {
         <div className="fixed bottom-0 left-0 w-full bg-gr-white px-6 pb-9">
           <article className="flex items-center justify-center gap-2">
             <Button
-              onClick={reject}
+              onClick={() => {
+                rejectCoParentingMutation.mutate(catData.coParentId);
+                onClick();
+              }}
               className="w-1/2 rounded-16 border border-pr-500 bg-gr-white px-4 py-2"
             >
               <Button.Text text="거절" className="text-btn-2 text-pr-500" />
             </Button>
             <Button
-              onClick={accept}
+              onClick={() => {
+                acceptCoParentingMutation.mutate(catData.coParentId);
+                openBottomSheet();
+                onClick();
+              }}
               className="w-1/2 rounded-16 bg-pr-500 px-4 py-2"
             >
               <Button.Text text="수락" className="text-btn-2 text-gr-white" />
@@ -97,12 +124,6 @@ const CoParentAlarmModal = ({ onClick }: CoParentAlarmModalProps) => {
           </article>
         </div>
       </section>
-      <CoParentAcceptBottomSheet
-        isVisible={openBottomSheet}
-        setIsVisible={() => {
-          setOpenBottomSheet(!openBottomSheet);
-        }}
-      />
     </div>
   );
 };
