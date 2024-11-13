@@ -1,6 +1,8 @@
 import AlarmMessage from '@/components/profile/AlarmMessage';
 import CoParentAlarmModal from '@/components/profile/CoParentAlarmModal';
 import CoParentButton from '@/components/profile/CoParentButton';
+import { useToast } from '@/components/ui/hooks/useToast';
+import { Toaster } from '@/components/ui/Toaster';
 import { useState } from 'react';
 
 interface AlarmListProps {
@@ -16,8 +18,21 @@ interface AlarmListProps {
 }
 
 const AlarmList = ({ alarmList }: AlarmListProps) => {
+  const { toast } = useToast();
+
   const [showMessage, setShowMessage] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  const isExpried = false;
+
+  const onClickCoParentBtn = () => {
+    setShowMessage(true);
+    toast({
+      description: isExpried
+        ? '요청 수락 기간이 지난 메시지입니다.'
+        : '이미 응답한 메시지입니다.'
+    });
+  };
 
   return (
     <>
@@ -32,11 +47,11 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
           </p>
           <p className="text-body-4 text-gr-400">{alarm.createdAt}</p>
           <div className="pt-2">
-            <CoParentButton onClick={() => setShowMessage(true)} />
+            <CoParentButton onClick={onClickCoParentBtn} />
           </div>
         </div>
       ))}
-
+      <Toaster />
       {showMessage && (
         <AlarmMessage
           onClick={() => {
