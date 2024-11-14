@@ -1,5 +1,4 @@
 import { Skeleton } from '@/components/ui/Skeleton';
-import React from 'react';
 
 const SKELETON_ITEMS = Array.from({ length: 5 });
 const FilterSkeleton = () => {
