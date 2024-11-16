@@ -94,7 +94,7 @@ const DiaryPage = () => {
             ))
           )}
         </section>
-        <section className="p-4">
+        <section className="mx-auto max-w-[640px] p-4">
           {isDiaryLoading ? (
             <div className="flex flex-col gap-4">
               <DiarySkeleton />

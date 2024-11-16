@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation';
+import RightIcon from '../../../public/images/icons/right.svg';
 import Image from 'next/image';
 
 const EmptyState = () => {
@@ -8,8 +9,14 @@ const EmptyState = () => {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center">
+    <section className="flex flex-col items-center justify-center pb-[120px] pt-10">
       <div className="flex flex-col items-center justify-center gap-[6px] px-4 py-6">
+        <Image
+          src="https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/setting.svg"
+          alt="edit"
+          width={120}
+          height={120}
+        />
         <h3 className="text-lg font-medium text-gray-700">
           아직 작성한 글이 없어요
         </h3>
@@ -22,12 +29,11 @@ const EmptyState = () => {
         onClick={onClick}
       >
         글 쓰기
-        <Image
-          src="/images/icons/right.svg"
-          alt="right"
+        <RightIcon
           width={24}
           height={24}
-          className="h-6 w-6"
+          stroke="var(--gr-800)"
+          onClick={onClick}
         />
       </button>
     </section>

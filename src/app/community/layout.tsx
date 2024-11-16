@@ -6,7 +6,7 @@ export default function CommunityLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section>
+    <section className="bg-gr-50">
       {children}
       <div className="fixed bottom-0 left-0 right-0 z-10 flex justify-center">
         <BottomNavBar />

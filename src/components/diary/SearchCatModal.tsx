@@ -51,13 +51,13 @@ export default function SearchCatModal({
   };
 
   return (
-    <article>
+    <article className="w-screen bg-gr-white">
       <div className="fixed left-0 top-0 z-[50] h-screen w-full overflow-y-auto bg-gr-white">
         <Topbar type="two" className="justify-start">
           <Topbar.Back onClick={closeCurrentModal} />
           <Topbar.SearchInput onChange={handleOnChange} />
         </Topbar>
-        <ul className="flex flex-col gap-2 px-2 py-2 pt-12">
+        <ul className="mx-auto flex max-w-[640px] flex-col gap-2 px-4 py-2 pt-12">
           {catList ? (
             <>
               {catList.map((cat: CatType) => (

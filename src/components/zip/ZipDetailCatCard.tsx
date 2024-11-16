@@ -28,10 +28,11 @@ const ZipDetailCatCard = ({ ...props }: CatBaseType) => {
         </div>
         <Image
           src={props.imageUrl}
-          width={375}
-          height={240}
-          className="rounded-xl object-cover"
           alt="cat-image"
+          layout="responsive"
+          width={100}
+          height={100}
+          className="max-h-60 rounded-xl object-cover"
         />
         <div className="pb-6 pt-4">
           <div className="flex items-center gap-2 py-[6px]">

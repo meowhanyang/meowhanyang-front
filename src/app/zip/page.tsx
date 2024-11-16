@@ -37,32 +37,34 @@ const ZipPage = () => {
       <h1 className="flex h-12 w-full items-center bg-gr-white px-4 text-heading-3 text-gr-900">
         모음집
       </h1>
-      <section className="bg-gr-50 p-4 pb-28">
-        {isLoading ? (
-          <div className="grid grid-cols-2 gap-4">
-            <ZipSkeleton />
-          </div>
-        ) : cats?.length === 0 ? (
-          <ZipEmptyState />
-        ) : (
-          <div className="grid grid-cols-2 gap-4">
-            {cats.map(cat => (
-              <ZipCard
-                key={cat.id}
-                {...cat}
-                onClick={() => openDetailModal(cat)}
-              />
-            ))}
-          </div>
-        )}
-        <FloatingActionButton onClick={() => setShowWriteModal(true)} />
-        {showWriteModal && (
-          <CatRegisterModal
-            onClose={() => setShowWriteModal(false)}
-            id={selectedModal?.id ?? 0}
-          />
-        )}
-      </section>
+      <div className="bg-gr-50">
+        <section className="mx-auto max-w-[640px] p-4 px-4 pb-28">
+          {isLoading ? (
+            <div className="grid grid-cols-2 gap-4">
+              <ZipSkeleton />
+            </div>
+          ) : cats?.length === 0 ? (
+            <ZipEmptyState />
+          ) : (
+            <div className="grid grid-cols-2 gap-4">
+              {cats.map(cat => (
+                <ZipCard
+                  key={cat.id}
+                  {...cat}
+                  onClick={() => openDetailModal(cat)}
+                />
+              ))}
+            </div>
+          )}
+          <FloatingActionButton onClick={() => setShowWriteModal(true)} />
+          {showWriteModal && (
+            <CatRegisterModal
+              onClose={() => setShowWriteModal(false)}
+              id={selectedModal?.id ?? 0}
+            />
+          )}
+        </section>
+      </div>
     </>
   );
 };

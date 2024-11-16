@@ -36,7 +36,7 @@ const Modal = ({ contents, buttons, scrim, customContent }: ModalProps) => {
 
   return (
     <div
-      className={`fixed bottom-0 left-0 right-0 top-0 z-[20] h-full min-w-[320px] max-w-[600px] ${
+      className={`fixed bottom-0 left-0 right-0 top-0 z-[20] h-full min-w-[320px] ${
         scrim && 'bg-scrim'
       }`}
     >

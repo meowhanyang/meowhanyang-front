@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
-import Detail from '@/components/profile/ProfileDetail';
+import ProfileDetail from '@/components/profile/ProfileDetail';
 import { Skeleton } from '@/components/ui/Skeleton';
 import {
   Tabs,
@@ -18,6 +18,8 @@ import OnboardProfileModal from '@/components/onboard/OnboardProfileModal';
 import PencilIcon from '../../../public/images/icons/pencil.svg';
 import EmptyState from '@/components/profile/EmptyState';
 import useFeedMutations from '@/hooks/community/useFeedMutations';
+import ProfileFeedSkeleton from '@/components/profile/ProfileFeedSkeleton';
+import ProfileSkeleton from '@/components/profile/ProfileSkeleton';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -49,14 +51,14 @@ export default function ProfilePage() {
     useFeedMutations(['myFeeds', 'myBookmarks']);
 
   return (
-    <div className="bg-gr-white pb-32">
+    <div>
       <div className="flex h-12 w-full items-center justify-between bg-gr-white px-4 align-middle text-heading-3 text-gr-900">
         <h1>프로필</h1>
         <div className="flex gap-3">
           <button onClick={() => router.push('/profile/alarm')}>
             <Image
               src="https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/alert.svg"
-              alt="edit"
+              alt="alert"
               width={24}
               height={24}
             />
@@ -67,45 +69,26 @@ export default function ProfilePage() {
           <button onClick={() => router.push('/profile/setting')}>
             <Image
               src="https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/setting.svg"
-              alt="edit"
+              alt="setting"
               width={24}
               height={24}
             />
           </button>
         </div>
       </div>
-      <div className="flex gap-2">
-        <Tabs defaultValue="myContents" className="w-full sm:max-w-[600px]">
+      <div className="mx-auto flex justify-center gap-2">
+        <Tabs defaultValue="myContents">
           {isProfileLoading ? (
-            <>
-              <div className="relative mx-auto my-4 flex flex-col items-center justify-center gap-2">
-                <Skeleton className="h-[72px] w-[72px] rounded-full" />
-                <Skeleton className="h-[16px] w-[50px]" />
-              </div>
-              <div className="flex justify-around border-gr-200 px-4 py-3">
-                <div className="flex flex-col items-center gap-1">
-                  <Skeleton className="h-[16px] w-[25px]" />
-                  <Skeleton className="h-[16px] w-[40px]" />
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  <Skeleton className="h-[16px] w-[25px]" />
-                  <Skeleton className="h-[16px] w-[40px]" />
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  <Skeleton className="h-[16px] w-[25px]" />
-                  <Skeleton className="h-[16px] w-[40px]" />
-                </div>
-              </div>
-            </>
+            <ProfileSkeleton />
           ) : (
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex w-screen flex-col items-center justify-center bg-gr-white">
               <div className="relative mx-auto my-4 flex h-[72px] w-[72px] flex-col items-center justify-center gap-1">
                 <Image
                   src={
                     myProfile?.profileImageUrl ||
                     'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg'
                   }
-                  alt="icon"
+                  alt="profile icon"
                   width={72}
                   height={72}
                   className="w-full rounded-[48px]"
@@ -122,49 +105,23 @@ export default function ProfilePage() {
                 </div>
               </div>
               <p>{myProfile?.nickname}</p>
-              <Detail
+              <ProfileDetail
                 catCount={myProfile?.catCount}
                 postCount={myProfile?.postCount}
                 bookmarkCount={myProfile?.bookmarkCount}
               />
             </div>
           )}
-          <TabsList>
+          <TabsList className="bg-gr-white">
             <TabsTrigger value="myContents">작성한 글</TabsTrigger>
             <TabsTrigger value="savedContents">저장한 글</TabsTrigger>
           </TabsList>
-          <TabsContent value="myContents">
+          <TabsContent
+            value="myContents"
+            className="mx-auto mt-0 max-w-[640px] pb-24"
+          >
             {isFeedLoading ? (
-              <div className="flex flex-col gap-4 p-4">
-                {[1, 2, 3].map(item => (
-                  <div key={item} className="flex flex-col gap-3">
-                    {/* 프로필 영역 */}
-                    <div className="flex items-center gap-2">
-                      <Skeleton className="h-[40px] w-[40px] rounded-full" />
-                      <div className="flex flex-col gap-1">
-                        <Skeleton className="h-[16px] w-[80px]" />
-                        <Skeleton className="h-[14px] w-[60px]" />
-                      </div>
-                    </div>
-
-                    {/* 본문 텍스트 영역 */}
-                    <div className="flex flex-col gap-2">
-                      <Skeleton className="h-[16px] w-full" />
-                      <Skeleton className="h-[16px] w-[90%]" />
-                      <Skeleton className="h-[16px] w-[50%]" />
-                    </div>
-
-                    {/* 이미지 영역 */}
-                    <Skeleton className="h-[240px] w-full rounded-lg" />
-
-                    {/* 하단 액션 버튼 영역 */}
-                    <div className="flex gap-4">
-                      <Skeleton className="h-[24px] w-[60px]" />
-                      <Skeleton className="h-[24px] w-[60px]" />
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <ProfileFeedSkeleton />
             ) : myFeedList?.length === 0 ? (
               <EmptyState />
             ) : (
@@ -181,7 +138,10 @@ export default function ProfilePage() {
               ))
             )}
           </TabsContent>
-          <TabsContent value="savedContents">
+          <TabsContent
+            value="savedContents"
+            className="mx-auto mt-0 max-w-[640px] bg-gr-white"
+          >
             {myBookmarksList?.map((feed: FeedType) => (
               <FeedCard
                 key={feed.id}

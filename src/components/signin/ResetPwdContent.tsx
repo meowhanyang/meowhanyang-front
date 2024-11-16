@@ -46,7 +46,7 @@ const ResetPwdContent = () => {
   };
 
   return (
-    <section className="px-4 pt-10">
+    <section className="mx-auto max-w-[640px] px-4 pt-10">
       <article className="pb-8 text-left text-heading-1 text-gr-black">
         <h1>새 비밀번호를 입력하여</h1>
         <h1>재설정하세요</h1>

@@ -59,7 +59,7 @@ const CoParentAlarmModal = ({
         <Topbar.Empty />
         <Topbar.Empty />
       </Topbar>
-      <section className="px-6">
+      <section className="mx-auto w-full max-w-[640px] px-6">
         <article className="justicy-center flex flex-col items-center pt-14 text-heading-4 text-gr-900">
           <p>{catData.ownerNickname} 님이 </p>
           <p>공동냥육 요청을 보냈어요!</p>
@@ -100,7 +100,7 @@ const CoParentAlarmModal = ({
             함께 {catData.catName} 냥이를 돌보실래요?
           </div>
         </article>
-        <div className="fixed bottom-0 left-0 w-full bg-gr-white px-6 pb-9">
+        <div className="fixed bottom-0 left-1/2 w-full max-w-[640px] -translate-x-1/2 -translate-y-1/2 transform bg-gr-white px-6 pb-9">
           <article className="flex items-center justify-center gap-2">
             <Button
               onClick={() => {
