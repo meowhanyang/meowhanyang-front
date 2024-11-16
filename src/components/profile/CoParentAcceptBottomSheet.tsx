@@ -2,7 +2,8 @@ import BottomSheet from '@/components/ui/BottomSheet';
 import Button from '@/components/ui/Button';
 import React from 'react';
 import Image from 'next/image';
-
+import { useRouter } from 'next/navigation';
+import RightIcon from '../../../public/images/icons/right.svg';
 interface CoParentAcceptBottomSheetProps {
   isVisible: boolean;
   setIsVisible: (isVisible: boolean) => void;
@@ -12,6 +13,8 @@ const CoParentAcceptBottomSheet = ({
   isVisible,
   setIsVisible
 }: CoParentAcceptBottomSheetProps) => {
+  const router = useRouter();
+
   return (
     <BottomSheet
       isVisible={isVisible}
@@ -34,17 +37,23 @@ const CoParentAcceptBottomSheet = ({
         <div className="px-4 pb-6 pt-3 text-body-2 text-gr-800">
           <p>모음집에 고양이가 추가되고</p>
           <p>태그하여 일지를 작성할 수 있어요.</p>
+          <Button onClick={() => router.push('/zip')} className="w-full py-2">
+            <Button.Text
+              text="냥이 보러가기"
+              className="text-btn-2 text-pr-500"
+            />
+            <Button.Icon alt="right">
+              <RightIcon width={20} height={20} stroke="var(--pr-500)" />
+            </Button.Icon>
+          </Button>
         </div>
       </section>
-      <section className="px-4">
+      <section className="mx-auto max-w-[640px] px-4">
         <Button
-          onClick={() => setIsVisible(false)}
+          onClick={() => router.back()}
           className="w-full rounded-16 bg-pr-500 py-2"
         >
-          <Button.Text
-            text="공동냥육 시작하기"
-            className="text-btn-1 text-gr-white"
-          />
+          <Button.Text text="확인" className="text-btn-1 text-gr-white" />
         </Button>
       </section>
     </BottomSheet>

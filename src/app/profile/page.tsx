@@ -3,7 +3,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 import ProfileDetail from '@/components/profile/ProfileDetail';
-import { Skeleton } from '@/components/ui/Skeleton';
 import {
   Tabs,
   TabsContent,
@@ -16,10 +15,10 @@ import { getMyBookmarks, getMyFeeds, getMyProfile } from '@/services/profile';
 import { useState } from 'react';
 import OnboardProfileModal from '@/components/onboard/OnboardProfileModal';
 import PencilIcon from '../../../public/images/icons/pencil.svg';
-import EmptyState from '@/components/profile/EmptyState';
 import useFeedMutations from '@/hooks/community/useFeedMutations';
 import ProfileFeedSkeleton from '@/components/profile/ProfileFeedSkeleton';
 import ProfileSkeleton from '@/components/profile/ProfileSkeleton';
+import ProfileEmptyState from '@/components/profile/ProfileEmptyState';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -123,7 +122,11 @@ export default function ProfilePage() {
             {isFeedLoading ? (
               <ProfileFeedSkeleton />
             ) : myFeedList?.length === 0 ? (
-              <EmptyState />
+              <ProfileEmptyState
+                title="아직 작성한 글이 없어요"
+                body="사람들과 나누고 싶은 일들을 공유해보세요!"
+                btnText="글 쓰기"
+              />
             ) : (
               myFeedList?.map((feed: FeedType) => (
                 <FeedCard
@@ -140,19 +143,27 @@ export default function ProfilePage() {
           </TabsContent>
           <TabsContent
             value="savedContents"
-            className="mx-auto mt-0 max-w-[640px] bg-gr-white"
+            className="mx-auto mt-0 max-w-[640px] pb-24"
           >
-            {myBookmarksList?.map((feed: FeedType) => (
-              <FeedCard
-                key={feed.id}
-                content={feed}
-                goToDetail={() => router.push(`/community/${feed.id}`)}
-                likeFeed={() => likeFeed(feed)}
-                unLikeFeed={() => unLikeFeed(feed)}
-                bookmarkFeed={() => bookmarkFeed(feed)}
-                cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
+            {myBookmarksList?.length === 0 ? (
+              <ProfileEmptyState
+                title="아직 저장한 글이 없어요"
+                body="간직하고 싶은 글을 저장해보세요!"
+                btnText="저장하러 가기"
               />
-            ))}
+            ) : (
+              myBookmarksList?.map((feed: FeedType) => (
+                <FeedCard
+                  key={feed.id}
+                  content={feed}
+                  goToDetail={() => router.push(`/community/${feed.id}`)}
+                  likeFeed={() => likeFeed(feed)}
+                  unLikeFeed={() => unLikeFeed(feed)}
+                  bookmarkFeed={() => bookmarkFeed(feed)}
+                  cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
+                />
+              ))
+            )}
           </TabsContent>
         </Tabs>
       </div>

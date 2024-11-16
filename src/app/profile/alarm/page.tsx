@@ -60,7 +60,7 @@ const Alarm = () => {
   return (
     <div className="fixed left-0 top-0 z-20 h-screen w-full overflow-y-auto bg-gr-white">
       <Topbar type="three">
-        <Topbar.Back onClick={() => router.back()} />
+        <Topbar.Back onClick={() => router.push('/profile')} />
         <Topbar.Title title="내 소식" />
         <Topbar.Empty />
       </Topbar>
