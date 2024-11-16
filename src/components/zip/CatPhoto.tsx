@@ -97,7 +97,7 @@ export default function CatPhoto({
         <div className="py-4 text-center text-body-4 text-gr-black">
           고양이 대표 사진을 하나 선택하세요!
         </div>
-        <div className="grid grid-cols-4 gap-4 px-2 py-8">
+        <div className="grid grid-cols-4 gap-4">
           <ImageUploader
             width="w-16"
             height="h-16"
