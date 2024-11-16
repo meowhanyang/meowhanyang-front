@@ -98,7 +98,6 @@ const DiaryPage = () => {
           {isDiaryLoading ? (
             <div className="flex flex-col gap-4">
               <DiarySkeleton />
-              <DiarySkeleton />
             </div>
           ) : diaryList?.length === 0 ? (
             <DiaryEmptyState />
