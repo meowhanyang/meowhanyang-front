@@ -22,7 +22,7 @@ const Filter = ({
 }: FilterProps) => {
   return (
     <section
-      className={`flex flex-col items-center justify-center bg-gr-white ${type === 'cat' ? 'px-0 py-0' : 'gap-2 px-2 py-3'}`}
+      className={`flex flex-col items-center justify-center bg-gr-white ${type === 'cat' ? 'px-0 py-0' : 'gap-2 px-2 py-3'} w-fit`}
     >
       <button
         className={`relative flex h-16 w-16 items-center justify-center rounded-3xl border-2 border-gr-100 bg-gr-white active:border-pr-500 ${
