@@ -41,46 +41,44 @@ const CommunityContents = () => {
   }, [showWriteModal]);
 
   return (
-    <>
-      <div className="pb-32">
-        {feedList?.map((feed: FeedType) => (
-          <FeedCard
-            key={feed.id}
-            content={feed}
-            goToDetail={() => router.push(`/community/${feed.id}`)}
-            openBottomSheet={() => {
-              setFeed(feed);
-              setEditBottomSheet(true);
-            }}
-            likeFeed={() => likeFeed(feed)}
-            unLikeFeed={() => unLikeFeed(feed)}
-            bookmarkFeed={() => bookmarkFeed(feed)}
-            cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
-            hasUserArea
-          />
-        ))}
-        <FloatingActionButton onClick={() => setShowWriteModal(true)} />
-        {showWriteModal && (
-          <FeedWriteModal
-            onClose={() => setShowWriteModal(false)}
-            feedDetail={feed}
-          />
-        )}
-        <MoreBtnBottomSheet
-          type="feed"
-          isVisible={editBottomSheet}
-          setIsVisible={() => setEditBottomSheet(!editBottomSheet)}
-          heightPercent={['50%', '40%']}
-          name={feed?.writerNickname}
-          memberId={feed?.writerId}
-          onDelete={() => feed && deleteFeed(feed)}
-          onEdit={() => setShowWriteModal(true)}
-          onBlock={() => feed && blockFeed(feed)}
-          onReport={() => feed && reportFeed(feed)}
-          showWriteModal={setShowWriteModal}
+    <div className="mx-auto max-w-[640px] bg-gr-white pb-24">
+      {feedList?.map((feed: FeedType) => (
+        <FeedCard
+          key={feed.id}
+          content={feed}
+          goToDetail={() => router.push(`/community/${feed.id}`)}
+          openBottomSheet={() => {
+            setFeed(feed);
+            setEditBottomSheet(true);
+          }}
+          likeFeed={() => likeFeed(feed)}
+          unLikeFeed={() => unLikeFeed(feed)}
+          bookmarkFeed={() => bookmarkFeed(feed)}
+          cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
+          hasUserArea
         />
-      </div>
-    </>
+      ))}
+      <FloatingActionButton onClick={() => setShowWriteModal(true)} />
+      {showWriteModal && (
+        <FeedWriteModal
+          onClose={() => setShowWriteModal(false)}
+          feedDetail={feed}
+        />
+      )}
+      <MoreBtnBottomSheet
+        type="feed"
+        isVisible={editBottomSheet}
+        setIsVisible={() => setEditBottomSheet(!editBottomSheet)}
+        heightPercent={['50%', '40%']}
+        name={feed?.writerNickname}
+        memberId={feed?.writerId}
+        onDelete={() => feed && deleteFeed(feed)}
+        onEdit={() => setShowWriteModal(true)}
+        onBlock={() => feed && blockFeed(feed)}
+        onReport={() => feed && reportFeed(feed)}
+        showWriteModal={setShowWriteModal}
+      />
+    </div>
   );
 };
 

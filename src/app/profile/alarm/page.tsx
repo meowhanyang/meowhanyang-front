@@ -77,11 +77,14 @@ const Alarm = () => {
             <AlarmEmptyState />
           </div>
         ) : (
-          <TabsContent value="notice">
+          <TabsContent value="notice" className="mx-auto mt-0 max-w-[640px]">
             <AlarmList alarmList={alarmList} />
           </TabsContent>
         )}
-        <TabsContent value="coParentNotice">
+        <TabsContent
+          value="coParentNotice"
+          className="mx-auto mt-0 max-w-[640px]"
+        >
           <AlarmList alarmList={alarmList} />
         </TabsContent>
       </Tabs>

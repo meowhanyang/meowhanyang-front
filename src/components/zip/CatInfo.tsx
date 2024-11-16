@@ -143,7 +143,7 @@ export default function CatInfo({
         />
         <Topbar.Complete onClick={handleOnClick} />
       </Topbar>
-      <section className="mt-12 flex flex-col items-center self-stretch p-6">
+      <section className="mx-auto mt-12 flex max-w-[640px] flex-col items-center self-stretch p-6">
         <article className="flex w-full flex-col items-center justify-center gap-4 pb-8">
           {type === 'register' ? (
             <>

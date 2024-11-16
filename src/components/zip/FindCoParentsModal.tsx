@@ -96,7 +96,7 @@ const FindCoParentsModal = ({
           <Topbar.SearchInput onChange={handleNickname} />
         </Topbar>
       </section>
-      <ul className="p-4 pt-12">
+      <ul className="mx-auto w-full max-w-[640px] p-4 pt-12">
         {coParentList ? (
           <>
             {coParentList?.map((coParent: CoParent) => (

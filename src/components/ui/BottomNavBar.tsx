@@ -62,7 +62,7 @@ const BottomNavBar = () => {
   if (isLoading) return;
 
   return (
-    <div className="flex w-screen max-w-[600px] justify-center rounded-t-[20px] bg-gr-white px-2 pb-[34px] pt-2 shadow-bottomNav">
+    <div className="flex w-full justify-evenly rounded-t-[20px] bg-gr-white px-2 pb-[34px] pt-2 shadow-bottomNav">
       {BOTTOM_NAV.map(nav => {
         const imgSrc =
           nav.key === 'profile'

@@ -131,7 +131,7 @@ const OnboardProfileModal = ({
           <Topbar.Title title="프로필 설정" />
           <Topbar.Complete onClick={updateProfile} />
         </Topbar>
-        <section className="px-6 pt-12">
+        <section className="mx-auto max-w-[640px] px-6 pt-12">
           <OnboardProfileUploader
             data={profileImage}
             setProfileImage={setProfileImage}

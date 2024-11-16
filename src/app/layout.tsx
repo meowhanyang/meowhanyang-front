@@ -23,15 +23,13 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={`${inter.className} relative w-full bg-[#f9f9f9]`}>
-        <div className="m-auto h-screen max-w-[600px] bg-white">
-          <Providers>
-            <AuthSession>
-              <JotaiProvider>
-                <UserProvider>{children}</UserProvider>
-              </JotaiProvider>
-            </AuthSession>
-          </Providers>
-        </div>
+        <Providers>
+          <AuthSession>
+            <JotaiProvider>
+              <UserProvider>{children}</UserProvider>
+            </JotaiProvider>
+          </AuthSession>
+        </Providers>
         <Toaster />
       </body>
     </html>

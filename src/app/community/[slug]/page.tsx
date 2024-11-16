@@ -65,13 +65,13 @@ const DetailPage = ({ params: { slug } }: { params: { slug: number } }) => {
   };
 
   return (
-    <>
+    <div className="h-screen bg-gr-white">
       <Topbar type="three">
         <Topbar.Back onClick={() => router.back()} />
         <Topbar.Title title="피드" />
         <Topbar.Empty />
       </Topbar>
-      <div className="pb-[100px] pt-12">
+      <div className="mx-auto max-w-[640px] pb-28 pt-12">
         <FeedCard
           variant="detail"
           content={feedDetail}
@@ -155,7 +155,7 @@ const DetailPage = ({ params: { slug } }: { params: { slug: number } }) => {
           showWriteModal={selectedComment ? undefined : setShowWriteModal}
         />
       </div>
-    </>
+    </div>
   );
 };
 

@@ -24,32 +24,34 @@ const SignInPage = () => {
   const [Funnel, setStep] = useFunnel(steps, 'main');
 
   return (
-    <div className="p-[40px 16px 0px 16px] flex-[1 0 0] flex max-w-[640px] flex-col items-center self-stretch">
-      <div className="funnel-container mt-16 w-full">
-        <Funnel>
-          <Funnel.Step name="main">
-            <SignInMain setStep={() => setStep('email')} />
-          </Funnel.Step>
-          <Funnel.Step name="email">
-            <Email setStep={(nextStep: Step) => setStep(nextStep)} />
-          </Funnel.Step>
-          <Funnel.Step name="accountInfo">
-            <div className="fixed top-0 w-full">
-              <Topbar type="three">
-                <Topbar.Back onClick={() => history.go(-1)} />
-                <Topbar.Title title="계정 확인" />
-                <Topbar.Empty />
-              </Topbar>
-            </div>
-            <CheckAccount setStep={() => setStep('complete')} />
-          </Funnel.Step>
-          <Funnel.Step name="password">
-            <Password setStep={() => setStep('complete')} />
-          </Funnel.Step>
-          <Funnel.Step name="complete">
-            <Complete />
-          </Funnel.Step>
-        </Funnel>
+    <div className="h-screen w-screen bg-gr-white">
+      <div className="p-[40px 16px 0px 16px] flex-[1 0 0] mx-auto flex max-w-[640px] flex-col items-center self-stretch">
+        <div className="funnel-container mt-16 w-full">
+          <Funnel>
+            <Funnel.Step name="main">
+              <SignInMain setStep={() => setStep('email')} />
+            </Funnel.Step>
+            <Funnel.Step name="email">
+              <Email setStep={(nextStep: Step) => setStep(nextStep)} />
+            </Funnel.Step>
+            <Funnel.Step name="accountInfo">
+              <div className="fixed top-0 w-full">
+                <Topbar type="three">
+                  <Topbar.Back onClick={() => history.go(-1)} />
+                  <Topbar.Title title="계정 확인" />
+                  <Topbar.Empty />
+                </Topbar>
+              </div>
+              <CheckAccount setStep={() => setStep('complete')} />
+            </Funnel.Step>
+            <Funnel.Step name="password">
+              <Password setStep={() => setStep('complete')} />
+            </Funnel.Step>
+            <Funnel.Step name="complete">
+              <Complete />
+            </Funnel.Step>
+          </Funnel>
+        </div>
       </div>
     </div>
   );

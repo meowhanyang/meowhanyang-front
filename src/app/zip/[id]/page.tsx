@@ -45,7 +45,7 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
         <Topbar.Back onClick={() => router.push('/zip')} />
         <Topbar.More onClick={() => setEditBottomSheet(true)} />
       </Topbar>
-      <section className="flex h-screen flex-col gap-4 overflow-auto bg-gr-50 px-4 pb-32 pt-[72px]">
+      <section className="mx-auto flex h-screen max-w-[640px] flex-col gap-4 overflow-auto bg-gr-50 px-4 pb-32 pt-[72px]">
         <article className="rounded-16">
           <ZipDetailCatCard {...catDetail} />
         </article>

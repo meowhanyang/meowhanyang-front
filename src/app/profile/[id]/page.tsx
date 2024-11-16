@@ -11,6 +11,8 @@ import FeedCard from '@/components/community/FeedCard';
 import useFeedMutations from '@/hooks/community/useFeedMutations';
 import OtherMemberZipModal from '@/components/zip/OtherMemberZipModal';
 import { useState } from 'react';
+import ProfileSkeleton from '@/components/profile/ProfileSkeleton';
+import ProfileFeedSkeleton from '@/components/profile/ProfileFeedSkeleton';
 
 const ProfileIdPage = ({ params: { id } }: { params: { id: number } }) => {
   const router = useRouter();
@@ -23,12 +25,12 @@ const ProfileIdPage = ({ params: { id } }: { params: { id: number } }) => {
     memberId: id
   };
 
-  const { data: othersProfile } = useQuery({
+  const { data: othersProfile, isLoading: otherProfileIsLoading } = useQuery({
     queryKey: ['othersProfile', id],
     queryFn: () => getClickedUserProfile(id)
   });
 
-  const { data: otherUserFeedList } = useQuery({
+  const { data: otherUserFeedList, isLoading: otherFeedIsLoading } = useQuery({
     queryKey: ['otherUserFeeds', id],
     queryFn: () => getOtherUserFeeds(feedReqObj)
   });
@@ -45,55 +47,67 @@ const ProfileIdPage = ({ params: { id } }: { params: { id: number } }) => {
           <Topbar.Empty />
         </Topbar>
       </section>
-      <section className="border-b border-gr-100 py-4">
-        <div className="flex justify-center pb-4">
-          <Profile
-            items={[
-              {
-                id: id,
-                imageUrl: othersProfile?.profileImageUrl,
-                style: 'w-[72px] h-[72px]'
-              }
-            ]}
-            lastLeft="left-[100px]"
-          />
-        </div>
-        <ProfileDetail
-          catCount={othersProfile?.catCount}
-          postCount={othersProfile?.postCount}
-        />
+      <section className="border-b border-gr-100 bg-gr-white py-4">
+        {otherProfileIsLoading ? (
+          <ProfileSkeleton />
+        ) : (
+          <>
+            <div className="flex justify-center pb-4">
+              <Profile
+                items={[
+                  {
+                    id: id,
+                    imageUrl: othersProfile?.profileImageUrl,
+                    style: 'w-[72px] h-[72px]'
+                  }
+                ]}
+                lastLeft="left-[100px]"
+              />
+            </div>
+            <ProfileDetail
+              catCount={othersProfile?.catCount}
+              postCount={othersProfile?.postCount}
+            />
+          </>
+        )}
       </section>
       <div className="w-full border-gr-100" />
-      <section className="flex items-center justify-between px-4 py-3">
-        <div className="text-heading-4 text-gr-900">피드</div>
-        <Button
-          onClick={() => setShowZipModal(true)}
-          className="h-[28px] rounded-16 bg-gr-50 py-2 pl-3 pr-[6px]"
-        >
-          <Button.Text
-            text="모음집 구경하기"
-            className="text-btn-3 text-gr-500"
-          />
-          <Button.Icon
-            icon="/images/icons/right.svg"
-            height={16}
-            width={16}
-            alt="right"
-          />
-        </Button>
-      </section>
-      <section className="pb-32">
-        {otherUserFeedList?.map((feed: FeedType) => (
-          <FeedCard
-            key={feed.id}
-            content={feed}
-            goToDetail={() => router.push(`/community/${feed.id}`)}
-            likeFeed={() => likeFeed(feed)}
-            unLikeFeed={() => unLikeFeed(feed)}
-            bookmarkFeed={() => bookmarkFeed(feed)}
-            cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
-          />
-        ))}
+      <section className="mx-auto mt-0 max-w-[640px] bg-gr-white">
+        <article className="flex items-center justify-between px-4 py-3">
+          <div className="text-heading-4 text-gr-900">피드</div>
+          <Button
+            onClick={() => setShowZipModal(true)}
+            className="h-[28px] rounded-16 bg-gr-50 py-2 pl-3 pr-[6px]"
+          >
+            <Button.Text
+              text="모음집 구경하기"
+              className="text-btn-3 text-gr-500"
+            />
+            <Button.Icon
+              icon="/images/icons/right.svg"
+              height={16}
+              width={16}
+              alt="right"
+            />
+          </Button>
+        </article>
+        <article>
+          {otherFeedIsLoading ? (
+            <ProfileFeedSkeleton />
+          ) : (
+            otherUserFeedList?.map((feed: FeedType) => (
+              <FeedCard
+                key={feed.id}
+                content={feed}
+                goToDetail={() => router.push(`/community/${feed.id}`)}
+                likeFeed={() => likeFeed(feed)}
+                unLikeFeed={() => unLikeFeed(feed)}
+                bookmarkFeed={() => bookmarkFeed(feed)}
+                cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
+              />
+            ))
+          )}
+        </article>
       </section>
       {showZipModal && (
         <OtherMemberZipModal

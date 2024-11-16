@@ -78,7 +78,7 @@ export default function CatPhoto({
           }}
         />
       </Topbar>
-      <section className="pt-20">
+      <section className="mx-auto max-w-[640px] p-6 pt-20">
         <div className="flex items-center justify-center">
           <Image
             src={
@@ -93,11 +93,11 @@ export default function CatPhoto({
           />
         </div>
       </section>
-      <section className="px-6">
+      <section className="mx-auto max-w-[330px]">
         <div className="py-4 text-center text-body-4 text-gr-black">
           고양이 대표 사진을 하나 선택하세요!
         </div>
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-4 px-2 py-8">
           <ImageUploader
             width="w-16"
             height="h-16"

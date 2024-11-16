@@ -93,31 +93,39 @@ const SettingPage = () => {
             <Topbar.Title title="설정" />
             <Topbar.Empty />
           </Topbar>
-          <section className="flex items-center justify-between pb-4 pl-5 pr-4 pt-16">
-            <div>
-              <h1 className="text-btn-1 text-gr-800">푸시알림</h1>
-              <h1 className="text-body-3 text-gr-400">
-                알림을 꺼도 내 소식에서 확인할 수 있어요
-              </h1>
-            </div>
-            <Switch checked={switchOn} onCheckedChange={toggleSwitch} />
-          </section>
-          <section className="h-2 bg-gr-50" />
-          <section>
-            <SettingCard text="이용약관" onClick={openTermsOfUseModal} />
-            <SettingCard text="개인정보 처리방침" onClick={openPrivacyModal} />
-          </section>
-          <section className="h-2 bg-gr-50" />
-          <SettingCard text="로그아웃" onClick={() => setLogOutModal(true)} />
-          <SettingCard text="회원탈퇴" onClick={() => setWithdrawModal(true)} />
-          <section className="pt-20 text-center text-body-3 text-gr-400">
-            <p>문의사항이 있을 경우,</p>
-            <p>meowzzip@gmail.com으로 보내주세요</p>
-          </section>
+          <div className="mx-auto max-w-[640px]">
+            <section className="flex items-center justify-between pb-4 pl-5 pr-4 pt-16">
+              <div>
+                <h1 className="text-btn-1 text-gr-800">푸시알림</h1>
+                <h1 className="text-body-3 text-gr-400">
+                  알림을 꺼도 내 소식에서 확인할 수 있어요
+                </h1>
+              </div>
+              <Switch checked={switchOn} onCheckedChange={toggleSwitch} />
+            </section>
+            <section className="h-2 bg-gr-50" />
+            <section>
+              <SettingCard text="이용약관" onClick={openTermsOfUseModal} />
+              <SettingCard
+                text="개인정보 처리방침"
+                onClick={openPrivacyModal}
+              />
+            </section>
+            <section className="h-2 bg-gr-50" />
+            <SettingCard text="로그아웃" onClick={() => setLogOutModal(true)} />
+            <SettingCard
+              text="회원탈퇴"
+              onClick={() => setWithdrawModal(true)}
+            />
+            <section className="pt-20 text-center text-body-3 text-gr-400">
+              <p>문의사항이 있을 경우,</p>
+              <p>nyangzip@gmail.com으로 보내주세요</p>
+            </section>
+          </div>
           <Toaster />
 
           {termsModal !== '' && (
-            <div className="fixed left-0 top-0 z-[50] h-screen w-full overflow-y-auto bg-gr-white">
+            <div className="fixed left-0 top-0 z-[50] mx-auto h-screen w-full max-w-[640px] overflow-y-auto bg-gr-white">
               <Topbar type="three">
                 <Topbar.Back onClick={() => setTermsModal('')} />
                 <Topbar.Title

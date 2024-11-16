@@ -65,7 +65,7 @@ const FeedCard = ({
   };
 
   return (
-    <div className="border-b border-gr-100 px-4 pt-4">
+    <div className="border-b border-gr-100 bg-gr-white px-4 pt-4">
       {hasUserArea && (
         <UserArea
           writerId={content?.writerId}

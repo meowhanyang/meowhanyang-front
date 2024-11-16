@@ -8,6 +8,7 @@ import Topbar from '../ui/Topbar';
 import { TermsType } from '@/constants/general';
 import Terms from './Terms';
 import Image from 'next/image';
+import RightIcon from '../../../public/images/icons/right.svg';
 
 interface SignupAgreeBottomSheetProps {
   open: boolean;
@@ -46,7 +47,7 @@ const SignupAgreeBottomSheet = ({
   };
 
   return (
-    <>
+    <div className="mx-auto max-w-[640px]">
       <BottomSheet
         isVisible={open}
         setIsVisible={setIsVisible}
@@ -86,12 +87,10 @@ const SignupAgreeBottomSheet = ({
                   </h5>
                 </label>
               </div>
-              <Image
-                src="/images/icons/right.svg"
-                alt="right"
+              <RightIcon
                 width={24}
                 height={24}
-                className="h-6 w-6"
+                stroke="var(--gr-800)"
                 onClick={openTermsOfUseModal}
               />
             </li>
@@ -113,12 +112,10 @@ const SignupAgreeBottomSheet = ({
                   </h5>
                 </label>
               </div>
-              <Image
-                src="/images/icons/right.svg"
-                alt="right"
+              <RightIcon
                 width={24}
                 height={24}
-                className="h-6 w-6"
+                stroke="var(--gr-800)"
                 onClick={openPrivacyModal}
               />
             </li>
@@ -148,12 +145,12 @@ const SignupAgreeBottomSheet = ({
             />
             <Topbar.Empty />
           </Topbar>
-          <div className="flex flex-col gap-2 px-2 py-2 pt-12">
+          <div className="mx-auto flex max-w-[640px] flex-col gap-2 px-2 py-2 pt-12">
             <Terms type={termsModal} />
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

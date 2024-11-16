@@ -116,40 +116,42 @@ const FeedWriteModal = ({ onClose, feedDetail }: FeedWriteModalProps) => {
         <Topbar.Title title="글쓰기" />
         <Topbar.Complete onClick={saveFeed} />
       </Topbar>
-      <article className="p-4 pt-14">
-        <Textarea
-          propObj={{
-            placeholder: '사람들과 나누고 싶은 일들을 공유해보세요!',
-            content: textareaContent,
-            maxLength: 500
-          }}
-          onChange={e => setTextareaContent(e)}
-        />
-      </article>
-      <article>
-        <h5 className="p-4 text-heading-5 text-gr-900">
-          사진
-          <span className="text-pr-500">
-            {feedImageList?.filter(feed => feed.croppedImage).length || 0}
-          </span>
-          /3
-        </h5>
-        <div className="flex gap-3 px-4">
-          {feedImageList.map((feed, idx: number) => {
-            if (idx === 0 || feedImageList[idx - 1].croppedImage) {
-              return (
-                <ImageUploader
-                  key={feed.key}
-                  data={feed}
-                  deleteBtn
-                  onUpload={setFeedImageList}
-                  images={feedImageList}
-                />
-              );
-            }
-          })}
-        </div>
-      </article>
+      <div className="mx-auto max-w-[640px] pb-28 pt-12">
+        <article className="p-4 pt-14">
+          <Textarea
+            propObj={{
+              placeholder: '사람들과 나누고 싶은 일들을 공유해보세요!',
+              content: textareaContent,
+              maxLength: 500
+            }}
+            onChange={e => setTextareaContent(e)}
+          />
+        </article>
+        <article>
+          <h5 className="p-4 text-heading-5 text-gr-900">
+            사진
+            <span className="text-pr-500">
+              {feedImageList?.filter(feed => feed.croppedImage).length || 0}
+            </span>
+            /3
+          </h5>
+          <div className="flex gap-3 px-4">
+            {feedImageList.map((feed, idx: number) => {
+              if (idx === 0 || feedImageList[idx - 1].croppedImage) {
+                return (
+                  <ImageUploader
+                    key={feed.key}
+                    data={feed}
+                    deleteBtn
+                    onUpload={setFeedImageList}
+                    images={feedImageList}
+                  />
+                );
+              }
+            })}
+          </div>
+        </article>
+      </div>
     </div>
   );
 };
