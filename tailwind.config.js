@@ -10,15 +10,15 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: '2rem',
+      padding: '2rem'
+    },
+    extend: {
       screens: {
         '2xl': '1400px',
         'galaxy-fold': '321px', // @media (min-width: 321px)
         mobile: '768px', // @media (min-width: 768px)
         tablet: '1024px' // @media (min-width: 1024px)
-      }
-    },
-    extend: {
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

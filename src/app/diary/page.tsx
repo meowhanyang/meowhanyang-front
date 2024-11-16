@@ -30,6 +30,11 @@ const DiaryPage = () => {
   const [showWriteModal, setShowWriteModal] = useState(false);
   const [selectedModal, setSelectedModal] = useState({} as DiaryObj);
   const [showCatRegisterModal, setShowCatRegisterModal] = useState(false);
+  const [selectedCatId, setSelectedCatId] = useState<number | null>(null);
+
+  const handleCatSelect = (id: number) => {
+    setSelectedCatId(id === selectedCatId ? null : id);
+  };
 
   const openDetailModal = (item: DiaryObj) => {
     setSelectedModal(item);
@@ -90,6 +95,8 @@ const DiaryPage = () => {
                 imageUrl={cat.imageUrl}
                 isCoParented={cat.isCoparented}
                 name={cat.name}
+                isSelected={selectedCatId === cat.id}
+                onClick={() => handleCatSelect(cat.id)}
               />
             ))
           )}

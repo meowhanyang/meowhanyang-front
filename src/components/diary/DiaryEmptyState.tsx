@@ -1,6 +1,7 @@
 import React from 'react';
 import Image from 'next/image';
 import EmptyState from '@/components/common/EmptyState';
+import { DEFAULT_CAT_IMAGES } from '@/constants/cats';
 
 const DiaryEmptyState = () => {
   return (
@@ -9,8 +10,9 @@ const DiaryEmptyState = () => {
       body="길냥이와의 추억을 기록해 보세요."
       imageTag={
         <Image
-          src="https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/setting.svg"
           alt="empty state"
+          src={DEFAULT_CAT_IMAGES[1].imageSrc}
+          alt="edit"
           width={200}
           height={200}
           className="pb-4"

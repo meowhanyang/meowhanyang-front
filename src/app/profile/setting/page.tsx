@@ -119,7 +119,7 @@ const SettingPage = () => {
             />
             <section className="pt-20 text-center text-body-3 text-gr-400">
               <p>문의사항이 있을 경우,</p>
-              <p>nyangzip@gmail.com으로 보내주세요</p>
+              <p>meowzzip@gmail.com으로 보내주세요</p>
             </section>
           </div>
           <Toaster />

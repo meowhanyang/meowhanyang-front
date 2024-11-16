@@ -67,7 +67,7 @@ export default function CatPhoto({
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 top-0 z-50 h-full min-w-[320px] bg-gr-white">
+    <div className="fixed bottom-0 left-0 right-0 top-0 z-50 h-full bg-gr-white galaxy-fold:min-w-[320px]">
       <Topbar type="three">
         <Topbar.Back onClick={setPrev} />
         <Topbar.Title title="고양이 등록(2/3)" />
@@ -97,20 +97,22 @@ export default function CatPhoto({
         <div className="py-4 text-center text-body-4 text-gr-black">
           고양이 대표 사진을 하나 선택하세요!
         </div>
-        <div className="grid grid-cols-4 gap-4 px-2 py-8">
-          <ImageUploader
-            width="w-16"
-            height="h-16"
-            data={
-              DEFAULT_CAT_IMAGES.some(
-                img => img.imageSrc === selectedImage.imageSrc
-              )
-                ? { key: 0, imageSrc: '', croppedImage: null }
-                : selectedImage
-            }
-            deleteBtn
-            onUpload={handleImageUpload}
-          />
+        <div className="grid grid-cols-3 gap-4 galaxy-fold:grid-cols-4">
+          <div className="flex items-center justify-center">
+            <ImageUploader
+              width="w-16"
+              height="h-16"
+              data={
+                DEFAULT_CAT_IMAGES.some(
+                  img => img.imageSrc === selectedImage.imageSrc
+                )
+                  ? { key: 0, imageSrc: '', croppedImage: null }
+                  : selectedImage
+              }
+              deleteBtn
+              onUpload={handleImageUpload}
+            />
+          </div>
           {DEFAULT_CAT_IMAGES.map(data => (
             <Filter
               key={data.key}
