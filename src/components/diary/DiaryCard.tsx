@@ -16,6 +16,7 @@ const DiaryCard = ({
   content,
   images,
   taggedCats,
+  memberNickname,
   onClick
 }: DiaryCardProps) => {
   const [showMore, setShowMore] = useState(false);
@@ -106,7 +107,7 @@ const DiaryCard = ({
             />
           </div>
           <h5 className="text-body-4 text-gr-500">
-            아이디 • {formatTime(new Date())}
+            {memberNickname} • {formatTime(new Date())}
           </h5>
         </article>
       </section>
