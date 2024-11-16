@@ -12,7 +12,6 @@ const DiaryEmptyState = () => {
         <Image
           alt="empty state"
           src={DEFAULT_CAT_IMAGES[1].imageSrc}
-          alt="edit"
           width={200}
           height={200}
           className="pb-4"
