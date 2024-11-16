@@ -1,18 +1,24 @@
 import { Skeleton } from '@/components/ui/Skeleton';
 import React from 'react';
 
-const ProfileFeedSkeleton = () => {
+const CommunitySkeleton = () => {
   return (
     <div className="mx-auto flex max-w-[640px] flex-col bg-gr-white">
       {[1, 2, 3].map(item => (
-        <div key={item} className="flex flex-col gap-4 border-b p-4">
-          {/* 시간 영역 */}
-          <Skeleton className="h-4 w-[60px]" />
+        <div key={item} className="flex flex-col gap-3 border-b p-4">
+          {/* 프로필 영역 */}
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-[40px] w-[40px] rounded-full" />
+            <div className="flex flex-col gap-1">
+              <Skeleton className="h-[16px] w-[80px]" />
+              <Skeleton className="h-[14px] w-[60px]" />
+            </div>
+          </div>
 
           {/* 본문 텍스트 영역 */}
-          <div className="flex flex-col gap-[6px]">
+          <div className="flex flex-col gap-2">
             <Skeleton className="h-[16px] w-full" />
-            <Skeleton className="h-[16px] w-[80%]" />
+            <Skeleton className="h-[16px] w-[90%]" />
             <Skeleton className="h-[16px] w-[50%]" />
           </div>
 
@@ -33,4 +39,4 @@ const ProfileFeedSkeleton = () => {
   );
 };
 
-export default ProfileFeedSkeleton;
+export default CommunitySkeleton;

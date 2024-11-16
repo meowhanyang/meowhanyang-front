@@ -10,6 +10,7 @@ import { getFeedsOnServer } from '@/services/community';
 import { FeedType } from '@/types/communityType';
 import { useRouter } from 'next/navigation';
 import useFeedMutations from '@/hooks/community/useFeedMutations';
+import CommunitySkeleton from '@/components/community/CommunitySkeleton';
 
 const CommunityContents = () => {
   const queryClient = useQueryClient();
@@ -19,7 +20,7 @@ const CommunityContents = () => {
   const [showWriteModal, setShowWriteModal] = useState(false);
   const [feed, setFeed] = useState<FeedType>();
 
-  const { data: feedList } = useQuery({
+  const { data: feedList, isLoading } = useQuery({
     queryKey: ['feeds'],
     queryFn: () => getFeedsOnServer(),
     staleTime: 1000 * 60 * 10
@@ -42,22 +43,26 @@ const CommunityContents = () => {
 
   return (
     <div className="mx-auto max-w-[640px] bg-gr-white pb-24">
-      {feedList?.map((feed: FeedType) => (
-        <FeedCard
-          key={feed.id}
-          content={feed}
-          goToDetail={() => router.push(`/community/${feed.id}`)}
-          openBottomSheet={() => {
-            setFeed(feed);
-            setEditBottomSheet(true);
-          }}
-          likeFeed={() => likeFeed(feed)}
-          unLikeFeed={() => unLikeFeed(feed)}
-          bookmarkFeed={() => bookmarkFeed(feed)}
-          cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
-          hasUserArea
-        />
-      ))}
+      {isLoading ? (
+        <CommunitySkeleton />
+      ) : (
+        feedList?.map((feed: FeedType) => (
+          <FeedCard
+            key={feed.id}
+            content={feed}
+            goToDetail={() => router.push(`/community/${feed.id}`)}
+            openBottomSheet={() => {
+              setFeed(feed);
+              setEditBottomSheet(true);
+            }}
+            likeFeed={() => likeFeed(feed)}
+            unLikeFeed={() => unLikeFeed(feed)}
+            bookmarkFeed={() => bookmarkFeed(feed)}
+            cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
+            hasUserArea
+          />
+        ))
+      )}
       <FloatingActionButton onClick={() => setShowWriteModal(true)} />
       {showWriteModal && (
         <FeedWriteModal
