@@ -47,14 +47,13 @@ const ZipPage = () => {
             <ZipEmptyState />
           ) : (
             <div className="grid grid-cols-2 gap-4">
-              <ZipSkeleton />
-              {/* {cats.map(cat => (
+              {cats.map(cat => (
                 <ZipCard
                   key={cat.id}
                   {...cat}
                   onClick={() => openDetailModal(cat)}
                 />
-              ))} */}
+              ))}
             </div>
           )}
           <FloatingActionButton onClick={() => setShowWriteModal(true)} />
