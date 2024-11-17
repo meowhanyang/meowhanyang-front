@@ -4,13 +4,7 @@ import { base64ToFile } from '@/utils/common';
 import { getCookie } from '@/utils/common';
 import { objectToQueryString } from '@/utils/common';
 import { fetchExtendedAuth } from '@/services/nickname';
-import {
-  CatBaseType,
-  CatDetail,
-  CatObjType,
-  CatRegisterReqObj,
-  CoParent
-} from '@/app/zip/catType';
+import { CatObjType, CoParent } from '@/app/zip/catType';
 
 const memberToken = getCookie('Authorization');
 export const fetchExtended = returnFetch({
