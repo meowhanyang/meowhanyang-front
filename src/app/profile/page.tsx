@@ -50,7 +50,7 @@ export default function ProfilePage() {
     useFeedMutations(['myFeeds', 'myBookmarks']);
 
   return (
-    <div>
+    <>
       <div className="flex h-12 w-full items-center justify-between bg-gr-white px-4 align-middle text-heading-3 text-gr-900">
         <h1>프로필</h1>
         <div className="flex gap-3">
@@ -75,104 +75,102 @@ export default function ProfilePage() {
           </button>
         </div>
       </div>
-      <div className="mx-auto flex justify-center gap-2">
-        <Tabs defaultValue="myContents">
-          {isProfileLoading ? (
-            <ProfileSkeleton />
-          ) : (
-            <div className="flex w-screen flex-col items-center justify-center bg-gr-white">
-              <div className="relative mx-auto my-4 flex h-[72px] w-[72px] flex-col items-center justify-center gap-1">
-                <Image
-                  src={
-                    myProfile?.profileImageUrl ||
-                    'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg'
-                  }
-                  alt="profile icon"
-                  width={72}
-                  height={72}
-                  className="w-full rounded-[48px]"
-                />
-                <div className="absolute bottom-0 right-0 rounded-16">
-                  <div className="h-full w-full rounded-full border-[1.5px] border-gr-white bg-gr-700 p-[6px]">
-                    <PencilIcon
-                      width={12}
-                      height={12}
-                      stroke="var(--gr-white)"
-                      onClick={() => setShowProfileModal(true)}
-                    />
-                  </div>
+      <Tabs defaultValue="myContents">
+        {isProfileLoading ? (
+          <ProfileSkeleton />
+        ) : (
+          <div className="flex w-screen flex-col items-center justify-center bg-gr-white">
+            <div className="relative mx-auto my-4 flex h-[72px] w-[72px] flex-col items-center justify-center gap-1">
+              <Image
+                src={
+                  myProfile?.profileImageUrl ||
+                  'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg'
+                }
+                alt="profile icon"
+                width={72}
+                height={72}
+                className="w-full rounded-[48px]"
+              />
+              <div className="absolute bottom-0 right-0 rounded-16">
+                <div className="h-full w-full rounded-full border-[1.5px] border-gr-white bg-gr-700 p-[6px]">
+                  <PencilIcon
+                    width={12}
+                    height={12}
+                    stroke="var(--gr-white)"
+                    onClick={() => setShowProfileModal(true)}
+                  />
                 </div>
               </div>
-              <p>{myProfile?.nickname}</p>
-              <ProfileDetail
-                catCount={myProfile?.catCount}
-                postCount={myProfile?.postCount}
-                bookmarkCount={myProfile?.bookmarkCount}
-              />
             </div>
+            <p>{myProfile?.nickname}</p>
+            <ProfileDetail
+              catCount={myProfile?.catCount}
+              postCount={myProfile?.postCount}
+              bookmarkCount={myProfile?.bookmarkCount}
+            />
+          </div>
+        )}
+        <TabsList className="bg-gr-white">
+          <TabsTrigger value="myContents">작성한 글</TabsTrigger>
+          <TabsTrigger value="savedContents">저장한 글</TabsTrigger>
+        </TabsList>
+        <TabsContent
+          value="myContents"
+          className="mx-auto mt-0 max-w-[640px] pb-24"
+        >
+          {isFeedLoading ? (
+            <ProfileFeedSkeleton />
+          ) : myFeedList?.length === 0 ? (
+            <ProfileEmptyState
+              title="아직 작성한 글이 없어요"
+              body="사람들과 나누고 싶은 일들을 공유해보세요!"
+              btnText="글 쓰기"
+            />
+          ) : (
+            myFeedList?.map((feed: FeedType) => (
+              <FeedCard
+                key={feed.id}
+                content={feed}
+                goToDetail={() => router.push(`/community/${feed.id}`)}
+                likeFeed={() => likeFeed(feed)}
+                unLikeFeed={() => unLikeFeed(feed)}
+                bookmarkFeed={() => bookmarkFeed(feed)}
+                cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
+              />
+            ))
           )}
-          <TabsList className="bg-gr-white">
-            <TabsTrigger value="myContents">작성한 글</TabsTrigger>
-            <TabsTrigger value="savedContents">저장한 글</TabsTrigger>
-          </TabsList>
-          <TabsContent
-            value="myContents"
-            className="mx-auto mt-0 max-w-[640px] pb-24"
-          >
-            {isFeedLoading ? (
-              <ProfileFeedSkeleton />
-            ) : myFeedList?.length === 0 ? (
-              <ProfileEmptyState
-                title="아직 작성한 글이 없어요"
-                body="사람들과 나누고 싶은 일들을 공유해보세요!"
-                btnText="글 쓰기"
+        </TabsContent>
+        <TabsContent
+          value="savedContents"
+          className="mx-auto mt-0 max-w-[640px] pb-24"
+        >
+          {myBookmarksList?.length === 0 ? (
+            <ProfileEmptyState
+              title="아직 저장한 글이 없어요"
+              body="간직하고 싶은 글을 저장해보세요!"
+              btnText="저장하러 가기"
+            />
+          ) : (
+            myBookmarksList?.map((feed: FeedType) => (
+              <FeedCard
+                key={feed.id}
+                content={feed}
+                goToDetail={() => router.push(`/community/${feed.id}`)}
+                likeFeed={() => likeFeed(feed)}
+                unLikeFeed={() => unLikeFeed(feed)}
+                bookmarkFeed={() => bookmarkFeed(feed)}
+                cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
               />
-            ) : (
-              myFeedList?.map((feed: FeedType) => (
-                <FeedCard
-                  key={feed.id}
-                  content={feed}
-                  goToDetail={() => router.push(`/community/${feed.id}`)}
-                  likeFeed={() => likeFeed(feed)}
-                  unLikeFeed={() => unLikeFeed(feed)}
-                  bookmarkFeed={() => bookmarkFeed(feed)}
-                  cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
-                />
-              ))
-            )}
-          </TabsContent>
-          <TabsContent
-            value="savedContents"
-            className="mx-auto mt-0 max-w-[640px] pb-24"
-          >
-            {myBookmarksList?.length === 0 ? (
-              <ProfileEmptyState
-                title="아직 저장한 글이 없어요"
-                body="간직하고 싶은 글을 저장해보세요!"
-                btnText="저장하러 가기"
-              />
-            ) : (
-              myBookmarksList?.map((feed: FeedType) => (
-                <FeedCard
-                  key={feed.id}
-                  content={feed}
-                  goToDetail={() => router.push(`/community/${feed.id}`)}
-                  likeFeed={() => likeFeed(feed)}
-                  unLikeFeed={() => unLikeFeed(feed)}
-                  bookmarkFeed={() => bookmarkFeed(feed)}
-                  cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
-                />
-              ))
-            )}
-          </TabsContent>
-        </Tabs>
-      </div>
+            ))
+          )}
+        </TabsContent>
+      </Tabs>
       {showProfileModal && (
         <OnboardProfileModal
           onClose={() => setShowProfileModal(false)}
           myProfile={myProfile}
         />
       )}
-    </div>
+    </>
   );
 }
