@@ -4,8 +4,12 @@ import Topbar from '@/components/ui/Topbar';
 import Image from 'next/image';
 import Button from '@/components/ui/Button';
 import Label from '@/components/ui/Label';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { acceptCoParenting, rejectCoParenting } from '@/services/cat';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  acceptCoParenting,
+  getCoParentCat,
+  rejectCoParenting
+} from '@/services/cat';
 import CoParentAcceptBottomSheet from '@/components/profile/CoParentAcceptBottomSheet';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -20,11 +24,17 @@ const catData = {
   isNeutered: 'Y'
 };
 
-const CoParentAlarmPage = () => {
+const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
   const [openBottomSheet, setOpenBottomSheet] = useState(false);
+
+  const { data: coParentCat, isLoading: isCoParentCatLoading } = useQuery({
+    queryKey: ['coParentCat', id],
+    queryFn: () => getCoParentCat(id),
+    staleTime: 1000 * 60 * 10
+  });
 
   const acceptCoParentingMutation = useMutation({
     mutationFn: (coParentId: number) => acceptCoParenting(coParentId),
