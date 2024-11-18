@@ -13,6 +13,7 @@ import OtherMemberZipModal from '@/components/zip/OtherMemberZipModal';
 import { useState } from 'react';
 import ProfileSkeleton from '@/components/profile/ProfileSkeleton';
 import ProfileFeedSkeleton from '@/components/profile/ProfileFeedSkeleton';
+import RightIcon from '../../../../public/images/icons/right.svg';
 
 const ProfileIdPage = ({ params: { id } }: { params: { id: number } }) => {
   const router = useRouter();
@@ -83,12 +84,9 @@ const ProfileIdPage = ({ params: { id } }: { params: { id: number } }) => {
               text="모음집 구경하기"
               className="text-btn-3 text-gr-500"
             />
-            <Button.Icon
-              icon="/images/icons/right.svg"
-              height={16}
-              width={16}
-              alt="right"
-            />
+            <Button.Icon alt="right">
+              <RightIcon width={16} height={16} stroke="var(--gr-500)" />
+            </Button.Icon>
           </Button>
         </article>
         <article>
