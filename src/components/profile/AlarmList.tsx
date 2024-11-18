@@ -3,7 +3,7 @@ import CoParentButton from '@/components/profile/CoParentButton';
 import { useToast } from '@/components/ui/hooks/useToast';
 import { Toaster } from '@/components/ui/Toaster';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 interface AlarmListProps {
@@ -26,16 +26,30 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
 
   const [showMessage, setShowMessage] = useState(false);
 
-  const onClickCoParentBtn = (isExpired: boolean, isResponded: boolean) => {
+  const onClickCoParentBtn = (
+    isExpired: boolean,
+    isResponded: boolean,
+    link: string
+  ) => {
     if (isExpired) {
       return toast({ description: '요청 수락 기간이 지난 메시지입니다.' });
     }
     if (isResponded) {
       return toast({ description: '이미 응답한 메시지입니다.' });
     }
-    router.push('/profile/alarm/co-parent');
+    setShowMessage(true);
+    router.push(link);
   };
 
+  useEffect(() => {
+    if (showMessage) {
+      const timer = setTimeout(() => {
+        setShowMessage(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showMessage]);
   return (
     <>
       {alarmList.map(alarm => (
@@ -62,7 +76,11 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
             <div className="pt-2">
               <CoParentButton
                 onClick={() =>
-                  onClickCoParentBtn(!!alarm.isExpired, !!alarm.isResponded)
+                  onClickCoParentBtn(
+                    !!alarm.isExpired,
+                    !!alarm.isResponded,
+                    alarm.link
+                  )
                 }
               />
             </div>

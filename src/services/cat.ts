@@ -185,6 +185,26 @@ export const rejectCoParenting = async (coParentId: number) => {
   }
 };
 
+export const getCoParentCat = async (coParentId: number) => {
+  try {
+    const response = await fetchExtended(`/cats/co-parents/${coParentId}`);
+    if (response.body) {
+      const responseBody = await response.text();
+      const parsedBody = JSON.parse(responseBody);
+      return parsedBody.items;
+    } else {
+      throw new Error('응답 본문이 없습니다.');
+    }
+  } catch (error) {
+    console.error(error);
+    if (error instanceof Error) {
+      throw new Error('공동냥육 고양이 조회 중 오류 발생:' + error.message);
+    } else {
+      throw new Error('공동냥육 고양이 조회 중 오류 발생:');
+    }
+  }
+};
+
 export const cancelCoParenting = async (reqObj: {
   catId: number;
   memberId: number;
