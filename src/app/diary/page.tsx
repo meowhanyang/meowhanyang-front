@@ -18,8 +18,8 @@ import { getCatsOnServer } from '@/services/cat';
 import DiaryEmptyState from '@/components/diary/DiaryEmptyState';
 import DiarySkeleton from '@/components/diary/DiarySkeleton';
 import FilterSkeleton from '@/components/diary/FilterSkeleton';
-import Image from 'next/image';
 import CatRegisterModal from '@/components/zip/CatRegisterModal';
+import CatRegisterBtn from '@/components/diary/CatRegisterBtn';
 
 const DiaryPage = () => {
   const router = useRouter();
@@ -71,34 +71,22 @@ const DiaryPage = () => {
           {isCatsLoading ? (
             <FilterSkeleton />
           ) : cats?.length === 0 ? (
-            <div className="py-3 pl-4 pr-2">
-              <div className="flex flex-col items-center justify-center gap-2 bg-gr-white px-0 py-0">
-                <div
-                  className="flex h-14 w-14 items-center justify-center rounded-[20px] bg-gr-100"
-                  onClick={() => setShowCatRegisterModal(true)}
-                >
-                  <Image
-                    src="/images/icons/plus.svg"
-                    alt="plus"
-                    width={24}
-                    height={24}
-                  />
-                </div>
-                <div className="text-body-4">고양이 등록</div>
-              </div>
-            </div>
+            <CatRegisterBtn onClick={() => setShowCatRegisterModal(true)} />
           ) : (
-            cats?.map((cat: any) => (
-              <Filter
-                key={cat.id}
-                id={cat.id}
-                imageUrl={cat.imageUrl}
-                isCoParented={cat.isCoparented}
-                name={cat.name}
-                isSelected={selectedCatId === cat.id}
-                onClick={() => handleCatSelect(cat.id)}
-              />
-            ))
+            <>
+              {cats?.map((cat: any) => (
+                <Filter
+                  key={cat.id}
+                  id={cat.id}
+                  imageUrl={cat.imageUrl}
+                  isCoParented={cat.isCoparented}
+                  name={cat.name}
+                  isSelected={selectedCatId === cat.id}
+                  onClick={() => handleCatSelect(cat.id)}
+                />
+              ))}
+              <CatRegisterBtn onClick={() => setShowCatRegisterModal(true)} />
+            </>
           )}
         </section>
         <section className="mx-auto max-w-[640px] p-4">
