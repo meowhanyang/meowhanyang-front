@@ -22,7 +22,7 @@ export default function WriteComment({
   };
 
   return (
-    <div className="fixed bottom-0 flex w-full items-center gap-2 border-t-[1px] border-gray-300 bg-white px-4 py-2">
+    <div className="fixed bottom-0 z-[100] flex w-full items-center gap-2 border-t-[1px] border-gray-300 bg-white px-4 py-2">
       <Profile
         items={[
           {
