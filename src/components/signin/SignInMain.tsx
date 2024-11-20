@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { signIn } from 'next-auth/react';
 import Button from '@/components/ui/Button';
+import { DEFAULT_CAT_IMAGES } from '@/constants/cats';
 
 interface SignInMainProps {
   setStep: () => void;
@@ -17,7 +18,7 @@ const SignInMain = ({ setStep }: SignInMainProps) => {
           </p>
           <Image
             className="my-4"
-            src="https://i.pinimg.com/564x/dc/fe/e5/dcfee5f8b2eea184af2fbff4e15a2b7b.jpg"
+            src={DEFAULT_CAT_IMAGES[1].imageSrc}
             alt="cat-image"
             width={300}
             height={200}

@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/TabsWithLine';
 import FeedCard from '@/components/community/FeedCard';
 import { FeedType } from '@/types/communityType';
-import { getMyBookmarks, getMyFeeds, getMyProfile } from '@/services/profile';
+import { getMyBookmarks, getMyFeeds } from '@/services/profile';
 import { useState } from 'react';
 import OnboardProfileModal from '@/components/onboard/OnboardProfileModal';
 import PencilIcon from '../../../public/images/icons/pencil.svg';
@@ -19,6 +19,7 @@ import useFeedMutations from '@/hooks/community/useFeedMutations';
 import ProfileFeedSkeleton from '@/components/profile/ProfileFeedSkeleton';
 import ProfileSkeleton from '@/components/profile/ProfileSkeleton';
 import ProfileEmptyState from '@/components/profile/ProfileEmptyState';
+import useMyProfileQuery from '@/hooks/common/useMyProfileQuery';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -31,6 +32,7 @@ export default function ProfilePage() {
     // offset: 0
   };
 
+  const { data: myProfile, isLoading: isProfileLoading } = useMyProfileQuery();
   const { data: myFeedList, isLoading: isFeedLoading } = useQuery({
     queryKey: ['myFeeds'],
     queryFn: () => getMyFeeds(feedReqObj)
@@ -39,11 +41,6 @@ export default function ProfilePage() {
   const { data: myBookmarksList, isLoading: isBookmarksLoading } = useQuery({
     queryKey: ['myBookmarks'],
     queryFn: () => getMyBookmarks(feedReqObj)
-  });
-
-  const { data: myProfile, isLoading: isProfileLoading } = useQuery({
-    queryKey: ['myProfile'],
-    queryFn: () => getMyProfile()
   });
 
   const { likeFeed, unLikeFeed, bookmarkFeed, cancelBookmarkFeed } =

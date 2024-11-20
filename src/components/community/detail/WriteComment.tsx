@@ -2,6 +2,7 @@ import useCommentMutation from '@/hooks/community/useCommentMutation';
 import { Input } from '../../ui/Input';
 import Profile from '../../ui/Profile';
 import { useState } from 'react';
+import useMyProfileQuery from '@/hooks/common/useMyProfileQuery';
 
 export default function WriteComment({
   feedId,
@@ -14,6 +15,7 @@ export default function WriteComment({
 }) {
   const [comment, setComment] = useState('');
   const { registerComment } = useCommentMutation();
+  const { data: myProfile } = useMyProfileQuery();
 
   const handleSubmit = () => {
     registerComment({ feedId, comment, parentCommentId: parentCommentId ?? 0 });
@@ -27,7 +29,7 @@ export default function WriteComment({
         items={[
           {
             id: 1,
-            imageUrl: 'https://github.com/shadcn.png',
+            imageUrl: myProfile?.profileImageUrl,
             style: 'w-10 h-10'
           }
         ]}
@@ -36,12 +38,10 @@ export default function WriteComment({
       <Input
         variant="comment"
         suffix="등록"
+        value={comment}
         placeholder="댓글을 남겨주세요."
         onChange={e => setComment(e.target.value)}
-        suffixClickHandler={() => {
-          handleSubmit();
-          setComment('');
-        }}
+        suffixClickHandler={handleSubmit}
       />
     </div>
   );

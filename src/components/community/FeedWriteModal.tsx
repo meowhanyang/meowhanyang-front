@@ -5,7 +5,7 @@ import Textarea from '@/components/ui/Textarea';
 import Topbar from '@/components/ui/Topbar';
 import React, { useEffect, useState } from 'react';
 import { FeedType } from '@/types/communityType';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { editFeedOnServer, registerFeedOnServer } from '@/services/community';
 
@@ -16,6 +16,7 @@ interface FeedWriteModalProps {
 
 const FeedWriteModal = ({ onClose, feedDetail }: FeedWriteModalProps) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const [textareaContent, setTextareaContent] = useState('');
   const [feedImageList, setFeedImageList] = useState<ImageUploadData[]>([
@@ -77,6 +78,7 @@ const FeedWriteModal = ({ onClose, feedDetail }: FeedWriteModalProps) => {
       registerFeedOnServer(reqObj),
     onSuccess: (response: any) => {
       if (response.status === 'OK') {
+        queryClient.invalidateQueries({ queryKey: ['feeds'] });
         onClose();
         router.push('/community');
       } else {
