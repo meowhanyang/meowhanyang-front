@@ -12,7 +12,6 @@ interface ZipCardProps extends CatListObj {
 const ZipCard = ({
   imageUrl,
   name,
-  isCoParented,
   coParentedCount,
   dDay,
   sex,
@@ -28,10 +27,10 @@ const ZipCard = ({
             content="TNR"
           />
         )}
-        {isCoParented && (
+        {coParentedCount !== 0 && (
           <div className="flex items-center rounded-md bg-gr-transparent-black py-[2px] pl-[2px] pr-1 text-gr-white">
             <Label.Icon src="/images/icons/share.svg" />
-            <Label.Text content={coParentedCount.toString()} className="" />
+            <Label.Text content={coParentedCount.toString()} />
           </div>
         )}
       </div>
