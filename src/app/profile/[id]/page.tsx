@@ -58,7 +58,9 @@ const ProfileIdPage = ({ params: { id } }: { params: { id: number } }) => {
                 items={[
                   {
                     id: id,
-                    imageUrl: othersProfile?.profileImageUrl,
+                    imageUrl:
+                      othersProfile?.profileImageUrl ||
+                      'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg',
                     style: 'w-[72px] h-[72px]'
                   }
                 ]}

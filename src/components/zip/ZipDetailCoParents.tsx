@@ -6,7 +6,10 @@ const ZipDetailCoParents = ({ ...props }: CoParent) => {
   return (
     <div className="flex flex-col items-center gap-2 overflow-scroll p-2">
       <Image
-        src={props.imageUrl}
+        src={
+          props.imageUrl ||
+          'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg'
+        }
         alt={props.nickname}
         width={56}
         height={56}

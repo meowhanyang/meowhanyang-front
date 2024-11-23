@@ -70,7 +70,10 @@ const FeedCard = ({
         <UserArea
           writerId={content?.writerId}
           nickname={content?.writerNickname}
-          profile={content?.writerProfileImage}
+          profile={
+            content?.writerProfileImage ||
+            'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg'
+          }
           createdAt={content?.createdAt}
           onClick={() => {
             openBottomSheet && openBottomSheet();
