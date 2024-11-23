@@ -94,7 +94,6 @@ export default function CatInfo({
       id?: number;
       diaries?: DiaryObj[];
       coParents?: CoParent[];
-      isCoParented?: boolean;
       dDay?: number;
     } = {
       ...catData,
