@@ -79,10 +79,10 @@ const DiaryPage = () => {
                   key={cat.id}
                   id={cat.id}
                   imageUrl={cat.imageUrl}
-                  isCoParented={cat.isCoparented}
                   name={cat.name}
                   isSelected={selectedCatId === cat.id}
                   onClick={() => handleCatSelect(cat.id)}
+                  coParentedCount={cat.coParentedCount}
                 />
               ))}
               <CatRegisterBtn onClick={() => setShowCatRegisterModal(true)} />

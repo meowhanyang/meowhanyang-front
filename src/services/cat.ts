@@ -17,7 +17,6 @@ export const registerCat = async (
     id?: number;
     diaries?: DiaryObj[];
     coParents?: CoParent[];
-    isCoParented?: boolean;
     dDay?: number;
   }
 ) => {
@@ -58,20 +57,11 @@ export const editCat = async (
     id?: number;
     diaries?: DiaryObj[];
     coParents?: CoParent[];
-    isCoParented?: boolean;
     dDay?: number;
   }
 ) => {
-  const {
-    imageUrl,
-    coParents,
-    diaries,
-    isCoParented,
-    dDay,
-    id,
-    image,
-    ...catObj
-  } = catDataObj;
+  const { imageUrl, coParents, diaries, dDay, id, image, ...catObj } =
+    catDataObj;
 
   const formData = new FormData();
   const catBlob = new Blob([JSON.stringify(catObj)], {

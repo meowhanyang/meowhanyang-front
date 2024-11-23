@@ -4,21 +4,21 @@ import Badge from '@/components/ui/Badge';
 interface FilterProps {
   id: number;
   imageUrl: string;
-  isCoParented?: boolean;
   onClick?: () => void;
   name?: string;
   type?: 'cat';
   isSelected?: boolean;
+  coParentedCount?: number;
 }
 
 const Filter = ({
   id,
   imageUrl,
-  isCoParented,
   name,
   type,
   onClick,
-  isSelected
+  isSelected,
+  coParentedCount
 }: FilterProps) => {
   return (
     <section
@@ -39,7 +39,7 @@ const Filter = ({
             }
           ]}
         />
-        {isCoParented && (
+        {coParentedCount !== 0 && (
           <div className="absolute bottom-0 right-0 rounded-full border-15 border-gr-white">
             <Badge
               type="icon"

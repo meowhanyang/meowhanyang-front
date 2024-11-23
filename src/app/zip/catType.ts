@@ -4,7 +4,6 @@ export interface CatBaseType {
   id?: number;
   imageUrl: string;
   name: string;
-  isCoParented?: boolean;
   dDay?: number;
   sex: 'F' | 'M';
   isNeutered: 'Y' | 'N' | 'UNDEFINED';
