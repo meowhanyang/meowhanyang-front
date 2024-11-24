@@ -65,7 +65,7 @@ const DetailPage = ({ params: { slug } }: { params: { slug: number } }) => {
   };
 
   return (
-    <div className="h-screen bg-gr-white">
+    <div className="fixed top-0 z-50 h-screen w-full bg-gr-white">
       <Topbar type="three">
         <Topbar.Back onClick={() => router.back()} />
         <Topbar.Title title="피드" />
