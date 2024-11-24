@@ -13,16 +13,7 @@ import {
 import CoParentAcceptBottomSheet from '@/components/profile/CoParentAcceptBottomSheet';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
-const catData = {
-  coParentId: 0,
-  catName: '농농',
-  ownerNickname: '좌익수뒤로',
-  imageUrl:
-    'https://d2jzc2rxltjw7u.cloudfront.net/images/DIARY/3a424060-b8c7-4d28-946b-81705b73485f-image.jpg',
-  sex: 'F',
-  isNeutered: 'Y'
-};
+import CoParentAlarmSkeleton from '@/components/profile/CoParentAlarmSkeleton';
 
 const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
   const router = useRouter();
@@ -70,51 +61,73 @@ const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
         <Topbar.Empty />
       </Topbar>
       <section className="mx-auto w-full max-w-[640px] px-6">
-        <article className="justicy-center flex flex-col items-center pt-14 text-heading-4 text-gr-900">
-          <p>{catData.ownerNickname} 님이 </p>
-          <p>공동냥육 요청을 보냈어요!</p>
-        </article>
-        <article className="flex flex-col gap-3 py-10">
-          <Image
-            src={catData.imageUrl}
-            width={200}
-            height={200}
-            alt="cat"
-            className="rounded-xl"
-          />
-          <div className="w-[200px] rounded-16 bg-gr-50 px-5 py-4">
-            <div className="justify-left flex items-center gap-2">
-              <div className="w-[60px] text-heading-5 text-gr-900">이름</div>
-              <div className="text-body-3 text-gr-700">{catData.catName}</div>
-            </div>
-            <div className="justify-left flex items-center gap-2">
-              <div className="w-[60px] text-heading-5 text-gr-900">성별</div>
-              <div className="flex items-center gap-2 text-body-3 text-gr-700">
-                <p>{catData.sex === 'F' ? '여아' : '남아'}</p>
-                <Label.Icon
-                  src={`/images/icons/gender-${catData.sex}.svg`}
-                  className={`p-[2px] ${
-                    catData.sex === 'F' ? 'bg-[#FFF2F1]' : 'bg-[#ECF5FF]'
-                  }`}
-                />
+        {isCoParentCatLoading ? (
+          <CoParentAlarmSkeleton />
+        ) : (
+          <>
+            <article className="justicy-center flex flex-col items-center pt-14 text-heading-4 text-gr-900">
+              <Image
+                src="/images/icons/heart.svg"
+                alt="alarm type"
+                width={48}
+                height={48}
+              />
+              <p>{coParentCat?.ownerNickname} 님이 </p>
+              <p>공동냥육 요청을 보냈어요!</p>
+            </article>
+            <article className="flex flex-col gap-3 py-10">
+              <Image
+                src={coParentCat?.imageUrl}
+                width={200}
+                height={200}
+                alt="cat"
+                className="rounded-xl"
+              />
+              <div className="w-[200px] rounded-16 bg-gr-50 px-5 py-4">
+                <div className="justify-left flex items-center gap-2">
+                  <div className="w-[60px] text-heading-5 text-gr-900">
+                    이름
+                  </div>
+                  <div className="text-body-3 text-gr-700">
+                    {coParentCat?.catName}
+                  </div>
+                </div>
+                <div className="justify-left flex items-center gap-2">
+                  <div className="w-[60px] text-heading-5 text-gr-900">
+                    성별
+                  </div>
+                  <div className="flex items-center gap-2 text-body-3 text-gr-700">
+                    <p>{coParentCat?.sex === 'F' ? '여아' : '남아'}</p>
+                    <Label.Icon
+                      src={`/images/icons/gender-${coParentCat?.sex}.svg`}
+                      className={`p-[2px] ${
+                        coParentCat?.sex === 'F'
+                          ? 'bg-[#FFF2F1]'
+                          : 'bg-[#ECF5FF]'
+                      }`}
+                    />
+                  </div>
+                </div>
+                <div className="justify-left flex items-center gap-2">
+                  <div className="w-[60px] text-heading-5 text-gr-900">
+                    중성화
+                  </div>
+                  <div className="text-body-3 text-gr-700">
+                    {coParentCat?.isNeutered}
+                  </div>
+                </div>
               </div>
-            </div>
-            <div className="justify-left flex items-center gap-2">
-              <div className="w-[60px] text-heading-5 text-gr-900">중성화</div>
-              <div className="text-body-3 text-gr-700">
-                {catData.isNeutered}
+              <div className="w-fit rounded-16 bg-gr-50 px-5 py-4">
+                함께 {coParentCat?.catName} 냥이를 돌보실래요?
               </div>
-            </div>
-          </div>
-          <div className="w-fit rounded-16 bg-gr-50 px-5 py-4">
-            함께 {catData.catName} 냥이를 돌보실래요?
-          </div>
-        </article>
+            </article>
+          </>
+        )}
         <div className="fixed bottom-0 left-1/2 w-full max-w-[640px] -translate-x-1/2 -translate-y-1/2 transform bg-gr-white px-6 pb-9">
           <article className="flex items-center justify-center gap-2">
             <Button
               onClick={() => {
-                rejectCoParentingMutation.mutate(catData.coParentId);
+                rejectCoParentingMutation.mutate(coParentCat?.coParentId);
                 router.back();
               }}
               className="w-1/2 rounded-16 border border-pr-500 bg-gr-white px-4 py-2"
@@ -123,7 +136,7 @@ const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
             </Button>
             <Button
               onClick={() => {
-                acceptCoParentingMutation.mutate(catData.coParentId);
+                acceptCoParentingMutation.mutate(coParentCat?.coParentId);
                 setOpenBottomSheet(true);
               }}
               className="w-1/2 rounded-16 bg-pr-500 px-4 py-2"
