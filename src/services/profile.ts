@@ -228,9 +228,16 @@ export const getCoParentNotifications = async () => {
 
 export const readNotificationOnServer = async (notificationId: number) => {
   try {
+    const memberToken = getCookie('Authorization');
+
     const response = await fetchExtendedAuth(
       `/notifications/${notificationId}`,
-      { method: 'PATCH' }
+      {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${memberToken}`
+        }
+      }
     );
 
     return response.body;
