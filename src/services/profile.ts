@@ -225,3 +225,21 @@ export const getCoParentNotifications = async () => {
     }
   }
 };
+
+export const readNotificationOnServer = async (notificationId: number) => {
+  try {
+    const response = await fetchExtendedAuth(
+      `/notifications/${notificationId}`,
+      { method: 'PATCH' }
+    );
+
+    return response.body;
+  } catch (error) {
+    console.error(error);
+    if (error instanceof Error) {
+      throw new Error('알림 읽음 처리 중 오류 발생:' + error.message);
+    } else {
+      throw new Error('알림 읽음 처리 중 오류 발생:');
+    }
+  }
+};
