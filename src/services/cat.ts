@@ -178,13 +178,11 @@ export const rejectCoParenting = async (coParentId: number) => {
 export const getCoParentCat = async (coParentId: number) => {
   try {
     const response = await fetchExtended(`/cats/co-parents/${coParentId}`);
-    if (response.body) {
-      const responseBody = await response.text();
-      const parsedBody = JSON.parse(responseBody);
-      return parsedBody.items;
-    } else {
-      throw new Error('응답 본문이 없습니다.');
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
     }
+    const data = await response.json();
+    return data.data;
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {
