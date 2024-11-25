@@ -7,15 +7,9 @@ import { HTMLAttributes } from 'react';
 
 const Home = () => {
   return (
-    <div className="px-[10px] py-1">
-      <Image
-        src="/next.svg"
-        alt="calendar"
-        width={24}
-        height={24}
-        className="h-6 w-6"
-      />
-    </div>
+    <h1 className="flex h-12 items-center bg-gr-white px-4 text-heading-3 text-gr-900">
+      일지
+    </h1>
   );
 };
 
@@ -161,7 +155,8 @@ const Empty = () => {
 const TopbarTypeVariants = {
   one: 'flex justify-center items-center',
   two: 'flex justify-between items-center',
-  three: 'flex justify-between items-center'
+  three: 'flex justify-between items-center',
+  search: 'flex justify-between items-center border-b border-gr-100'
 };
 
 const Topbar = ({
@@ -170,7 +165,7 @@ const Topbar = ({
   className
 }: {
   children: React.ReactNode;
-  type: 'one' | 'two' | 'three';
+  type: 'one' | 'two' | 'three' | 'search';
   className?: string;
 }) => {
   return (
