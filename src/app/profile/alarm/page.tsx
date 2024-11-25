@@ -11,6 +11,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import { getCoParentNotifications, getNotifications } from '@/services/profile';
 import AlarmEmptyState from '@/components/profile/AlarmEmptyState';
+import AlarmListSkeleton from '@/components/profile/AlarmListSkeleton';
 
 const Alarm = () => {
   const router = useRouter();
@@ -49,7 +50,7 @@ const Alarm = () => {
         ) : (
           <TabsContent value="notice" className="mx-auto mt-0 max-w-[640px]">
             {notiIsLoading ? (
-              <p>로딩중...</p>
+              <AlarmListSkeleton />
             ) : (
               <AlarmList alarmList={notifications || []} />
             )}
@@ -65,7 +66,7 @@ const Alarm = () => {
             className="mx-auto mt-0 max-w-[640px]"
           >
             {coParentIsLoading ? (
-              <p>로딩중...</p>
+              <AlarmListSkeleton />
             ) : (
               <AlarmList alarmList={coParentsNoti || []} />
             )}
