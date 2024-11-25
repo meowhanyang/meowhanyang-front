@@ -64,6 +64,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         'border-input bg-background': variant !== 'outlined',
         'bg-gr-50 border-none focus:border-none max-h-[60px]':
           variant === 'comment',
+        'border-none focus:border-none': variant === 'search',
         'border-2 focus:border-sm-error-500': error,
         'pr-12': suffix
       },

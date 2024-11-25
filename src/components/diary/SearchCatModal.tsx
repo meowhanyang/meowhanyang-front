@@ -53,7 +53,7 @@ export default function SearchCatModal({
   return (
     <article className="w-screen bg-gr-white">
       <div className="fixed left-0 top-0 z-[50] h-screen w-full overflow-y-auto bg-gr-white">
-        <Topbar type="two" className="justify-start">
+        <Topbar type="search" className="justify-start">
           <Topbar.Back onClick={closeCurrentModal} />
           <Topbar.SearchInput onChange={handleOnChange} />
         </Topbar>
