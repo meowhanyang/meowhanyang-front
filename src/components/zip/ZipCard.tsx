@@ -40,7 +40,7 @@ const ZipCard = ({
         layout="responsive"
         width={100}
         height={100}
-        className="max-h-[360px] rounded-t-lg object-cover"
+        className="aspect-square max-h-[360px] rounded-t-lg object-cover"
       />
       <div className="rounded-b-lg bg-gr-white px-4 pb-4 pt-3">
         <div className="flex gap-1 pb-[6px]">
