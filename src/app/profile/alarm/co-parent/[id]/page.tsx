@@ -67,21 +67,22 @@ const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
           <>
             <article className="justicy-center flex flex-col items-center pt-14 text-heading-4 text-gr-900">
               <Image
-                src="/images/icons/heart.svg"
+                src={coParentCat?.ownerProfileImage}
                 alt="alarm type"
                 width={48}
                 height={48}
+                className="rounded-full"
               />
-              <p>{coParentCat?.ownerNickname} 님이 </p>
+              <p className="pt-3">{coParentCat?.ownerNickname} 님이 </p>
               <p>공동냥육 요청을 보냈어요!</p>
             </article>
             <article className="flex flex-col gap-3 py-10">
               <Image
-                src={coParentCat?.imageUrl}
+                src={coParentCat?.catImageUrl}
                 width={200}
                 height={200}
                 alt="cat"
-                className="rounded-xl"
+                className="aspect-square rounded-xl object-cover"
               />
               <div className="w-[200px] rounded-16 bg-gr-50 px-5 py-4">
                 <div className="justify-left flex items-center gap-2">

@@ -45,6 +45,7 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
   };
 
   const readAlarm = (link: string, id: number, type = 'UNDEFINED') => {
+    if (type === 'REQUEST') return;
     router.push(link);
     readNotification.mutate({ id, type });
   };
@@ -103,13 +104,14 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
           {alarm.type && alarm.type === 'REQUEST' && (
             <div className="pt-2">
               <CoParentButton
-                onClick={() =>
+                onClick={() => {
+                  readNotification.mutate({ id: alarm.id, type: 'REQUEST' });
                   onClickCoParentBtn(
                     !!alarm.isExpired,
                     !!alarm.isResponded,
                     alarm.link
-                  )
-                }
+                  );
+                }}
               />
             </div>
           )}
