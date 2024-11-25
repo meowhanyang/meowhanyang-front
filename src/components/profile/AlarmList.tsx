@@ -5,6 +5,8 @@ import { Toaster } from '@/components/ui/Toaster';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { readNotificationOnServer } from '@/services/profile';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 interface AlarmListProps {
   alarmList: {
@@ -23,6 +25,7 @@ interface AlarmListProps {
 const AlarmList = ({ alarmList }: AlarmListProps) => {
   const router = useRouter();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const [showMessage, setShowMessage] = useState(false);
 
@@ -41,6 +44,30 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
     router.push(link);
   };
 
+  const readAlarm = (link: string, id: number, type = 'UNDEFINED') => {
+    router.push(link);
+    readNotification.mutate({ id, type });
+  };
+
+  const readNotification = useMutation({
+    mutationFn: ({ id }: { id: number; type: string }) =>
+      readNotificationOnServer(id),
+    onSuccess: (data: any, variables: { id: number; type: string }) => {
+      if (data.status !== 'OK') {
+        console.log('error');
+      } else {
+        const { type } = variables;
+        if (type === 'UNDEFINED') {
+          queryClient.invalidateQueries({ queryKey: ['getNotifications'] });
+        } else {
+          queryClient.invalidateQueries({
+            queryKey: ['getCoparentsNotifications']
+          });
+        }
+      }
+    }
+  });
+
   useEffect(() => {
     if (showMessage) {
       const timer = setTimeout(() => {
@@ -56,6 +83,7 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
         <div
           key={alarm.id}
           className={`border-gr-200 p-4 ${alarm.isRead ? 'bg-gr-white' : 'bg-pr-50'}`}
+          onClick={() => readAlarm(alarm.link, alarm.id, alarm.type)}
         >
           <div className="flex items-center justify-start">
             <Image
