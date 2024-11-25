@@ -34,7 +34,7 @@ const CoParentAcceptBottomSheet = ({
         <div className="flex h-12 items-center justify-center text-heading-3 text-gr-900">
           오늘부터 공동집사!
         </div>
-        <div className="px-4 pb-6 pt-3 text-body-2 text-gr-800">
+        <div className="px-4 pb-6 pt-3 text-center text-body-2 text-gr-800">
           <p>모음집에 고양이가 추가되고</p>
           <p>태그하여 일지를 작성할 수 있어요.</p>
           <Button onClick={() => router.push('/zip')} className="w-full py-2">
