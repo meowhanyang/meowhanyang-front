@@ -49,24 +49,24 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
         <article className="rounded-16">
           <ZipDetailCatCard {...catDetail} />
         </article>
-        {catDetail.isMine && (
-          <DetailCardLayout
-            titleObj={{
-              title: '공동집사',
-              onClick: () => setCoParentsBottomSheet(true)
-            }}
-            btnObj={{
+        <DetailCardLayout
+          titleObj={{
+            title: '공동집사',
+            onClick: () => setCoParentsBottomSheet(true)
+          }}
+          btnObj={
+            catDetail.isMine && {
               text: '함께할 공동집사 찾기',
               onClick: () => setShowCoParentsModal(true)
-            }}
-          >
-            <div className="flex pt-2">
-              {catDetail.coParents?.map((coParent: CoParent) => (
-                <ZipDetailCoParents key={coParent.memberId} {...coParent} />
-              ))}
-            </div>
-          </DetailCardLayout>
-        )}
+            }
+          }
+        >
+          <div className="flex pt-2">
+            {catDetail.coParents?.map((coParent: CoParent) => (
+              <ZipDetailCoParents key={coParent.memberId} {...coParent} />
+            ))}
+          </div>
+        </DetailCardLayout>
         {catDetail.isMine && (
           <DetailCardLayout
             titleObj={{ title: '일지' }}
