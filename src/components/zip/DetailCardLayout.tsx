@@ -27,15 +27,20 @@ const DetailCardLayout = ({
         {titleObj.title}
       </h1>
       <div className="px-5">{children}</div>
-      <div className="mx-auto px-5 pb-6 pt-4">
-        <Button
-          onClick={() => btnObj.onClick()}
-          className="h-12 w-full rounded-lg bg-gr-50 px-4 py-2"
-        >
-          <Button.Text text={btnObj.text} className="text-btn-2 text-gr-600" />
-          <Button.Icon icon="/images/icons/right.svg" alt="right" />
-        </Button>
-      </div>
+      {btnObj && (
+        <div className="mx-auto px-5 pb-6 pt-4">
+          <Button
+            onClick={() => btnObj.onClick()}
+            className="h-12 w-full rounded-lg bg-gr-50 px-4 py-2"
+          >
+            <Button.Text
+              text={btnObj.text}
+              className="text-btn-2 text-gr-600"
+            />
+            <Button.Icon icon="/images/icons/right.svg" alt="right" />
+          </Button>
+        </div>
+      )}
     </section>
   );
 };
