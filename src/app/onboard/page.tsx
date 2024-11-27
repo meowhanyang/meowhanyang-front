@@ -7,6 +7,7 @@ import Image from 'next/image';
 import OnboardProfileModal from '@/components/onboard/OnboardProfileModal';
 import { useQuery } from '@tanstack/react-query';
 import { getMyProfile } from '@/services/profile';
+import { DEFAULT_PROFILE_IMAGE_SRC } from '@/constants/general';
 
 const OnBoardPage = () => {
   const router = useRouter();
@@ -23,10 +24,7 @@ const OnBoardPage = () => {
     <section className="mx-auto max-w-[640px] px-4 pt-[60px]">
       <article className="flex items-center justify-center">
         <Image
-          src={
-            myProfile?.profileImageUrl ||
-            'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg'
-          }
+          src={myProfile?.profileImageUrl || DEFAULT_PROFILE_IMAGE_SRC}
           alt="profile"
           width={120}
           height={120}

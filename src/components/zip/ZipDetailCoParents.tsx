@@ -1,15 +1,12 @@
 import { CoParent } from '@/app/zip/catType';
+import { DEFAULT_PROFILE_IMAGE_SRC } from '@/constants/general';
 import Image from 'next/image';
-import React from 'react';
 
 const ZipDetailCoParents = ({ ...props }: CoParent) => {
   return (
     <div className="flex flex-col items-center gap-2 overflow-scroll p-2">
       <Image
-        src={
-          props.imageUrl ||
-          'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg'
-        }
+        src={props.imageUrl || DEFAULT_PROFILE_IMAGE_SRC}
         alt={props.nickname}
         width={56}
         height={56}

@@ -14,6 +14,7 @@ import CoParentAcceptBottomSheet from '@/components/profile/CoParentAcceptBottom
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CoParentAlarmSkeleton from '@/components/profile/CoParentAlarmSkeleton';
+import { DEFAULT_PROFILE_IMAGE_SRC } from '@/constants/general';
 
 const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
   const router = useRouter();
@@ -67,7 +68,9 @@ const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
           <>
             <article className="justicy-center flex flex-col items-center pt-14 text-heading-4 text-gr-900">
               <Image
-                src={coParentCat?.ownerProfileImage}
+                src={
+                  coParentCat?.ownerProfileImage || DEFAULT_PROFILE_IMAGE_SRC
+                }
                 alt="alarm type"
                 width={48}
                 height={48}

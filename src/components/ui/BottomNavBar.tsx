@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Badge from '@/components/ui/Badge';
 import { useQuery } from '@tanstack/react-query';
 import { getMyProfile } from '@/services/profile';
+import { DEFAULT_PROFILE_IMAGE_SRC } from '@/constants/general';
 
 const BOTTOM_NAV = [
   {
@@ -37,10 +38,8 @@ const BOTTOM_NAV = [
     key: 'profile',
     value: '프로필',
     img: {
-      active:
-        'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg',
-      default:
-        'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg'
+      active: DEFAULT_PROFILE_IMAGE_SRC,
+      default: DEFAULT_PROFILE_IMAGE_SRC
     }
   }
 ];

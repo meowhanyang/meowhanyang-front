@@ -6,6 +6,7 @@ import Carousel from '@/components/ui/Carousel';
 import ButtonArea from '@/components/community/feed/ButtonArea';
 import { useRouter } from 'next/navigation';
 import { FeedType } from '@/types/communityType';
+import { DEFAULT_PROFILE_IMAGE_SRC } from '@/constants/general';
 
 interface FeedCardProps {
   variant?: 'detail';
@@ -70,10 +71,7 @@ const FeedCard = ({
         <UserArea
           writerId={content?.writerId}
           nickname={content?.writerNickname}
-          profile={
-            content?.writerProfileImage ||
-            'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg'
-          }
+          profile={content?.writerProfileImage || DEFAULT_PROFILE_IMAGE_SRC}
           createdAt={content?.createdAt}
           onClick={() => {
             openBottomSheet && openBottomSheet();

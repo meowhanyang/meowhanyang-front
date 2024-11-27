@@ -14,6 +14,7 @@ import { useState } from 'react';
 import ProfileSkeleton from '@/components/profile/ProfileSkeleton';
 import ProfileFeedSkeleton from '@/components/profile/ProfileFeedSkeleton';
 import RightIcon from '../../../../public/images/icons/right.svg';
+import { DEFAULT_PROFILE_IMAGE_SRC } from '@/constants/general';
 
 const ProfileIdPage = ({ params: { id } }: { params: { id: number } }) => {
   const router = useRouter();
@@ -60,7 +61,7 @@ const ProfileIdPage = ({ params: { id } }: { params: { id: number } }) => {
                     id: id,
                     imageUrl:
                       othersProfile?.profileImageUrl ||
-                      'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg',
+                      DEFAULT_PROFILE_IMAGE_SRC,
                     style: 'w-[72px] h-[72px]'
                   }
                 ]}
