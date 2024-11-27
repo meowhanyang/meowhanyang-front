@@ -48,3 +48,13 @@ export interface CatRegisterReqObj {
   isNeutered: string;
   imageUrl?: string;
 }
+
+export interface CoParentCatResObj {
+  ownerProfileImage: string;
+  ownerNickname: string;
+  catImageUrl: string;
+  catName: string;
+  sex: 'M' | 'F';
+  isNeutered: 'Y' | 'N' | 'UNDEFINED';
+  coParentId: number;
+}
