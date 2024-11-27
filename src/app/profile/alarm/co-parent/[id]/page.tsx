@@ -17,12 +17,15 @@ import CoParentAlarmSkeleton from '@/components/profile/CoParentAlarmSkeleton';
 import { DEFAULT_PROFILE_IMAGE_SRC } from '@/constants/general';
 import { DEFAULT_CAT_IMAGES, NEUTERING } from '@/constants/cats';
 import { CoParentCatResObj } from '@/app/zip/catType';
+import Modal from '@/components/ui/Modal';
 
 const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
   const [openBottomSheet, setOpenBottomSheet] = useState(false);
+  const [catId, setCatId] = useState(0);
+  const [errorModal, setErrorModal] = useState({ state: false, message: '' });
 
   const { data: coParentCat, isLoading: isCoParentCatLoading } =
     useQuery<CoParentCatResObj>({
@@ -35,8 +38,10 @@ const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
     mutationFn: (coParentId: number) => acceptCoParenting(coParentId),
     onSuccess: (data: any) => {
       if (data.status !== 'OK') {
-        console.log('error');
+        setErrorModal({ state: true, message: data.message });
       } else {
+        setOpenBottomSheet(true);
+        setCatId(data.data.catId);
         queryClient.invalidateQueries({
           queryKey: ['getCoparentsNotifications']
         });
@@ -48,8 +53,9 @@ const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
     mutationFn: (coParentId: number) => rejectCoParenting(coParentId),
     onSuccess: (data: any) => {
       if (data.status !== 'OK') {
-        console.log('error', data.message);
+        setErrorModal({ state: true, message: data.message });
       } else {
+        router.back();
         queryClient.invalidateQueries({
           queryKey: ['getCoparentsNotifications']
         });
@@ -136,18 +142,16 @@ const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
               onClick={() => {
                 coParentCat &&
                   rejectCoParentingMutation.mutate(coParentCat?.coParentId);
-                router.back();
               }}
               className="w-1/2 rounded-16 border border-pr-500 bg-gr-white px-4 py-2"
             >
               <Button.Text text="거절" className="text-btn-2 text-pr-500" />
             </Button>
             <Button
-              onClick={() => {
+              onClick={() =>
                 coParentCat &&
-                  acceptCoParentingMutation.mutate(coParentCat?.coParentId);
-                setOpenBottomSheet(true);
-              }}
+                acceptCoParentingMutation.mutate(coParentCat?.coParentId)
+              }
               className="w-1/2 rounded-16 bg-pr-500 px-4 py-2"
             >
               <Button.Text text="수락" className="text-btn-2 text-gr-white" />
@@ -160,7 +164,23 @@ const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
         setIsVisible={() => {
           setOpenBottomSheet(!openBottomSheet);
         }}
+        catId={catId}
       />
+
+      {errorModal.state && (
+        <Modal
+          contents={{ title: errorModal.message }}
+          scrim={true}
+          buttons={[
+            {
+              content: '확인',
+              btnStyle: 'w-full rounded-16 px-4 py-2 bg-sm-error-500',
+              textStyle: 'text-gr-white text-btn-1',
+              onClick: () => setErrorModal({ state: false, message: '' })
+            }
+          ]}
+        />
+      )}
     </div>
   );
 };
