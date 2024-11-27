@@ -6,7 +6,7 @@ const CoParentAlarmSkeleton = () => {
     <>
       <article className="justicy-center flex flex-col items-center gap-1 pt-14">
         <Skeleton className="h-14 w-14 rounded-full" />
-        <Skeleton className="h-6 w-[200px] rounded-16" />
+        <Skeleton className="mt-3 h-6 w-[200px] rounded-16" />
         <Skeleton className="h-6 w-[200px] rounded-16" />
       </article>
       <article className="flex flex-col gap-3 py-10">
