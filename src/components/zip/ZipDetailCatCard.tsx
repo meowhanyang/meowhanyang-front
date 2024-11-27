@@ -1,9 +1,8 @@
 import { CatBaseType } from '@/app/zip/catType';
 import Label from '@/components/ui/Label';
+import { NEUTERING } from '@/constants/cats';
 import Image from 'next/image';
 import React from 'react';
-
-const NEUTERING = { Y: '완료', N: '미완료', UNDEFINED: '모름' };
 
 const ZipDetailCatCard = ({ ...props }: CatBaseType) => {
   return (

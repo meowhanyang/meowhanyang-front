@@ -45,3 +45,5 @@ export const DEFAULT_CAT_IMAGES = [
 
 export const DEFAULT_IMAGE_SRC =
   'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/cats/cat-img-01.svg';
+
+export const NEUTERING = { Y: '완료', N: '미완료', UNDEFINED: '모름' };

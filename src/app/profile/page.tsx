@@ -20,6 +20,7 @@ import ProfileFeedSkeleton from '@/components/profile/ProfileFeedSkeleton';
 import ProfileSkeleton from '@/components/profile/ProfileSkeleton';
 import ProfileEmptyState from '@/components/profile/ProfileEmptyState';
 import useMyProfileQuery from '@/hooks/common/useMyProfileQuery';
+import { DEFAULT_PROFILE_IMAGE_SRC } from '@/constants/general';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -79,10 +80,7 @@ export default function ProfilePage() {
           <div className="flex w-screen flex-col items-center justify-center bg-gr-white">
             <div className="relative mx-auto my-4 flex h-[72px] w-[72px] flex-col items-center justify-center gap-1">
               <Image
-                src={
-                  myProfile?.profileImageUrl ||
-                  'https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/can.svg'
-                }
+                src={myProfile?.profileImageUrl || DEFAULT_PROFILE_IMAGE_SRC}
                 alt="profile icon"
                 width={72}
                 height={72}
