@@ -15,6 +15,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CoParentAlarmSkeleton from '@/components/profile/CoParentAlarmSkeleton';
 import { DEFAULT_PROFILE_IMAGE_SRC } from '@/constants/general';
+import { DEFAULT_CAT_IMAGES, NEUTERING } from '@/constants/cats';
+import { CoParentCatResObj } from '@/app/zip/catType';
 
 const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
   const router = useRouter();
@@ -22,11 +24,12 @@ const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
 
   const [openBottomSheet, setOpenBottomSheet] = useState(false);
 
-  const { data: coParentCat, isLoading: isCoParentCatLoading } = useQuery({
-    queryKey: ['coParentCat', id],
-    queryFn: () => getCoParentCat(id),
-    staleTime: 1000 * 60 * 10
-  });
+  const { data: coParentCat, isLoading: isCoParentCatLoading } =
+    useQuery<CoParentCatResObj>({
+      queryKey: ['coParentCat', id],
+      queryFn: () => getCoParentCat(id),
+      staleTime: 1000 * 60 * 10
+    });
 
   const acceptCoParentingMutation = useMutation({
     mutationFn: (coParentId: number) => acceptCoParenting(coParentId),
@@ -81,7 +84,7 @@ const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
             </article>
             <article className="flex flex-col gap-3 py-10">
               <Image
-                src={coParentCat?.catImageUrl}
+                src={coParentCat?.catImageUrl || DEFAULT_CAT_IMAGES[0].imageSrc}
                 width={200}
                 height={200}
                 alt="cat"
@@ -117,7 +120,7 @@ const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
                     중성화
                   </div>
                   <div className="text-body-3 text-gr-700">
-                    {coParentCat?.isNeutered}
+                    {coParentCat && NEUTERING[coParentCat?.isNeutered]}
                   </div>
                 </div>
               </div>
@@ -131,7 +134,8 @@ const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
           <article className="flex items-center justify-center gap-2">
             <Button
               onClick={() => {
-                rejectCoParentingMutation.mutate(coParentCat?.coParentId);
+                coParentCat &&
+                  rejectCoParentingMutation.mutate(coParentCat?.coParentId);
                 router.back();
               }}
               className="w-1/2 rounded-16 border border-pr-500 bg-gr-white px-4 py-2"
@@ -140,7 +144,8 @@ const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
             </Button>
             <Button
               onClick={() => {
-                acceptCoParentingMutation.mutate(coParentCat?.coParentId);
+                coParentCat &&
+                  acceptCoParentingMutation.mutate(coParentCat?.coParentId);
                 setOpenBottomSheet(true);
               }}
               className="w-1/2 rounded-16 bg-pr-500 px-4 py-2"
