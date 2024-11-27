@@ -7,11 +7,13 @@ import RightIcon from '../../../public/images/icons/right.svg';
 interface CoParentAcceptBottomSheetProps {
   isVisible: boolean;
   setIsVisible: (isVisible: boolean) => void;
+  catId: number;
 }
 
 const CoParentAcceptBottomSheet = ({
   isVisible,
-  setIsVisible
+  setIsVisible,
+  catId
 }: CoParentAcceptBottomSheetProps) => {
   const router = useRouter();
 
@@ -37,7 +39,10 @@ const CoParentAcceptBottomSheet = ({
         <div className="px-4 pb-6 pt-3 text-center text-body-2 text-gr-800">
           <p>모음집에 고양이가 추가되고</p>
           <p>태그하여 일지를 작성할 수 있어요.</p>
-          <Button onClick={() => router.push('/zip')} className="w-full py-2">
+          <Button
+            onClick={() => router.push(`/zip/${catId}`)}
+            className="w-full py-2"
+          >
             <Button.Text
               text="냥이 보러가기"
               className="text-btn-2 text-pr-500"
