@@ -88,7 +88,7 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
         >
           <div className="flex items-center justify-start">
             <Image
-              src="/images/icons/heart.svg"
+              src="https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/alarm_type_comment.svg"
               alt="alarm type"
               width={36}
               height={36}
@@ -112,6 +112,7 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
                     alarm.link
                   );
                 }}
+                isRead={alarm.isRead}
               />
             </div>
           )}
