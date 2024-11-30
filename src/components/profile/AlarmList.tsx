@@ -16,7 +16,7 @@ interface AlarmListProps {
     senderNickname: string;
     createdAt: string;
     isRead: boolean;
-    type?: 'REQUEST' | 'DIARY';
+    type: 'COMMENT' | 'LIKE' | 'DIARY' | 'COPARENT_REQUEST' | 'COPARENT';
     isExpired?: boolean;
     isResponded?: boolean;
   }[];
@@ -88,7 +88,7 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
         >
           <div className="flex items-center justify-start">
             <Image
-              src="https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/alarm_type_comment.svg"
+              src={`https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/alarm_type/${alarm.type}.svg`}
               alt="alarm type"
               width={36}
               height={36}
@@ -101,7 +101,7 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
               <p className="text-body-4 text-gr-400">{alarm.createdAt}</p>
             </div>
           </div>
-          {alarm.type && alarm.type === 'REQUEST' && (
+          {alarm.type === 'COPARENT_REQUEST' && (
             <div className="pt-2">
               <CoParentButton
                 onClick={() => {
