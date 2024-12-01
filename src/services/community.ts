@@ -1,9 +1,21 @@
 import { fetchExtended } from '@/services/cat';
 import { fetchExtendedForm, fetchExtendedAuth } from '@/services/nickname';
-import { base64ToFile } from '@/utils/common';
+import { base64ToFile, objectToQueryString } from '@/utils/common';
 
-export const getFeedsOnServer = async () => {
-  const response = await fetchExtendedAuth('/community');
+type FeedSearchOption = {
+  page: number;
+  size: number;
+  offset: number;
+};
+
+export const getFeedsOnServer = async ({
+  page,
+  size,
+  offset
+}: FeedSearchOption) => {
+  const response = await fetchExtendedAuth(
+    `/community?${objectToQueryString({ page, size, offset })}`
+  );
   if (!response.ok) return [];
 
   if (typeof response.body !== 'object') {
