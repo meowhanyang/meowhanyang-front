@@ -5,16 +5,11 @@ import { base64ToFile, objectToQueryString } from '@/utils/common';
 type FeedSearchOption = {
   page: number;
   size: number;
-  offset: number;
 };
 
-export const getFeedsOnServer = async ({
-  page,
-  size,
-  offset
-}: FeedSearchOption) => {
+export const getFeedsOnServer = async ({ page, size }: FeedSearchOption) => {
   const response = await fetchExtendedAuth(
-    `/community?${objectToQueryString({ page, size, offset })}`
+    `/community?${objectToQueryString({ page, size })}`
   );
   if (!response.ok) return [];
 
