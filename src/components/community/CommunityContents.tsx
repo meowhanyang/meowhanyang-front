@@ -28,14 +28,13 @@ const CommunityContents = () => {
     fetchNextPage
   } = useInfiniteQuery({
     queryKey: ['feeds'],
-    queryFn: ({ pageParam = 0 }) =>
+    queryFn: ({ pageParam = 1 }) =>
       getFeedsOnServer({
         page: pageParam,
-        size: 10,
-        offset: pageParam * 10
+        size: 10
       }),
-    getNextPageParam: (_, allPages) => allPages.length,
-    initialPageParam: 0
+    getNextPageParam: (_, allPages) => allPages.length + 1,
+    initialPageParam: 1
   });
   useEffect(() => {
     if (inView) {
