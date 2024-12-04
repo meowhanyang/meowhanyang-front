@@ -5,9 +5,8 @@ import Topbar from '@/components/ui/Topbar';
 import Carousel from '@/components/ui/Carousel';
 import Label from '@/components/ui/Label';
 import MoreBtnBottomSheet from '@/components/community/MoreBtnBottomSheet';
-import { useMutation } from '@tanstack/react-query';
-import { deleteDiaryOnServer } from '@/services/diary';
-import { useDiaryDetail } from '@/hooks/useDiaries';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { deleteDiaryOnServer, getDiaryDetail } from '@/services/diary';
 import { useRouter } from 'next/navigation';
 import DiaryWriteModal from '@/components/diary/DiaryWriteModal';
 import { CatType } from '@/types/cat';
@@ -21,9 +20,13 @@ const DiaryDetailPage = ({ params: { id } }: { params: { id: number } }) => {
 
   const {
     data: diaryDetail,
-    isError,
-    isLoading
-  } = useDiaryDetail(id, showWriteModal);
+    isLoading,
+    isError
+  } = useQuery({
+    queryKey: ['diaryDetail', id, showWriteModal],
+    queryFn: () => getDiaryDetail(id),
+    staleTime: 1000 * 60 * 10
+  });
 
   useEffect(() => {
     if (!diaryDetail) return;
