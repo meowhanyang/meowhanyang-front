@@ -7,12 +7,15 @@ import DiaryListLayout from '@/components/diary/DiaryListLayout';
 import DiaryWriteModal from '@/components/diary/DiaryWriteModal';
 import FloatingActionButton from '@/components/ui/FloatingActionButton';
 import { DiaryObj } from './diaryType';
-import { useDiaries } from '@/hooks/useDiaries';
 import { dateToString } from '@/utils/common';
 import { useRouter } from 'next/navigation';
 import { useAtom } from 'jotai';
 import { diaryDateAtom } from '@/atoms/diaryAtom';
-import { useQueryClient, useQuery } from '@tanstack/react-query';
+import {
+  useQueryClient,
+  useQuery,
+  useInfiniteQuery
+} from '@tanstack/react-query';
 import { catsAtom } from '@/atoms/catsAtom';
 import { getCatsOnServer } from '@/services/cat';
 import DiaryEmptyState from '@/components/diary/DiaryEmptyState';
@@ -20,10 +23,13 @@ import DiarySkeleton from '@/components/diary/DiarySkeleton';
 import FilterSkeleton from '@/components/diary/FilterSkeleton';
 import CatRegisterModal from '@/components/zip/CatRegisterModal';
 import CatRegisterBtn from '@/components/diary/CatRegisterBtn';
+import { useInView } from 'react-intersection-observer';
+import { getDiaries } from '@/services/diary';
 
 const DiaryPage = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { ref, inView } = useInView();
 
   const [cats, setCats] = useAtom(catsAtom);
   const [diaryDate] = useAtom(diaryDateAtom);
@@ -46,18 +52,32 @@ const DiaryPage = () => {
     queryFn: () => getCatsOnServer({ page: 0, size: 10 }),
     staleTime: 1000 * 60 * 10
   });
-
   useEffect(() => {
     if (catData) {
       setCats(catData);
     }
   }, [catData, setCats]);
 
-  const { data: diaryList, isLoading: isDiaryLoading } = useDiaries({
-    date: dateToString(diaryDate),
-    page: 0,
-    size: 10
+  const {
+    data: diaryList,
+    isLoading: isDiaryLoading,
+    fetchNextPage
+  } = useInfiniteQuery({
+    queryKey: ['feeds'],
+    queryFn: ({ pageParam = 1 }) =>
+      getDiaries({
+        date: dateToString(diaryDate),
+        page: pageParam,
+        size: 10
+      }),
+    getNextPageParam: (_, allPages) => allPages.length + 1,
+    initialPageParam: 1
   });
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
 
   useEffect(() => {
     if (showWriteModal) return;
@@ -94,17 +114,20 @@ const DiaryPage = () => {
             <div className="flex flex-col gap-4">
               <DiarySkeleton />
             </div>
-          ) : diaryList?.length === 0 ? (
+          ) : diaryList?.pages.length === 0 ? (
             <DiaryEmptyState />
           ) : (
-            diaryList?.map((diary: DiaryObj) => (
-              <DiaryCard
-                key={diary.id}
-                {...diary}
-                onClick={() => openDetailModal(diary)}
-              />
-            ))
+            diaryList?.pages.map(page =>
+              page?.map((diary: DiaryObj) => (
+                <DiaryCard
+                  key={diary.id}
+                  {...diary}
+                  onClick={() => openDetailModal(diary)}
+                />
+              ))
+            )
           )}
+          <div ref={ref} className="h-20 bg-transparent" />
         </section>
       </DiaryListLayout>
 

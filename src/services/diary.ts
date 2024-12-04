@@ -1,6 +1,40 @@
 import { DiaryRegisterReqObj } from '@/app/diary/diaryType';
 import { fetchExtendedForm, fetchExtendedAuth } from '@/services/nickname';
-import { base64ToFile } from '@/utils/common';
+import { base64ToFile, objectToQueryString } from '@/utils/common';
+
+type DiarySearchOption = {
+  page: number;
+  size: number;
+  date: string;
+};
+
+interface DiaryObj extends DiaryRegisterReqObj {
+  id: number;
+}
+
+export const getDiaries = async (reqObj: DiarySearchOption) => {
+  const response = await fetchExtendedAuth(
+    `/diaries?${objectToQueryString(reqObj)}`
+  );
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+  const data = (response.body as any).items || [];
+
+  const sortByLatest = data.sort((a: DiaryObj, b: DiaryObj) => b.id - a.id);
+  return sortByLatest || [];
+};
+
+export const getDiaryDetail = async (id: number) => {
+  const response = await fetchExtendedAuth(`/diaries/${id}`);
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+  const data = (response.body as any).data;
+  return data;
+};
 
 export const registerDiaryOnServer = async (reqObj: DiaryRegisterReqObj) => {
   const { images, ...diary } = reqObj;
