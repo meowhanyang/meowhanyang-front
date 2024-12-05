@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import ProfileDetail from '@/components/profile/ProfileDetail';
 import {
   Tabs,
@@ -12,7 +12,7 @@ import {
 import FeedCard from '@/components/community/FeedCard';
 import { FeedType } from '@/types/communityType';
 import { getMyBookmarks, getMyFeeds } from '@/services/profile';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import OnboardProfileModal from '@/components/onboard/OnboardProfileModal';
 import PencilIcon from '../../../public/images/icons/pencil.svg';
 import useFeedMutations from '@/hooks/community/useFeedMutations';
@@ -21,28 +21,58 @@ import ProfileSkeleton from '@/components/profile/ProfileSkeleton';
 import ProfileEmptyState from '@/components/profile/ProfileEmptyState';
 import useMyProfileQuery from '@/hooks/common/useMyProfileQuery';
 import { DEFAULT_PROFILE_IMAGE_SRC } from '@/constants/general';
+import { useInView } from 'react-intersection-observer';
 
 export default function ProfilePage() {
   const router = useRouter();
+  const { ref: postsRef, inView: postsInView } = useInView();
+  const { ref: bookmarksRef, inView: bookmarksInView } = useInView();
 
   const [showProfileModal, setShowProfileModal] = useState(false);
 
-  const feedReqObj = {
-    page: 0,
-    size: 9
-    // offset: 0
-  };
-
   const { data: myProfile, isLoading: isProfileLoading } = useMyProfileQuery();
-  const { data: myFeedList, isLoading: isFeedLoading } = useQuery({
-    queryKey: ['myFeeds'],
-    queryFn: () => getMyFeeds(feedReqObj)
-  });
 
-  const { data: myBookmarksList, isLoading: isBookmarksLoading } = useQuery({
-    queryKey: ['myBookmarks'],
-    queryFn: () => getMyBookmarks(feedReqObj)
+  const {
+    data: myFeedList,
+    isLoading: isFeedLoading,
+    fetchNextPage: fetchNextPagePosts
+  } = useInfiniteQuery({
+    queryKey: ['myFeeds'],
+    queryFn: ({ pageParam = 1 }) =>
+      getMyFeeds({
+        page: pageParam,
+        size: 10
+      }),
+    getNextPageParam: (_, allPages) => allPages.length + 1,
+    initialPageParam: 1,
+    staleTime: 1000 * 60 * 5
   });
+  useEffect(() => {
+    if (postsInView) {
+      fetchNextPagePosts();
+    }
+  }, [postsInView, fetchNextPagePosts]);
+
+  const {
+    data: myBookmarksList,
+    isLoading: isBookmarksLoading,
+    fetchNextPage: fetchNextPageBookmarks
+  } = useInfiniteQuery({
+    queryKey: ['myBookmarks'],
+    queryFn: ({ pageParam = 1 }) =>
+      getMyBookmarks({
+        page: pageParam,
+        size: 10
+      }),
+    getNextPageParam: (_, allPages) => allPages.length + 1,
+    initialPageParam: 1,
+    staleTime: 1000 * 60 * 5
+  });
+  useEffect(() => {
+    if (bookmarksInView) {
+      fetchNextPageBookmarks();
+    }
+  }, [bookmarksInView, fetchNextPageBookmarks]);
 
   const { likeFeed, unLikeFeed, bookmarkFeed, cancelBookmarkFeed } =
     useFeedMutations(['myFeeds', 'myBookmarks']);
@@ -115,49 +145,57 @@ export default function ProfilePage() {
         >
           {isFeedLoading ? (
             <ProfileFeedSkeleton />
-          ) : myFeedList?.length === 0 ? (
+          ) : myFeedList?.pages.length === 0 ? (
             <ProfileEmptyState
               title="아직 작성한 글이 없어요"
               body="사람들과 나누고 싶은 일들을 공유해보세요!"
               btnText="글 쓰기"
             />
           ) : (
-            myFeedList?.map((feed: FeedType) => (
-              <FeedCard
-                key={feed.id}
-                content={feed}
-                goToDetail={() => router.push(`/community/${feed.id}`)}
-                likeFeed={() => likeFeed(feed)}
-                unLikeFeed={() => unLikeFeed(feed)}
-                bookmarkFeed={() => bookmarkFeed(feed)}
-                cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
-              />
-            ))
+            myFeedList?.pages.map(page =>
+              page?.map((feed: FeedType) => (
+                <FeedCard
+                  key={feed.id}
+                  content={feed}
+                  goToDetail={() => router.push(`/community/${feed.id}`)}
+                  likeFeed={() => likeFeed(feed)}
+                  unLikeFeed={() => unLikeFeed(feed)}
+                  bookmarkFeed={() => bookmarkFeed(feed)}
+                  cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
+                />
+              ))
+            )
           )}
+          {/* 무한 스크롤 감지 영역 */}
+          <div ref={postsRef} className="h-20 bg-transparent" />
         </TabsContent>
         <TabsContent
           value="savedContents"
           className="mx-auto mt-0 max-w-[640px] pb-24"
         >
-          {myBookmarksList?.length === 0 ? (
+          {myBookmarksList?.pages.length === 0 ? (
             <ProfileEmptyState
               title="아직 저장한 글이 없어요"
               body="간직하고 싶은 글을 저장해보세요!"
               btnText="저장하러 가기"
             />
           ) : (
-            myBookmarksList?.map((feed: FeedType) => (
-              <FeedCard
-                key={feed.id}
-                content={feed}
-                goToDetail={() => router.push(`/community/${feed.id}`)}
-                likeFeed={() => likeFeed(feed)}
-                unLikeFeed={() => unLikeFeed(feed)}
-                bookmarkFeed={() => bookmarkFeed(feed)}
-                cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
-              />
-            ))
+            myBookmarksList?.pages.map(page =>
+              page?.map((feed: FeedType) => (
+                <FeedCard
+                  key={feed.id}
+                  content={feed}
+                  goToDetail={() => router.push(`/community/${feed.id}`)}
+                  likeFeed={() => likeFeed(feed)}
+                  unLikeFeed={() => unLikeFeed(feed)}
+                  bookmarkFeed={() => bookmarkFeed(feed)}
+                  cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
+                />
+              ))
+            )
           )}
+          {/* 무한 스크롤 감지 영역 */}
+          <div ref={bookmarksRef} className="h-20 bg-transparent" />
         </TabsContent>
       </Tabs>
       {showProfileModal && (

@@ -1,31 +1,44 @@
 'use client';
 
 import { CatListObj } from '@/app/zip/catType';
-import { catsAtom } from '@/atoms/catsAtom';
 import ZipCard from '@/components/zip/ZipCard';
-import { useCats } from '@/hooks/useCats';
-import { useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import FloatingActionButton from '@/components/ui/FloatingActionButton';
 import CatRegisterModal from '@/components/zip/CatRegisterModal';
 import ZipSkeleton from '@/components/zip/ZipSkeleton';
 import ZipEmptyState from '@/components/zip/ZipEmptyState';
+import { useInView } from 'react-intersection-observer';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { getCatsOnServer } from '@/services/cat';
 
 const ZipPage = () => {
   const router = useRouter();
+  const { ref, inView } = useInView();
 
-  const [cats, setCats] = useAtom(catsAtom);
   const [selectedModal, setSelectedModal] = useState({} as CatListObj);
   const [showWriteModal, setShowWriteModal] = useState(false);
 
-  const { data: catList, isLoading } = useCats({ page: 0, size: 10 });
-
+  const {
+    data: catList,
+    isLoading,
+    fetchNextPage
+  } = useInfiniteQuery({
+    queryKey: ['getCats'],
+    queryFn: ({ pageParam = 1 }) =>
+      getCatsOnServer({
+        page: pageParam,
+        size: 10
+      }),
+    getNextPageParam: (_, allPages) => allPages.length + 1,
+    initialPageParam: 1,
+    staleTime: 1000 * 60 * 5
+  });
   useEffect(() => {
-    if (catList) {
-      setCats(catList);
+    if (inView) {
+      fetchNextPage();
     }
-  }, [catList]);
+  }, [inView, fetchNextPage]);
 
   const openDetailModal = (item: CatListObj) => {
     setSelectedModal(item);
@@ -43,19 +56,24 @@ const ZipPage = () => {
             <div className="grid grid-cols-2 gap-4">
               <ZipSkeleton />
             </div>
-          ) : cats?.length === 0 ? (
+          ) : catList?.pages.length === 0 ? (
             <ZipEmptyState />
           ) : (
             <div className="grid grid-cols-2 gap-4">
-              {cats.map(cat => (
-                <ZipCard
-                  key={cat.id}
-                  {...cat}
-                  onClick={() => openDetailModal(cat)}
-                />
-              ))}
+              {catList?.pages.map(page =>
+                page.map((cat: CatListObj) => (
+                  <ZipCard
+                    key={cat.id}
+                    {...cat}
+                    onClick={() => openDetailModal(cat)}
+                  />
+                ))
+              )}
             </div>
           )}
+          {/* 무한 스크롤 감지 영역 */}
+          <div ref={ref} className="h-20 bg-transparent" />
+
           <FloatingActionButton onClick={() => setShowWriteModal(true)} />
           {showWriteModal && (
             <CatRegisterModal

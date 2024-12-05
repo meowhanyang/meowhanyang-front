@@ -34,7 +34,8 @@ const CommunityContents = () => {
         size: 10
       }),
     getNextPageParam: (_, allPages) => allPages.length + 1,
-    initialPageParam: 1
+    initialPageParam: 1,
+    staleTime: 1000 * 60 * 5
   });
   useEffect(() => {
     if (inView) {
@@ -81,6 +82,7 @@ const CommunityContents = () => {
           ))
         )
       )}
+      {/* 무한 스크롤 감지 영역 */}
       <div ref={ref} className="h-20 bg-transparent" />
       <FloatingActionButton onClick={() => setShowWriteModal(true)} />
       {showWriteModal && (
