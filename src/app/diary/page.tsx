@@ -11,12 +11,7 @@ import { dateToString } from '@/utils/common';
 import { useRouter } from 'next/navigation';
 import { useAtom } from 'jotai';
 import { diaryDateAtom } from '@/atoms/diaryAtom';
-import {
-  useQueryClient,
-  useQuery,
-  useInfiniteQuery
-} from '@tanstack/react-query';
-import { catsAtom } from '@/atoms/catsAtom';
+import { useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
 import { getCatsOnServer } from '@/services/cat';
 import DiaryEmptyState from '@/components/diary/DiaryEmptyState';
 import DiarySkeleton from '@/components/diary/DiarySkeleton';
@@ -29,9 +24,9 @@ import { getDiaries } from '@/services/diary';
 const DiaryPage = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
-  const { ref, inView } = useInView();
+  const { ref: catsRef, inView: catsInView } = useInView();
+  const { ref: diaryRef, inView: diaryInView } = useInView();
 
-  const [cats, setCats] = useAtom(catsAtom);
   const [diaryDate] = useAtom(diaryDateAtom);
   const [showWriteModal, setShowWriteModal] = useState(false);
   const [selectedModal, setSelectedModal] = useState({} as DiaryObj);
@@ -47,23 +42,33 @@ const DiaryPage = () => {
     router.push(`/diary/${item.id}`);
   };
 
-  const { data: catData, isLoading: isCatsLoading } = useQuery({
+  const {
+    data: catData,
+    isLoading: isCatsLoading,
+    fetchNextPage: fetchNextPageCats
+  } = useInfiniteQuery({
     queryKey: ['getCats'],
-    queryFn: () => getCatsOnServer({ page: 0, size: 10 }),
-    staleTime: 1000 * 60 * 10
+    queryFn: ({ pageParam = 1 }) =>
+      getCatsOnServer({
+        page: pageParam,
+        size: 10
+      }),
+    getNextPageParam: (_, allPages) => allPages?.length + 1,
+    initialPageParam: 1,
+    staleTime: 1000 * 60 * 5
   });
   useEffect(() => {
-    if (catData) {
-      setCats(catData);
+    if (catsInView) {
+      fetchNextPageCats();
     }
-  }, [catData, setCats]);
+  }, [catsInView, fetchNextPageCats]);
 
   const {
     data: diaryList,
     isLoading: isDiaryLoading,
-    fetchNextPage
+    fetchNextPage: fetchNextPageDiary
   } = useInfiniteQuery({
-    queryKey: ['feeds'],
+    queryKey: ['diaries'],
     queryFn: ({ pageParam = 1 }) =>
       getDiaries({
         date: dateToString(diaryDate),
@@ -75,10 +80,10 @@ const DiaryPage = () => {
     staleTime: 1000 * 60 * 5
   });
   useEffect(() => {
-    if (inView) {
-      fetchNextPage();
+    if (diaryInView) {
+      fetchNextPageDiary();
     }
-  }, [inView, fetchNextPage]);
+  }, [diaryInView, fetchNextPageDiary]);
 
   useEffect(() => {
     if (showWriteModal) return;
@@ -91,21 +96,23 @@ const DiaryPage = () => {
         <section className="flex h-28 justify-start overflow-scroll bg-gr-white px-2">
           {isCatsLoading ? (
             <FilterSkeleton />
-          ) : cats?.length === 0 ? (
+          ) : catData?.pages[0]?.length === 0 ? (
             <CatRegisterBtn onClick={() => setShowCatRegisterModal(true)} />
           ) : (
             <>
-              {cats?.map((cat: any) => (
-                <Filter
-                  key={cat.id}
-                  id={cat.id}
-                  imageUrl={cat.imageUrl}
-                  name={cat.name}
-                  isSelected={selectedCatId === cat.id}
-                  onClick={() => handleCatSelect(cat.id)}
-                  coParentedCount={cat.coParentedCount}
-                />
-              ))}
+              {catData?.pages.map(page =>
+                page?.map((cat: any) => (
+                  <Filter
+                    key={cat.id}
+                    id={cat.id}
+                    imageUrl={cat.imageUrl}
+                    name={cat.name}
+                    isSelected={selectedCatId === cat.id}
+                    onClick={() => handleCatSelect(cat.id)}
+                    coParentedCount={cat.coParentedCount}
+                  />
+                ))
+              )}
               <CatRegisterBtn onClick={() => setShowCatRegisterModal(true)} />
             </>
           )}
@@ -115,7 +122,7 @@ const DiaryPage = () => {
             <div className="flex flex-col gap-4">
               <DiarySkeleton />
             </div>
-          ) : diaryList?.pages.length === 0 ? (
+          ) : diaryList?.pages[0]?.length === 0 ? (
             <DiaryEmptyState />
           ) : (
             diaryList?.pages.map(page =>
@@ -129,7 +136,7 @@ const DiaryPage = () => {
             )
           )}
           {/* 무한 스크롤 감지 영역 */}
-          <div ref={ref} className="h-20 bg-transparent" />
+          <div ref={diaryRef} className="h-20 bg-transparent" />
         </section>
       </DiaryListLayout>
 

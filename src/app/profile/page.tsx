@@ -145,7 +145,7 @@ export default function ProfilePage() {
         >
           {isFeedLoading ? (
             <ProfileFeedSkeleton />
-          ) : myFeedList?.pages.length === 0 ? (
+          ) : myFeedList?.pages[0]?.length === 0 ? (
             <ProfileEmptyState
               title="아직 작성한 글이 없어요"
               body="사람들과 나누고 싶은 일들을 공유해보세요!"
@@ -173,7 +173,7 @@ export default function ProfilePage() {
           value="savedContents"
           className="mx-auto mt-0 max-w-[640px] pb-24"
         >
-          {myBookmarksList?.pages.length === 0 ? (
+          {myBookmarksList?.pages?.length === 0 ? (
             <ProfileEmptyState
               title="아직 저장한 글이 없어요"
               body="간직하고 싶은 글을 저장해보세요!"
