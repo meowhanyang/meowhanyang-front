@@ -52,7 +52,7 @@ const DiaryCard = ({
     return formattedTime;
   };
 
-  const taggedCatWithStyle = taggedCats.map((cat, idx) => ({
+  const taggedCatWithStyle = taggedCats?.map((cat, idx) => ({
     ...cat,
     style: `w-6 h-6 border-gr-white border-[1.2px] absolute left-[${idx * 20}px] shadow-profile`
   }));

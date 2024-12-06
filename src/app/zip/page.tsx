@@ -30,7 +30,7 @@ const ZipPage = () => {
         page: pageParam,
         size: 10
       }),
-    getNextPageParam: (_, allPages) => allPages.length + 1,
+    getNextPageParam: (_, allPages) => allPages?.length + 1,
     initialPageParam: 1,
     staleTime: 1000 * 60 * 5
   });
@@ -56,7 +56,7 @@ const ZipPage = () => {
             <div className="grid grid-cols-2 gap-4">
               <ZipSkeleton />
             </div>
-          ) : catList?.pages.length === 0 ? (
+          ) : catList?.pages[0]?.length === 0 ? (
             <ZipEmptyState />
           ) : (
             <div className="grid grid-cols-2 gap-4">
