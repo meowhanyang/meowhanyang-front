@@ -173,7 +173,7 @@ const DiaryWriteModal = ({
   }, []);
 
   return (
-    <div className="fixed left-0 top-0 z-20 h-screen w-full overflow-y-auto bg-gr-white">
+    <div className="fixed left-0 top-0 z-50 h-screen w-full overflow-y-auto bg-gr-white">
       <Topbar type="three">
         <Topbar.Back onClick={onClose} />
         <Topbar.Title title="일지쓰기" />
