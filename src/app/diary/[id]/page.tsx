@@ -56,7 +56,7 @@ const DiaryDetailPage = ({ params: { id } }: { params: { id: number } }) => {
     <div className="fixed left-0 top-0 z-50 h-screen w-screen overflow-y-auto bg-gr-white">
       <Topbar type="two">
         <Topbar.Back onClick={() => router.back()} />
-        <Topbar.Title title="날짜 props" />
+        <Topbar.Title title={diaryDetail.caredDate} />
         <Topbar.More onClick={() => setEditBottomSheet(true)} />
       </Topbar>
       <div className="m-auto max-w-[640px]">
