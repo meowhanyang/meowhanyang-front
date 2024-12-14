@@ -58,15 +58,19 @@ const SignUpPage = () => {
       return signInOnServer(reqObj);
     },
     onSuccess: (response: any) => {
-      if (response.status === 200) {
-        router.push('/onboard');
+      const token = response.headers?.get('Authorization');
+      const refreshToken = response.headers?.get('Authorization-Refresh');
+
+      if (token && refreshToken) {
+        router.replace('/diary');
       } else {
-        console.error('로그인 중 오류:', response.message);
-        router.push('/signin');
+        console.error('인증 토큰이 없습니다.');
+        router.replace('/signin');
       }
     },
     onError: (error: any) => {
       console.error('로그인 중 오류:', error);
+      router.replace('/signin');
     }
   });
 

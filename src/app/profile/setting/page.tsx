@@ -42,9 +42,26 @@ const SettingPage = () => {
     setTermsModal(TermsType.PRIVACY_POLICY);
   };
 
-  const logOut = () => {
-    document.cookie = 'Authorization=; Max-Age=0; Path=/;';
-    signOut({ callbackUrl: '/diary' });
+  const logOut = async () => {
+    try {
+      // 리프레시 토큰 먼저 삭제
+      document.cookie =
+        'Authorization-Refresh=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+
+      // 약간의 지연 후 액세스 토큰 삭제
+      setTimeout(() => {
+        document.cookie =
+          'Authorization=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+
+        // next-auth 세션 삭제
+        signOut({ redirect: true });
+
+        // signin 페이지로 리다이렉트
+        window.location.href = '/signin';
+      }, 100);
+    } catch (error) {
+      console.error('로그아웃 중 오류 발생:', error);
+    }
   };
 
   const toggleSwitch = () => {

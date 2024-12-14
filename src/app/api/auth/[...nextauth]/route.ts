@@ -55,11 +55,16 @@ const handler = NextAuth({
         return false;
       }
     },
-
     async redirect({ url, baseUrl }) {
       const cookieList = cookies();
       const isMember = cookieList.get('Authorization');
       return isMember ? '/diary' : '/signin';
+    }
+  },
+  events: {
+    async signOut() {
+      cookies().delete('Authorization');
+      cookies().delete('Authorization-Refresh');
     }
   }
 });
@@ -95,15 +100,17 @@ const signInOnServerWithSocial = async (reqObj: {
         httpOnly: true,
         secure: true
       });
-    }
-  } catch (error) {
-    console.error(
-      'SignInOnServerWithSocial error:',
 
-      error,
-      JSON.stringify(error, Object.getOwnPropertyNames(error))
-    );
-    return null;
+      if (typeof window !== 'undefined') {
+        document.cookie = `Authorization=${token}; path=/; max-age=${60 * 60 * 4}; secure;`;
+      }
+
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.error('SignInOnServerWithSocial error:', error);
+    return false;
   }
 };
 
