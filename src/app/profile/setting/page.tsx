@@ -12,12 +12,16 @@ import { useToast } from '@/components/ui/hooks/useToast';
 import Terms from '@/components/signup/Terms';
 import { TermsType } from '@/constants/general';
 import { signOut } from 'next-auth/react';
-import { useQuery } from '@tanstack/react-query';
-import { getPushNotification } from '@/services/push-notification';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {
+  getPushNotification,
+  togglePushNotificationOnServer
+} from '@/services/push-notification';
 
 const SettingPage = () => {
   const router = useRouter();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
   const [openFirstRunModal, setOpenFirstRunModal] = useState(false);
   const [switchOn, setSwitchOn] = useState(false);
@@ -25,15 +29,42 @@ const SettingPage = () => {
   const [withdrawModal, setWithdrawModal] = useState(false);
   const [termsModal, setTermsModal] = useState<string>('');
 
+  const { data: pushNotofication, isSuccess } = useQuery({
+    queryKey: ['getPushNoti'],
+    queryFn: () => getPushNotification(),
+    staleTime: 1000 * 60 * 10
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      setOpenFirstRunModal(
+        pushNotofication.receivePushNotification ? false : true
+      );
+      setSwitchOn(pushNotofication.receivePushNotification);
+    }
+  }, [pushNotofication]);
+
+  const togglePushNotification = useMutation({
+    mutationFn: () => togglePushNotificationOnServer(),
+    onSuccess: (data: any) => {
+      if (data.status !== 'OK') {
+        console.error('data.status:', data.status);
+      } else {
+        // queryClient.invalidateQueries({ queryKey: ['getPushNoti'] });
+      }
+    }
+  });
   const allowNotify = () => {
     console.log('알림 허용 api');
     setSwitchOn(true);
     setOpenFirstRunModal(false);
+    togglePushNotification.mutate();
   };
   const disallowNotify = () => {
     console.log('알림 허용 안함 api');
     setSwitchOn(false);
     setOpenFirstRunModal(false);
+    togglePushNotification.mutate();
   };
 
   const openTermsOfUseModal = () => {
@@ -46,19 +77,13 @@ const SettingPage = () => {
 
   const logOut = async () => {
     try {
-      // 리프레시 토큰 먼저 삭제
       document.cookie =
         'Authorization-Refresh=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 
-      // 약간의 지연 후 액세스 토큰 삭제
       setTimeout(() => {
         document.cookie =
           'Authorization=; path=/; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-
-        // next-auth 세션 삭제
         signOut({ redirect: true });
-
-        // signin 페이지로 리다이렉트
         window.location.href = '/signin';
       }, 100);
     } catch (error) {
@@ -68,6 +93,7 @@ const SettingPage = () => {
 
   const toggleSwitch = () => {
     setSwitchOn(!switchOn);
+    togglePushNotification.mutate();
     toast({
       description: `${formatToday()} 앱 푸시 수신 동의를 ${switchOn ? '철회' : '동의'} 했어요`
     });
@@ -80,21 +106,6 @@ const SettingPage = () => {
     const date = today.getDate();
     return `${year}.${month}.${date}`;
   };
-
-  const { data: pushNotofications, isSuccess } = useQuery({
-    queryKey: ['pushNoti'],
-    queryFn: () => getPushNotification(),
-    staleTime: 1000 * 60 * 10
-  });
-
-  useEffect(() => {
-    if (isSuccess) {
-      setOpenFirstRunModal(
-        pushNotofications.receivePushNotification ? false : true
-      );
-      setSwitchOn(pushNotofications.receivePushNotification);
-    }
-  }, [pushNotofications]);
 
   return (
     <>
