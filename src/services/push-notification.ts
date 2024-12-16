@@ -31,3 +31,28 @@ export const getPushNotification = async () => {
     }
   }
 };
+
+export const togglePushNotificationOnServer = async () => {
+  try {
+    const memberToken = getCookie('Authorization');
+    const requestOptions = {
+      method: 'PATCH',
+      headers: {
+        Authorization: `Bearer ${memberToken}`
+      }
+    };
+    const response = await fetchExtendedAuth(
+      '/members/notifications',
+      requestOptions
+    );
+
+    return response.body;
+  } catch (error) {
+    console.error(error);
+    if (error instanceof Error) {
+      throw new Error('푸시 알림 on/off 처리 중 오류 발생:' + error.message);
+    } else {
+      throw new Error('푸시 알림 on/off 처리 중 오류 발생:');
+    }
+  }
+};
