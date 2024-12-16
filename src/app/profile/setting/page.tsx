@@ -2,7 +2,7 @@
 
 import Topbar from '@/components/ui/Topbar';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SettingCard from '@/components/setting/SettingCard';
 import { Switch } from '@/components/ui/Switch';
 import Modal from '@/components/ui/Modal';
@@ -12,12 +12,14 @@ import { useToast } from '@/components/ui/hooks/useToast';
 import Terms from '@/components/signup/Terms';
 import { TermsType } from '@/constants/general';
 import { signOut } from 'next-auth/react';
+import { useQuery } from '@tanstack/react-query';
+import { getPushNotification } from '@/services/push-notification';
 
 const SettingPage = () => {
   const router = useRouter();
   const { toast } = useToast();
 
-  const [openFirstRunModal, setOpenFirstRunModal] = useState(true);
+  const [openFirstRunModal, setOpenFirstRunModal] = useState(false);
   const [switchOn, setSwitchOn] = useState(false);
   const [logOutModal, setLogOutModal] = useState(false);
   const [withdrawModal, setWithdrawModal] = useState(false);
@@ -78,6 +80,21 @@ const SettingPage = () => {
     const date = today.getDate();
     return `${year}.${month}.${date}`;
   };
+
+  const { data: pushNotofications, isSuccess } = useQuery({
+    queryKey: ['pushNoti'],
+    queryFn: () => getPushNotification(),
+    staleTime: 1000 * 60 * 10
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      setOpenFirstRunModal(
+        pushNotofications.receivePushNotification ? false : true
+      );
+      setSwitchOn(pushNotofications.receivePushNotification);
+    }
+  }, [pushNotofications]);
 
   return (
     <>
