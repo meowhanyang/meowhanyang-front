@@ -42,7 +42,7 @@ export const togglePushNotificationOnServer = async () => {
       }
     };
     const response = await fetchExtendedAuth(
-      'members/notifications',
+      '/members/notifications',
       requestOptions
     );
 
