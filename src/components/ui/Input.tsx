@@ -19,6 +19,7 @@ export interface InputProps
   suffix?: string | React.ReactNode;
   autocomplete?: string;
   placeholder?: string;
+  suffixClassName?: string;
   suffixClickHandler?: () => void;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   // validator: () => void;
@@ -43,6 +44,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       parser,
       prefix,
       suffix,
+      suffixClassName,
       autocomplete,
       placeholder,
       type = 'text',
@@ -120,7 +122,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
               variant === 'comment' &&
               !isInputActive &&
               'font-semi-bold text-gr-300'
-            } ${variant === 'comment' && isInputActive && 'text-pr-500'} `}
+            } ${variant === 'comment' && suffixClassName}`}
           >
             {suffix}
           </span>

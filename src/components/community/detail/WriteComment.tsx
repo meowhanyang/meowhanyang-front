@@ -42,6 +42,7 @@ export default function WriteComment({
         placeholder="댓글을 남겨주세요."
         onChange={e => setComment(e.target.value)}
         suffixClickHandler={handleSubmit}
+        suffixClassName={comment ? 'text-pr-500' : 'text-gr-300'}
       />
     </div>
   );
