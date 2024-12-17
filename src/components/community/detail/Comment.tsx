@@ -2,6 +2,10 @@ import Profile from '@/components/ui/Profile';
 import Image from 'next/image';
 import { CommentType } from '@/types/communityType';
 
+const formatCreatedAt = (createdAt: string) => {
+  return createdAt === '0초 전' ? '방금 전' : createdAt;
+};
+
 export default function Comment({
   onReply,
   comment,
@@ -19,10 +23,9 @@ export default function Comment({
     <>
       <div
         className={`${
-          comment.type === 'reply' && 'pl-8'
+          comment.parentId ? 'pl-8' : ''
         } flex items-start justify-between px-4`}
       >
-        <p>{comment.type}</p>
         <Profile
           items={[
             {
@@ -39,7 +42,7 @@ export default function Comment({
           </div>
           <div>{comment.content}</div>
           <div className="flex text-gr-500">
-            <div>{comment.createdAt}</div>
+            <div>{formatCreatedAt(comment.createdAt)}</div>
             <button className="ml-5" onClick={() => onReply(comment.id)}>
               답글 달기
             </button>
@@ -57,21 +60,19 @@ export default function Comment({
           }}
         />
       </div>
-      <div>
-        {comment.replies && comment.replies.length > 0 && (
-          <div className="pl-4">
-            {comment.replies.map((reply: CommentType) => (
-              <Comment
-                key={reply.id}
-                comment={reply}
-                onReply={onReply}
-                setEditBottomSheet={setEditBottomSheet}
-                setSelectedComment={setSelectedComment}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+      {comment.replies && comment.replies.length > 0 && (
+        <div className="pl-4">
+          {comment.replies.map((reply: CommentType) => (
+            <Comment
+              key={reply.id}
+              comment={reply}
+              onReply={onReply}
+              setEditBottomSheet={setEditBottomSheet}
+              setSelectedComment={setSelectedComment}
+            />
+          ))}
+        </div>
+      )}
     </>
   );
 }

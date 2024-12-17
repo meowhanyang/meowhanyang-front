@@ -1,7 +1,7 @@
 'use client';
 
 import WriteComment from '@/components/community/detail/WriteComment';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import FeedCard from '@/components/community/FeedCard';
 import Comment from '@/components/community/detail/Comment';
 import MoreBtnBottomSheet from '@/components/community/MoreBtnBottomSheet';
@@ -101,14 +101,23 @@ const DetailPage = ({ params: { slug } }: { params: { slug: number } }) => {
               onReply={handleReply}
             />
             {isReplying && parentCommentId === comment.id && (
-              <div className="pl-8">
-                <WriteComment
-                  feedId={feedDetail?.id}
-                  parentCommentId={parentCommentId}
-                  onCancel={handleCancelReply}
-                />
-              </div>
+              <WriteComment
+                feedId={feedDetail?.id}
+                parentCommentId={parentCommentId}
+                onCancel={handleCancelReply}
+              />
             )}
+            {comment.replies?.map((reply: CommentType) => (
+              <Fragment key={reply.id}>
+                {isReplying && parentCommentId === reply.id && (
+                  <WriteComment
+                    feedId={feedDetail?.id}
+                    parentCommentId={parentCommentId}
+                    onCancel={handleCancelReply}
+                  />
+                )}
+              </Fragment>
+            ))}
           </div>
         ))}
         {!isReplying && <WriteComment feedId={feedDetail?.id} />}
