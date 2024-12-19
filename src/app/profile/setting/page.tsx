@@ -17,6 +17,7 @@ import {
   getPushNotification,
   togglePushNotificationOnServer
 } from '@/services/push-notification';
+import { getCurrentDateInYYYYMMDD } from '@/utils/common';
 
 const SettingPage = () => {
   const router = useRouter();
@@ -70,16 +71,8 @@ const SettingPage = () => {
     setSwitchOn(!switchOn);
     togglePushNotification.mutate();
     toast({
-      description: `${formatTodayYYYYMMDD()} 앱 푸시 수신 동의를 ${switchOn ? '철회' : '동의'} 했어요`
+      description: `${getCurrentDateInYYYYMMDD()} 앱 푸시 수신 동의를 ${switchOn ? '철회' : '동의'} 했어요`
     });
-  };
-
-  const formatTodayYYYYMMDD = () => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth() + 1;
-    const date = today.getDate();
-    return `${year}.${month}.${date}`;
   };
 
   return (
