@@ -11,7 +11,12 @@ import { dateToString } from '@/utils/common';
 import { useRouter } from 'next/navigation';
 import { useAtom } from 'jotai';
 import { diaryDateAtom } from '@/atoms/diaryAtom';
-import { useQueryClient, useInfiniteQuery } from '@tanstack/react-query';
+import {
+  useQueryClient,
+  useInfiniteQuery,
+  useQuery,
+  useMutation
+} from '@tanstack/react-query';
 import { getCatsOnServer } from '@/services/cat';
 import DiaryEmptyState from '@/components/diary/DiaryEmptyState';
 import DiarySkeleton from '@/components/diary/DiarySkeleton';
@@ -20,6 +25,11 @@ import CatRegisterModal from '@/components/zip/CatRegisterModal';
 import CatRegisterBtn from '@/components/diary/CatRegisterBtn';
 import { useInView } from 'react-intersection-observer';
 import { getDiaries } from '@/services/diary';
+import {
+  getPushNotification,
+  togglePushNotificationOnServer
+} from '@/services/push-notification';
+import Modal from '@/components/ui/Modal';
 
 const DiaryPage = () => {
   const router = useRouter();
@@ -32,6 +42,7 @@ const DiaryPage = () => {
   const [selectedModal, setSelectedModal] = useState({} as DiaryObj);
   const [showCatRegisterModal, setShowCatRegisterModal] = useState(false);
   const [selectedCatId, setSelectedCatId] = useState<number | null>(null);
+  const [openFirstRunModal, setOpenFirstRunModal] = useState(false);
 
   const handleCatSelect = (id: number) => {
     setSelectedCatId(id === selectedCatId ? null : id);
@@ -85,61 +96,119 @@ const DiaryPage = () => {
     }
   }, [diaryInView, fetchNextPageDiary]);
 
+  const { data: pushNotofication, isSuccess } = useQuery({
+    queryKey: ['getPushNoti'],
+    queryFn: () => getPushNotification(),
+    staleTime: 1000 * 60 * 10
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      setOpenFirstRunModal(
+        pushNotofication.receivePushNotification ? false : true
+      );
+    }
+  }, [pushNotofication]);
+
   useEffect(() => {
     if (showWriteModal) return;
     queryClient.invalidateQueries({ queryKey: ['diaries'] });
   }, [diaryDate, showWriteModal, queryClient]);
 
+  const togglePushNotification = useMutation({
+    mutationFn: () => togglePushNotificationOnServer(),
+    onSuccess: (data: any) => {
+      if (data.status !== 'OK') {
+        console.error('data.status:', data.status);
+      } else {
+        // queryClient.invalidateQueries({ queryKey: ['getPushNoti'] });
+      }
+    }
+  });
+  const allowNotify = () => {
+    console.log('알림 허용 api');
+    // setOpenFirstRunModal(false);
+    togglePushNotification.mutate();
+  };
+  const disallowNotify = () => {
+    console.log('알림 허용 안함 api');
+    // setOpenFirstRunModal(false);
+    togglePushNotification.mutate();
+  };
+
   return (
     <>
-      <DiaryListLayout>
-        <section className="flex h-28 justify-start overflow-scroll bg-gr-white px-2">
-          {isCatsLoading ? (
-            <FilterSkeleton />
-          ) : catData?.pages[0]?.length === 0 ? (
-            <CatRegisterBtn onClick={() => setShowCatRegisterModal(true)} />
-          ) : (
-            <>
-              {catData?.pages.map(page =>
-                page?.map((cat: any) => (
-                  <Filter
-                    key={cat.id}
-                    id={cat.id}
-                    imageUrl={cat.imageUrl}
-                    name={cat.name}
-                    isSelected={selectedCatId === cat.id}
-                    onClick={() => handleCatSelect(cat.id)}
-                    coParentedCount={cat.coParentedCount}
+      {openFirstRunModal ? (
+        <Modal
+          contents={{
+            title: '‘냥.zip’에서 알림을 \n 보내고자 합니다.',
+            body: '경고, 사운드 및 아이콘 배지가 알림에 \n 포함 될 수 있습니다. 설정에서 이를 구성할 \n 수 있습니다.'
+          }}
+          scrim={true}
+          buttons={[
+            {
+              content: '허용',
+              btnStyle: 'w-full rounded-16 px-4 py-2 bg-pr-500',
+              textStyle: 'text-gr-white text-btn-1',
+              onClick: () => allowNotify()
+            },
+            {
+              content: '허용 안함',
+              btnStyle: 'w-full rounded-16 px-4 py-2 bg-gr-white',
+              textStyle: 'text-pr-400 text-btn-1',
+              onClick: () => disallowNotify()
+            }
+          ]}
+        />
+      ) : (
+        <DiaryListLayout>
+          <section className="flex h-28 justify-start overflow-scroll bg-gr-white px-2">
+            {isCatsLoading ? (
+              <FilterSkeleton />
+            ) : catData?.pages[0]?.length === 0 ? (
+              <CatRegisterBtn onClick={() => setShowCatRegisterModal(true)} />
+            ) : (
+              <>
+                {catData?.pages.map(page =>
+                  page?.map((cat: any) => (
+                    <Filter
+                      key={cat.id}
+                      id={cat.id}
+                      imageUrl={cat.imageUrl}
+                      name={cat.name}
+                      isSelected={selectedCatId === cat.id}
+                      onClick={() => handleCatSelect(cat.id)}
+                      coParentedCount={cat.coParentedCount}
+                    />
+                  ))
+                )}
+                <CatRegisterBtn onClick={() => setShowCatRegisterModal(true)} />
+              </>
+            )}
+          </section>
+          <section className="mx-auto max-w-[640px] p-4">
+            {isDiaryLoading ? (
+              <div className="flex flex-col gap-4">
+                <DiarySkeleton />
+              </div>
+            ) : diaryList?.pages[0]?.length === 0 ? (
+              <DiaryEmptyState />
+            ) : (
+              diaryList?.pages.map(page =>
+                page?.map((diary: DiaryObj) => (
+                  <DiaryCard
+                    key={diary.id}
+                    {...diary}
+                    onClick={() => openDetailModal(diary)}
                   />
                 ))
-              )}
-              <CatRegisterBtn onClick={() => setShowCatRegisterModal(true)} />
-            </>
-          )}
-        </section>
-        <section className="mx-auto max-w-[640px] p-4">
-          {isDiaryLoading ? (
-            <div className="flex flex-col gap-4">
-              <DiarySkeleton />
-            </div>
-          ) : diaryList?.pages[0]?.length === 0 ? (
-            <DiaryEmptyState />
-          ) : (
-            diaryList?.pages.map(page =>
-              page?.map((diary: DiaryObj) => (
-                <DiaryCard
-                  key={diary.id}
-                  {...diary}
-                  onClick={() => openDetailModal(diary)}
-                />
-              ))
-            )
-          )}
-          {/* 무한 스크롤 감지 영역 */}
-          <div ref={diaryRef} className="h-20 bg-transparent" />
-        </section>
-      </DiaryListLayout>
-
+              )
+            )}
+            {/* 무한 스크롤 감지 영역 */}
+            <div ref={diaryRef} className="h-20 bg-transparent" />
+          </section>
+        </DiaryListLayout>
+      )}
       <FloatingActionButton onClick={() => setShowWriteModal(true)} />
       {showWriteModal && (
         <DiaryWriteModal
