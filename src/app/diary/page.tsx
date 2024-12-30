@@ -127,12 +127,12 @@ const DiaryPage = () => {
   });
   const allowNotify = () => {
     console.log('알림 허용 api');
-    // setOpenFirstRunModal(false);
+    setOpenFirstRunModal(false);
     togglePushNotification.mutate();
   };
   const disallowNotify = () => {
     console.log('알림 허용 안함 api');
-    // setOpenFirstRunModal(false);
+    setOpenFirstRunModal(false);
     togglePushNotification.mutate();
   };
 
