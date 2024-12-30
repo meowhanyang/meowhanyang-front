@@ -14,7 +14,6 @@ export const checkMembershipByEmail = async (email: string) => {
     const isSuccess = (response.body as any).status;
     if (isSuccess) {
       const data = (response.body as any).data;
-      console.log('이메일로 가입 여부 확인 결과:', data);
       return data;
     } else {
       console.error('이메일로 가입 여부 확인 중 오류:');
