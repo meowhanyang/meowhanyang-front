@@ -71,7 +71,7 @@ const redirectToSignIn = (request: NextRequest): NextResponse => {
 
 const redirectToHome = (request: NextRequest): NextResponse => {
   const url = request.nextUrl.clone();
-  url.pathname = '/';
+  url.pathname = '/diary';
   return NextResponse.redirect(url);
 };
 
