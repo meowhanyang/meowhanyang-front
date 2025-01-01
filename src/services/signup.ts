@@ -67,13 +67,16 @@ export const deleteAccountOnServer = async () => {
   try {
     const memberToken = getCookie('Authorization');
     const requestOptions = {
-      method: 'DELETE',
+      method: 'PATCH',
       headers: {
         Accept: 'application/json',
         Authorization: `Bearer ${memberToken}`
       }
     };
-    const response = await fetchExtendedAuth('/members', requestOptions);
+    const response = await fetchExtendedAuth(
+      '/members/withdraw',
+      requestOptions
+    );
     console.log(response, 'response');
     if (response.status === 200) {
       removeCookie('Authorization');
