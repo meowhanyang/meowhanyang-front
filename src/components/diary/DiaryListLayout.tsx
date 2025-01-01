@@ -11,13 +11,14 @@ const DiaryListLayout = ({ children }: DiaryListLayoutProps) => {
   const [isCalendarOpen, setCalendarOpen] = useState(false);
   const [diaryDate, setDiaryDate] = useAtom(diaryDateAtom);
   const [bottomSheetVisible, setBottomSheetVisible] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState(new Date());
+
   const toggleCalendar = () => {
     setCalendarOpen(!isCalendarOpen);
   };
   const toggleBottomSheet = () => {
     setBottomSheetVisible(!bottomSheetVisible);
   };
-  const [selectedMonth, setSelectedMonth] = useState(new Date());
 
   const formatDate = (date: Date): string => {
     const options: Intl.DateTimeFormatOptions = {
@@ -41,8 +42,8 @@ const DiaryListLayout = ({ children }: DiaryListLayoutProps) => {
       {isCalendarOpen ? (
         <Topbar type="three">
           <Topbar.Back onClick={() => setCalendarOpen(false)} />
-          <Topbar.Title title={formattedMonth} />
-          <Topbar.Complete onClick={toggleBottomSheet} />
+          <Topbar.Title title={formattedMonth} onClick={toggleBottomSheet} />
+          <Topbar.Empty />
         </Topbar>
       ) : (
         <Topbar type="three">

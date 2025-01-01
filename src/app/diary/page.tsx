@@ -79,7 +79,7 @@ const DiaryPage = () => {
     isLoading: isDiaryLoading,
     fetchNextPage: fetchNextPageDiary
   } = useInfiniteQuery({
-    queryKey: ['diaries'],
+    queryKey: ['diaries', dateToString(diaryDate)],
     queryFn: ({ pageParam = 1 }) =>
       getDiaries({
         date: dateToString(diaryDate),
@@ -90,11 +90,6 @@ const DiaryPage = () => {
     initialPageParam: 1,
     staleTime: 1000 * 60 * 5
   });
-  useEffect(() => {
-    if (diaryInView) {
-      fetchNextPageDiary();
-    }
-  }, [diaryInView, fetchNextPageDiary]);
 
   const { data: pushNotofication, isSuccess } = useQuery({
     queryKey: ['getPushNoti'],
@@ -109,11 +104,6 @@ const DiaryPage = () => {
       );
     }
   }, [pushNotofication]);
-
-  useEffect(() => {
-    if (showWriteModal) return;
-    queryClient.invalidateQueries({ queryKey: ['diaries'] });
-  }, [diaryDate, showWriteModal, queryClient]);
 
   const togglePushNotification = useMutation({
     mutationFn: () => togglePushNotificationOnServer(),
