@@ -90,6 +90,15 @@ const DiaryPage = () => {
     initialPageParam: 1,
     staleTime: 1000 * 60 * 5
   });
+  useEffect(() => {
+    if (diaryInView) {
+      fetchNextPageDiary();
+    }
+  }, [diaryInView, fetchNextPageDiary]);
+  useEffect(() => {
+    if (showWriteModal) return;
+    queryClient.invalidateQueries({ queryKey: ['diaries'] });
+  }, [diaryDate, showWriteModal, queryClient]);
 
   const { data: pushNotofication, isSuccess } = useQuery({
     queryKey: ['getPushNoti'],
