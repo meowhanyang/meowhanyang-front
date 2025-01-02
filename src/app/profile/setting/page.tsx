@@ -71,7 +71,8 @@ const SettingPage = () => {
     setSwitchOn(!switchOn);
     togglePushNotification.mutate();
     toast({
-      description: `${getCurrentDateInYYYYMMDD()} 앱 푸시 수신 동의를 ${switchOn ? '철회' : '동의'} 했어요`
+      description: `${getCurrentDateInYYYYMMDD()} 앱 푸시 수신 동의를 ${switchOn ? '철회' : '동의'} 했어요`,
+      duration: 2000
     });
   };
 
