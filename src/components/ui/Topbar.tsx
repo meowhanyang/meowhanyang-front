@@ -4,6 +4,8 @@ import { Input } from '@/components/ui/Input';
 import { cn } from '@/lib/utils';
 import Button from '@/components/ui/Button';
 import { HTMLAttributes } from 'react';
+import { useAtom } from 'jotai';
+import { diaryDateAtom } from '@/atoms/diaryAtom';
 
 const Home = () => {
   return (
@@ -125,6 +127,24 @@ const Today = ({
   onClick: () => void;
   onRightClick: () => void;
 }) => {
+  const [diaryDate] = useAtom(diaryDateAtom);
+
+  const isToday = (date: Date) => {
+    const today = new Date();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  };
+
+  const formatDate = (date: Date): string => {
+    return date.toLocaleDateString('ko-KR', {
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
   return (
     <div className="flex">
       <Image
@@ -135,7 +155,9 @@ const Today = ({
         className="h-6 w-6"
         onClick={onLeftClick}
       />
-      <div onClick={onClick}>오늘</div>
+      <div onClick={onClick} className="px-2">
+        {isToday(diaryDate) ? '오늘' : formatDate(diaryDate)}
+      </div>
       <Image
         src="/images/icons/arrow-right.svg"
         alt="calendar"

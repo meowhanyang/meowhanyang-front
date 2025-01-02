@@ -87,10 +87,12 @@ const CalendarModal = ({
     } else {
       setCalendarOpen(false);
       const selected = selectedDates && selectedDates.at(-1);
+      if (selected) {
+        selected.setHours(12, 0, 0, 0);
+      }
       setDiaryDate(selected ? selected : new Date());
     }
   };
-
   if (!isOpen) return null;
   return (
     <div className="modal">
@@ -120,7 +122,7 @@ const CalendarModal = ({
                   <button
                     key={monthIndex}
                     onClick={() => selectMonth(monthIndex - 1)}
-                    className={`rounded-lg bg-gray-100 p-3 text-center  hover:bg-gray-200${
+                    className={`rounded-lg bg-gray-100 p-3 text-center hover:bg-gray-200${
                       selectedMonth.getMonth() === monthIndex - 1
                         ? 'selected border-[1.6px] border-pr-500 bg-gray-50 text-pr-500'
                         : ''
