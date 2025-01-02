@@ -13,8 +13,12 @@ const Home = () => {
   );
 };
 
-const Title = ({ title }: HTMLAttributes<HTMLDivElement>) => {
-  return <p className="text-heading-3 text-gr-900">{title}</p>;
+const Title = ({ title, onClick }: HTMLAttributes<HTMLDivElement>) => {
+  return (
+    <p className="text-heading-3 text-gr-900" onClick={onClick}>
+      {title}
+    </p>
+  );
 };
 
 const Calendar = ({ onClick }: HTMLAttributes<HTMLDivElement>) => {
@@ -155,7 +159,7 @@ const Empty = () => {
 const TopbarTypeVariants = {
   one: 'flex justify-center items-center',
   two: 'flex justify-between items-center',
-  three: 'flex justify-between items-center',
+  three: 'flex justify-between items-center z-30',
   search: 'flex justify-between items-center border-b border-gr-100'
 };
 
