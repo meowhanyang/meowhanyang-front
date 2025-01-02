@@ -257,6 +257,7 @@ const DiaryWriteModal = ({
           </article>
           <article>
             <BottomSheet
+              disableDrag
               isVisible={selectTimeBottomSheet}
               setIsVisible={() =>
                 setSelectTimeBottomSheet(!selectTimeBottomSheet)
