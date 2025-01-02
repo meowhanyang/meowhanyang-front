@@ -27,7 +27,12 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
   overflow,
   ...props
 }) => {
-  const [windowHeight] = useState<number>(window.innerHeight);
+  const [windowHeight, setWindowHeight] = useState<number>(0);
+
+  useEffect(() => {
+    setWindowHeight(window.innerHeight);
+  }, []);
+
   const initialHeightValue = windowHeight * 0.2;
   const y = useMotionValue(initialHeightValue);
   const bottomSheetRef = useRef<HTMLDivElement>(null);
