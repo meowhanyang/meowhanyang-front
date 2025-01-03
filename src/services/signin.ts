@@ -38,17 +38,15 @@ export const signInOnServer = async (reqObj: {
 
     if (token) {
       document.cookie = `Authorization=${token}; path=/; max-age=3600; secure;`;
+      return response;
     } else {
-      throw new Error('Authorization token not found in the response');
+      console.log('Sign-in error:', response.body);
+      const errorData = (await response.body) as any;
+      throw new Error(errorData.message || '로그인 요청 중 오류 발생');
     }
-    return response;
   } catch (error) {
     console.error(error);
-    if (error instanceof Error) {
-      throw new Error('로그인 요청 중 오류 발생:' + error.message);
-    } else {
-      throw new Error('로그인 요청 중 오류 발생');
-    }
+    throw error;
   }
 };
 

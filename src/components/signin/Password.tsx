@@ -20,6 +20,7 @@ export default function Password({ setStep }: PasswordProps) {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [showFindModal, setShowFindModal] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   const signIn = () => {
     signInMutation.mutate({
@@ -42,7 +43,8 @@ export default function Password({ setStep }: PasswordProps) {
     },
     onError: (error: any) => {
       setShowModal(true);
-      console.error('로그인 중 오류:', error);
+      setErrorMsg(error.message);
+      console.error('로그인 중 오류:', error.message);
     }
   });
 
@@ -103,7 +105,7 @@ export default function Password({ setStep }: PasswordProps) {
         <Modal
           contents={{
             title: '알림',
-            body: '입력하신 정보를 다시 한번 확인해주세요'
+            body: errorMsg || '입력하신 정보를 다시 한번 확인해주세요'
           }}
           scrim={true}
           buttons={[
