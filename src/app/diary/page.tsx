@@ -14,7 +14,6 @@ import { diaryDateAtom } from '@/atoms/diaryAtom';
 import {
   useQueryClient,
   useInfiniteQuery,
-  useQuery,
   useMutation
 } from '@tanstack/react-query';
 import { getCatsOnServer } from '@/services/cat';
@@ -25,10 +24,7 @@ import CatRegisterModal from '@/components/zip/CatRegisterModal';
 import CatRegisterBtn from '@/components/diary/CatRegisterBtn';
 import { useInView } from 'react-intersection-observer';
 import { getDiaries } from '@/services/diary';
-import {
-  getPushNotification,
-  togglePushNotificationOnServer
-} from '@/services/push-notification';
+import { togglePushNotificationOnServer } from '@/services/push-notification';
 import Modal from '@/components/ui/Modal';
 
 const DiaryPage = () => {
@@ -100,19 +96,13 @@ const DiaryPage = () => {
     queryClient.invalidateQueries({ queryKey: ['diaries'] });
   }, [diaryDate, showWriteModal, queryClient]);
 
-  const { data: pushNotofication, isSuccess } = useQuery({
-    queryKey: ['getPushNoti'],
-    queryFn: () => getPushNotification(),
-    staleTime: 1000 * 60 * 10
-  });
-
   useEffect(() => {
-    if (isSuccess) {
-      setOpenFirstRunModal(
-        pushNotofication.receivePushNotification ? false : true
-      );
+    const isFirstRun = localStorage.getItem('firstRun') ? true : false;
+    if (isFirstRun) {
+      setOpenFirstRunModal(isFirstRun);
+      localStorage.removeItem('firstRun');
     }
-  }, [pushNotofication]);
+  }, []);
 
   const togglePushNotification = useMutation({
     mutationFn: () => togglePushNotificationOnServer(),
@@ -125,12 +115,10 @@ const DiaryPage = () => {
     }
   });
   const allowNotify = () => {
-    console.log('알림 허용 api');
     setOpenFirstRunModal(false);
     togglePushNotification.mutate();
   };
   const disallowNotify = () => {
-    console.log('알림 허용 안함 api');
     setOpenFirstRunModal(false);
     togglePushNotification.mutate();
   };
