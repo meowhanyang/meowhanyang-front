@@ -49,6 +49,7 @@ const SignUpPage = () => {
           password: password.value
         });
         signInMutation.mutate({ email: email, password: password.value });
+        localStorage.setItem('firstRun', 'firstRun');
       }
     }
   });
