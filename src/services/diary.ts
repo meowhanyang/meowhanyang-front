@@ -6,6 +6,7 @@ type DiarySearchOption = {
   page: number;
   size: number;
   date: string;
+  'cat-id'?: number;
 };
 
 interface DiaryObj extends DiaryRegisterReqObj {

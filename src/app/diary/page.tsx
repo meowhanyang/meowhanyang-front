@@ -75,13 +75,23 @@ const DiaryPage = () => {
     isLoading: isDiaryLoading,
     fetchNextPage: fetchNextPageDiary
   } = useInfiniteQuery({
-    queryKey: ['diaries', dateToString(diaryDate)],
-    queryFn: ({ pageParam = 1 }) =>
-      getDiaries({
+    queryKey: ['diaries', dateToString(diaryDate), selectedCatId],
+    queryFn: ({ pageParam = 1 }) => {
+      const params: {
+        date: string;
+        page: number;
+        size: number;
+        'cat-id'?: number;
+      } = {
         date: dateToString(diaryDate),
         page: pageParam,
         size: 10
-      }),
+      };
+      if (selectedCatId) {
+        params['cat-id'] = selectedCatId;
+      }
+      return getDiaries(params);
+    },
     getNextPageParam: (_, allPages) => allPages.length + 1,
     initialPageParam: 1,
     staleTime: 1000 * 60 * 5
@@ -169,6 +179,8 @@ const DiaryPage = () => {
                     />
                   ))
                 )}
+                {/* 무한 스크롤 감지 영역 */}
+                <div ref={catsRef} className="h-20 bg-transparent" />
                 <CatRegisterBtn onClick={() => setShowCatRegisterModal(true)} />
               </>
             )}
