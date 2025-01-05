@@ -30,7 +30,9 @@ const ZipPage = () => {
         page: pageParam,
         size: 10
       }),
-    getNextPageParam: (_, allPages) => allPages?.length + 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.hasNext ? allPages.length + 1 : undefined;
+    },
     initialPageParam: 1,
     staleTime: 1000 * 60 * 5
   });
@@ -60,8 +62,8 @@ const ZipPage = () => {
             <ZipEmptyState />
           ) : (
             <div className="grid grid-cols-2 gap-4">
-              {catList?.pages.map(page =>
-                page.map((cat: CatListObj) => (
+              {catList?.pages?.map(page =>
+                page?.items?.map((cat: CatListObj) => (
                   <ZipCard
                     key={cat.id}
                     {...cat}

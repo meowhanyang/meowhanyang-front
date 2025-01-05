@@ -99,7 +99,7 @@ export const getCatsOnServer = async ({ page, size }: CatSearchOption) => {
     if (response.body) {
       const responseBody = await response.text();
       const parsedBody = JSON.parse(responseBody);
-      return parsedBody.items;
+      return parsedBody;
     } else {
       throw new Error('응답 본문이 없습니다.');
     }

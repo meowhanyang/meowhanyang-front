@@ -50,7 +50,7 @@ const DiaryPage = () => {
   };
 
   const {
-    data: catData,
+    data: catList,
     isLoading: isCatsLoading,
     fetchNextPage: fetchNextPageCats
   } = useInfiniteQuery({
@@ -60,7 +60,9 @@ const DiaryPage = () => {
         page: pageParam,
         size: 10
       }),
-    getNextPageParam: (_, allPages) => allPages?.length + 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.hasNext ? allPages.length + 1 : undefined;
+    },
     initialPageParam: 1,
     staleTime: 1000 * 60 * 5
   });
@@ -162,12 +164,12 @@ const DiaryPage = () => {
           <section className="flex h-28 justify-start overflow-scroll bg-gr-white px-2">
             {isCatsLoading ? (
               <FilterSkeleton />
-            ) : catData?.pages[0]?.length === 0 ? (
+            ) : catList?.pages[0]?.length === 0 ? (
               <CatRegisterBtn onClick={() => setShowCatRegisterModal(true)} />
             ) : (
               <>
-                {catData?.pages.map(page =>
-                  page?.map((cat: any) => (
+                {catList?.pages.map(page =>
+                  page?.items?.map((cat: any) => (
                     <Filter
                       key={cat.id}
                       id={cat.id}
