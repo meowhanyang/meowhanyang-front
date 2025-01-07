@@ -89,12 +89,17 @@ export const editCat = async (
 type CatSearchOption = {
   page: number;
   size: number;
+  memberId?: number;
 };
 
-export const getCatsOnServer = async ({ page, size }: CatSearchOption) => {
+export const getCatsOnServer = async ({
+  page,
+  size,
+  memberId
+}: CatSearchOption) => {
   try {
     const response = await fetchExtended(
-      `/cats?${objectToQueryString({ page, size })}`
+      `/cats?${objectToQueryString({ page, size, 'member-id': memberId ?? '' })}`
     );
     if (response.body) {
       const responseBody = await response.text();
