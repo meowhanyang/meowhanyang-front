@@ -1,8 +1,10 @@
 import Topbar from '@/components/ui/Topbar';
 import { useEffect, useState } from 'react';
-import { useCats } from '@/hooks/useCats';
 import { CatType } from '@/types/cat';
 import Image from 'next/image';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { getCatsOnServer } from '@/services/cat';
+import { useInView } from 'react-intersection-observer';
 
 interface SearchCatModalProps {
   setSearchCatModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,11 +15,31 @@ export default function SearchCatModal({
   setSearchCatModal,
   setTaggedCatList
 }: SearchCatModalProps) {
-  const [catList, setCatList] = useState<CatType[]>([]);
-  const { data: cats } = useCats({ page: 0, size: 10 });
+  const { ref, inView } = useInView();
 
+  const [catList, setCatList] = useState<CatType[]>([]);
+
+  const { data: cats, fetchNextPage } = useInfiniteQuery({
+    queryKey: ['getCats'],
+    queryFn: ({ pageParam = 1 }) =>
+      getCatsOnServer({
+        page: pageParam,
+        size: 10
+      }),
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.hasNext ? allPages.length + 1 : undefined;
+    },
+    initialPageParam: 1,
+    staleTime: 1000 * 60 * 5
+  });
   useEffect(() => {
-    setCatList(cats);
+    if (inView) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage]);
+  useEffect(() => {
+    const catsData = cats?.pages?.map(page => page.items).flat();
+    setCatList(catsData ?? []);
   }, [cats]);
 
   const closeCurrentModal = () => setSearchCatModal(false);
@@ -60,7 +82,7 @@ export default function SearchCatModal({
         <ul className="mx-auto flex max-w-[640px] flex-col gap-2 px-4 py-2 pt-12">
           {catList ? (
             <>
-              {catList.map((cat: CatType) => (
+              {catList?.map((cat: CatType) => (
                 <li
                   key={cat.id}
                   className="flex items-center gap-4 py-2"
@@ -87,6 +109,8 @@ export default function SearchCatModal({
                   </div>
                 </li>
               ))}
+              {/* 무한 스크롤 감지 영역 */}
+              <div ref={ref} className="h-20 bg-transparent" />
             </>
           ) : (
             <div>고양이가 없습니다.</div>
