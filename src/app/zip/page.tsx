@@ -58,7 +58,7 @@ const ZipPage = () => {
             <div className="grid grid-cols-2 gap-4">
               <ZipSkeleton />
             </div>
-          ) : catList?.pages[0]?.length === 0 ? (
+          ) : catList?.pages[0]?.items?.length === 0 ? (
             <ZipEmptyState />
           ) : (
             <div className="grid grid-cols-2 gap-4">
