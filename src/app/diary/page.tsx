@@ -94,7 +94,9 @@ const DiaryPage = () => {
       }
       return getDiaries(params);
     },
-    getNextPageParam: (_, allPages) => allPages.length + 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.hasNext ? allPages.length + 1 : undefined;
+    },
     initialPageParam: 1,
     staleTime: 1000 * 60 * 5
   });
@@ -192,11 +194,11 @@ const DiaryPage = () => {
               <div className="flex flex-col gap-4">
                 <DiarySkeleton />
               </div>
-            ) : diaryList?.pages[0]?.length === 0 ? (
+            ) : diaryList?.pages[0]?.items?.length === 0 ? (
               <DiaryEmptyState />
             ) : (
-              diaryList?.pages.map(page =>
-                page?.map((diary: DiaryObj) => (
+              diaryList?.pages?.map(page =>
+                page?.items?.map((diary: DiaryObj) => (
                   <DiaryCard
                     key={diary.id}
                     {...diary}
