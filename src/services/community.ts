@@ -8,18 +8,26 @@ type FeedSearchOption = {
 };
 
 export const getFeedsOnServer = async ({ page, size }: FeedSearchOption) => {
-  const response = await fetchExtendedAuth(
-    `/community?${objectToQueryString({ page, size })}`
-  );
-  if (!response.ok) return [];
+  try {
+    const response = await fetchExtended(
+      `/community?${objectToQueryString({ page, size })}`
+    );
 
-  if (typeof response.body !== 'object') {
-    console.error('fetchExtendedAuth에서 예상치 못한 응답 형식입니다.');
-    return [];
+    if (response.body) {
+      const responseBody = await response.text();
+      const parsedBody = JSON.parse(responseBody);
+      return parsedBody;
+    } else {
+      throw new Error('응답 본문이 없습니다.');
+    }
+  } catch (error) {
+    console.error(error);
+    if (error instanceof Error) {
+      throw new Error('게시글 목록 조회 중 오류 발생:' + error.message);
+    } else {
+      throw new Error('게시글 목록 조회 중 오류 발생:');
+    }
   }
-
-  const data = (response.body as any).items || [];
-  return data;
 };
 
 export const getFeedDetail = async (id: number) => {
