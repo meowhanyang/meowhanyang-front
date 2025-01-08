@@ -1,4 +1,5 @@
 import { DiaryRegisterReqObj } from '@/app/diary/diaryType';
+import { fetchExtended } from '@/services/cat';
 import { fetchExtendedForm, fetchExtendedAuth } from '@/services/nickname';
 import { base64ToFile, objectToQueryString } from '@/utils/common';
 
@@ -14,17 +15,31 @@ interface DiaryObj extends DiaryRegisterReqObj {
 }
 
 export const getDiaries = async (reqObj: DiarySearchOption) => {
-  const response = await fetchExtendedAuth(
-    `/diaries?${objectToQueryString(reqObj)}`
-  );
-  if (!response.ok) {
-    throw new Error('Network response was not ok');
+  try {
+    const response = await fetchExtended(
+      `/diaries?${objectToQueryString(reqObj)}`
+    );
+
+    const responseBody = await response.text();
+    const parsedBody = JSON.parse(responseBody);
+
+    if (parsedBody && Array.isArray(parsedBody.items)) {
+      const sortByLatest = parsedBody.items.sort(
+        (a: DiaryObj, b: DiaryObj) => b.id - a.id
+      );
+      parsedBody.items = sortByLatest;
+      return parsedBody;
+    } else {
+      throw new Error('응답 본문이 없습니다.');
+    }
+  } catch (error) {
+    console.error(error);
+    if (error instanceof Error) {
+      throw new Error('일지 조회 중 오류 발생:' + error.message);
+    } else {
+      throw new Error('일지 조회 중 오류 발생:');
+    }
   }
-
-  const data = (response.body as any).items || [];
-
-  const sortByLatest = data.sort((a: DiaryObj, b: DiaryObj) => b.id - a.id);
-  return sortByLatest || [];
 };
 
 export const getDiaryDetail = async (id: number) => {
