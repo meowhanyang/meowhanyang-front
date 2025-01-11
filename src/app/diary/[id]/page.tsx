@@ -64,7 +64,7 @@ const DiaryDetailPage = ({ params: { id } }: { params: { id: number } }) => {
           <h5 className="text-end text-body-4 text-gr-500">
             {diaryDetail.memberNickname} • {diaryDetail.caredTime}
           </h5>
-          <div className="flex h-[300px]">
+          <div className="flex max-h-[300px]">
             {diaryDetail.images && (
               <Carousel images={diaryDetail.images} style="rounded-16" />
             )}
