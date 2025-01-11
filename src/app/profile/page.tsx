@@ -74,8 +74,9 @@ export default function ProfilePage() {
     }
   }, [bookmarksInView, fetchNextPageBookmarks]);
 
-  const { likeFeed, unLikeFeed, bookmarkFeed, cancelBookmarkFeed } =
-    useFeedMutations(['myFeeds', 'myBookmarks']);
+  const { toggleLikeFeed, bookmarkFeed, cancelBookmarkFeed } = useFeedMutations(
+    ['myFeeds', 'myBookmarks']
+  );
 
   return (
     <>
@@ -158,8 +159,7 @@ export default function ProfilePage() {
                   key={feed.id}
                   content={feed}
                   goToDetail={() => router.push(`/community/${feed.id}`)}
-                  likeFeed={() => likeFeed(feed)}
-                  unLikeFeed={() => unLikeFeed(feed)}
+                  toggleLikeFeed={() => toggleLikeFeed(feed)}
                   bookmarkFeed={() => bookmarkFeed(feed)}
                   cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
                 />
@@ -186,8 +186,7 @@ export default function ProfilePage() {
                   key={feed.id}
                   content={feed}
                   goToDetail={() => router.push(`/community/${feed.id}`)}
-                  likeFeed={() => likeFeed(feed)}
-                  unLikeFeed={() => unLikeFeed(feed)}
+                  toggleLikeFeed={() => toggleLikeFeed(feed)}
                   bookmarkFeed={() => bookmarkFeed(feed)}
                   cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
                 />

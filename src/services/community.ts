@@ -197,7 +197,7 @@ export const editFeedOnServer = async (reqObj: {
   }
 };
 
-export const likeFeedOnServer = async (postId: number) => {
+export const toggleLikeFeedOnServer = async (postId: number) => {
   const requestOptions = {
     method: 'POST'
   };
@@ -213,32 +213,9 @@ export const likeFeedOnServer = async (postId: number) => {
   } catch (error) {
     console.error(error);
     if (error instanceof Error) {
-      throw new Error('게시글 좋아요 중 오류 발생:' + error.message);
+      throw new Error('게시글 좋아요 토글 중 오류 발생:' + error.message);
     } else {
-      throw new Error('게시글 좋아요 중 오류 발생:');
-    }
-  }
-};
-
-export const unlikeFeedOnServer = async (postId: number) => {
-  const requestOptions = {
-    method: 'DELETE'
-  };
-
-  try {
-    const response = await fetchExtendedForm(
-      `/community/${postId}/like`,
-      requestOptions
-    );
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-    if (error instanceof Error) {
-      throw new Error('게시글 좋아요 취소 중 오류 발생:' + error.message);
-    } else {
-      throw new Error('게시글 좋아요 취소 중 오류 발생:');
+      throw new Error('게시글 좋아요 토글 중 오류 발생:');
     }
   }
 };

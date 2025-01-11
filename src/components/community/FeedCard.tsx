@@ -13,8 +13,7 @@ interface FeedCardProps {
   content: FeedType;
   goToDetail?: () => void;
   openBottomSheet?: () => void;
-  likeFeed: () => void;
-  unLikeFeed: () => void;
+  toggleLikeFeed: () => void;
   bookmarkFeed: () => void;
   cancelBookmarkFeed: () => void;
   hasUserArea?: boolean;
@@ -25,8 +24,7 @@ const FeedCard = ({
   content,
   goToDetail,
   openBottomSheet,
-  likeFeed,
-  unLikeFeed,
+  toggleLikeFeed,
   bookmarkFeed,
   cancelBookmarkFeed,
   hasUserArea
@@ -53,7 +51,7 @@ const FeedCard = ({
   };
 
   const toggleLike = () => {
-    content?.isLiked ? unLikeFeed() : likeFeed();
+    toggleLikeFeed();
   };
 
   const toggleBookmark = () => {
