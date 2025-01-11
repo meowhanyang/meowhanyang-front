@@ -166,7 +166,7 @@ const DiaryPage = () => {
           <section className="flex h-28 justify-start overflow-scroll bg-gr-white px-2">
             {isCatsLoading ? (
               <FilterSkeleton />
-            ) : catList?.pages[0]?.length === 0 ? (
+            ) : catList?.pages[0]?.items?.length === 0 ? (
               <CatRegisterBtn onClick={() => setShowCatRegisterModal(true)} />
             ) : (
               <>
