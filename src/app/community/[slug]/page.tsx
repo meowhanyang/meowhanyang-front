@@ -40,8 +40,7 @@ const DetailPage = ({ params: { slug } }: { params: { slug: number } }) => {
     deleteFeed,
     blockFeed,
     reportFeed,
-    likeFeed,
-    unLikeFeed,
+    toggleLikeFeed,
     bookmarkFeed,
     cancelBookmarkFeed
   } = useFeedMutations(['feeds', 'feedDetail']);
@@ -78,8 +77,7 @@ const DetailPage = ({ params: { slug } }: { params: { slug: number } }) => {
           openBottomSheet={() => {
             setEditBottomSheet(true);
           }}
-          likeFeed={() => likeFeed(feedDetail)}
-          unLikeFeed={() => unLikeFeed(feedDetail)}
+          toggleLikeFeed={() => toggleLikeFeed(feedDetail)}
           bookmarkFeed={() => bookmarkFeed(feedDetail)}
           cancelBookmarkFeed={() => cancelBookmarkFeed(feedDetail)}
           hasUserArea

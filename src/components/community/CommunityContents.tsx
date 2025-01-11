@@ -49,8 +49,7 @@ const CommunityContents = () => {
     deleteFeed,
     blockFeed,
     reportFeed,
-    likeFeed,
-    unLikeFeed,
+    toggleLikeFeed,
     bookmarkFeed,
     cancelBookmarkFeed
   } = useFeedMutations(['feeds']);
@@ -75,8 +74,7 @@ const CommunityContents = () => {
                 setFeed(feed);
                 setEditBottomSheet(true);
               }}
-              likeFeed={() => likeFeed(feed)}
-              unLikeFeed={() => unLikeFeed(feed)}
+              toggleLikeFeed={() => toggleLikeFeed(feed)}
               bookmarkFeed={() => bookmarkFeed(feed)}
               cancelBookmarkFeed={() => cancelBookmarkFeed(feed)}
               hasUserArea

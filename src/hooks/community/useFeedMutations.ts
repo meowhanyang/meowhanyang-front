@@ -3,9 +3,8 @@ import {
   bookmarkFeedOnServer,
   cancelBookmarkFeedOnServer,
   deleteFeedOnServer,
-  likeFeedOnServer,
   reportFeedOnServer,
-  unlikeFeedOnServer
+  toggleLikeFeedOnServer
 } from '@/services/community';
 import { FeedType } from '@/types/communityType';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -76,41 +75,22 @@ const useFeedMutations = (queryKeyList: string[]) => {
     }
   });
 
-  const likeFeed = (feed: FeedType) => {
+  const toggleLikeFeed = (feed: FeedType) => {
     if (!feed) return;
-    likeFeedMutation.mutate(feed?.id);
+    toggleLikeFeedMutation.mutate(feed?.id);
   };
 
-  const likeFeedMutation = useMutation({
-    mutationFn: (id: number) => likeFeedOnServer(id),
+  const toggleLikeFeedMutation = useMutation({
+    mutationFn: (id: number) => toggleLikeFeedOnServer(id),
     onSuccess: (response: any) => {
       if (response.status === 'OK') {
         invalidateQueryFucn(queryKeyList);
       } else {
-        console.error('게시물 좋아요 중 오류:', response.message);
+        console.error('게시물 좋아요 토글 중 오류:', response.message);
       }
     },
     onError: (error: any) => {
-      console.error('게시물 좋아요 중 오류:', error);
-    }
-  });
-
-  const unLikeFeed = (feed: FeedType) => {
-    if (!feed) return;
-    unlikeFeedMutation.mutate(feed?.id);
-  };
-
-  const unlikeFeedMutation = useMutation({
-    mutationFn: (id: number) => unlikeFeedOnServer(id),
-    onSuccess: (response: any) => {
-      if (response.status === 'OK') {
-        invalidateQueryFucn(queryKeyList);
-      } else {
-        console.error('게시물 좋아요 중 오류:', response.message);
-      }
-    },
-    onError: (error: any) => {
-      console.error('게시물 좋아요 중 오류:', error);
+      console.error('게시물 좋아요 토글 중 오류:', error);
     }
   });
 
@@ -156,8 +136,7 @@ const useFeedMutations = (queryKeyList: string[]) => {
     deleteFeed,
     blockFeed,
     reportFeed,
-    likeFeed,
-    unLikeFeed,
+    toggleLikeFeed,
     bookmarkFeed,
     cancelBookmarkFeed
   };

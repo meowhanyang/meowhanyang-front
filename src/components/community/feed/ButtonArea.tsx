@@ -1,6 +1,6 @@
 import Bookmark from '@/components/community/feed/Bookmark';
 import Image from 'next/image';
-import React from 'react';
+import LikeButton from './LikeButton';
 
 interface ButtonAreaProps {
   like: number;
@@ -30,12 +30,7 @@ const ButtonArea = ({
             e.stopPropagation(), toggleLike();
           }}
         >
-          <Image
-            src="/images/icons/heart.svg"
-            alt="heart"
-            width={24}
-            height={24}
-          />
+          <LikeButton isLiked={isLiked} onClick={toggleLike} />
           <h6 className="text-body-3 text-gr-400">{like}</h6>
         </div>
         <div className="flex items-center gap-[2px]" onClick={clickComment}>
