@@ -1,5 +1,6 @@
+import { fetchExtended } from '@/services/cat';
 import { fetchExtendedAuth } from '@/services/signup';
-import { getCookie } from '@/utils/common';
+import { getCookie, objectToQueryString } from '@/utils/common';
 
 export const getMyProfile = async () => {
   try {
@@ -180,20 +181,32 @@ export const getOtherUserFeeds = async ({
   }
 };
 
-export const getNotifications = async () => {
+type NotiSearchOption = {
+  page: number;
+  size: number;
+};
+
+export const getNotifications = async ({ page, size }: NotiSearchOption) => {
   try {
     const memberToken = getCookie('Authorization');
 
-    const response = await fetchExtendedAuth('/notifications', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${memberToken}`
+    const response = await fetchExtended(
+      `/notifications?${objectToQueryString({ page, size })}`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${memberToken}`
+        }
       }
-    });
-
-    const responseBody = response.body as { items?: any[] };
-    return responseBody?.items;
+    );
+    if (response.body) {
+      const responseBody = await response.text();
+      const parsedBody = JSON.parse(responseBody);
+      return parsedBody;
+    } else {
+      throw new Error('응답 본문이 없습니다.');
+    }
   } catch (error) {
     if (error instanceof Error) {
       throw new Error('내 소식 조회 중 오류 발생: ' + error.message);
@@ -203,20 +216,32 @@ export const getNotifications = async () => {
   }
 };
 
-export const getCoParentNotifications = async () => {
+export const getCoParentNotifications = async ({
+  page,
+  size
+}: NotiSearchOption) => {
   try {
     const memberToken = getCookie('Authorization');
 
-    const response = await fetchExtendedAuth('/notifications/co-parent', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${memberToken}`
+    const response = await fetchExtended(
+      `/notifications/co-parent?${objectToQueryString({ page, size })}`,
+      {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${memberToken}`
+        }
       }
-    });
-
-    const responseBody = response.body as { items?: any[] };
-    return responseBody?.items;
+    );
+    // const responseBody = response.body as { items?: any[] };
+    // return responseBody?.items;
+    if (response.body) {
+      const responseBody = await response.text();
+      const parsedBody = JSON.parse(responseBody);
+      return parsedBody;
+    } else {
+      throw new Error('응답 본문이 없습니다.');
+    }
   } catch (error) {
     if (error instanceof Error) {
       throw new Error('공동 냥육 알림 조회 중 오류 발생: ' + error.message);

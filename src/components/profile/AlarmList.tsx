@@ -7,22 +7,9 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { readNotificationOnServer } from '@/services/profile';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AlarmType } from '@/app/profile/alarm/page';
 
-interface AlarmListProps {
-  alarmList: {
-    id: number;
-    title: string;
-    link: string;
-    senderNickname: string;
-    createdAt: string;
-    isRead: boolean;
-    type: 'COMMENT' | 'LIKE' | 'DIARY' | 'COPARENT_REQUEST' | 'COPARENT';
-    isExpired?: boolean;
-    isResponded?: boolean;
-  }[];
-}
-
-const AlarmList = ({ alarmList }: AlarmListProps) => {
+const AlarmList = (alarm: AlarmType) => {
   const router = useRouter();
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -43,7 +30,6 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
     setShowMessage(true);
     router.push(link);
   };
-
   const readAlarm = (link: string, id: number, type = 'UNDEFINED') => {
     if (type === 'REQUEST') return;
     router.push(link);
@@ -80,44 +66,42 @@ const AlarmList = ({ alarmList }: AlarmListProps) => {
   }, [showMessage]);
   return (
     <>
-      {alarmList.map(alarm => (
-        <div
-          key={alarm.id}
-          className={`border-gr-200 p-4 ${alarm.isRead ? 'bg-gr-white' : 'bg-pr-50'}`}
-          onClick={() => readAlarm(alarm.link, alarm.id, alarm.type)}
-        >
-          <div className="flex items-center justify-start">
-            <Image
-              src={`https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/alarm_type/${alarm.type}.svg`}
-              alt="alarm type"
-              width={36}
-              height={36}
-            />
-            <div className="px-3">
-              <p className="text-body-3 text-gr-900">
-                <span className="font-bold">{alarm.senderNickname}</span>
-                {alarm.title}
-              </p>
-              <p className="text-body-4 text-gr-400">{alarm.createdAt}</p>
-            </div>
+      <div
+        key={alarm.id}
+        className={`border-gr-200 p-4 ${alarm.isRead ? 'bg-gr-white' : 'bg-pr-50'}`}
+        onClick={() => readAlarm(alarm.link, alarm.id, alarm.type)}
+      >
+        <div className="flex items-center justify-start">
+          <Image
+            src={`https://meowzip.s3.ap-northeast-2.amazonaws.com/images/icon/profile/alarm_type/${alarm.type}.svg`}
+            alt="alarm type"
+            width={36}
+            height={36}
+          />
+          <div className="px-3">
+            <p className="text-body-3 text-gr-900">
+              <span className="font-bold">{alarm.senderNickname}</span>
+              {alarm.title}
+            </p>
+            <p className="text-body-4 text-gr-400">{alarm.createdAt}</p>
           </div>
-          {alarm.type === 'COPARENT_REQUEST' && (
-            <div className="pt-2">
-              <CoParentButton
-                onClick={() => {
-                  readNotification.mutate({ id: alarm.id, type: 'REQUEST' });
-                  onClickCoParentBtn(
-                    !!alarm.isExpired,
-                    !!alarm.isResponded,
-                    alarm.link
-                  );
-                }}
-                isRead={alarm.isRead}
-              />
-            </div>
-          )}
         </div>
-      ))}
+        {alarm.type === 'COPARENT_REQUEST' && (
+          <div className="pt-2">
+            <CoParentButton
+              onClick={() => {
+                readNotification.mutate({ id: alarm.id, type: 'REQUEST' });
+                onClickCoParentBtn(
+                  !!alarm.isExpired,
+                  !!alarm.isResponded,
+                  alarm.link
+                );
+              }}
+              isRead={alarm.isRead}
+            />
+          </div>
+        )}
+      </div>
       <Toaster />
       {showMessage && <AlarmMessage />}
     </>
