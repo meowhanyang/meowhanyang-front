@@ -43,7 +43,9 @@ export default function ProfilePage() {
         page: pageParam,
         size: 10
       }),
-    getNextPageParam: (_, allPages) => allPages.length + 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.hasNext ? allPages.length + 1 : undefined;
+    },
     initialPageParam: 1,
     staleTime: 1000 * 60 * 5
   });
@@ -64,7 +66,9 @@ export default function ProfilePage() {
         page: pageParam,
         size: 10
       }),
-    getNextPageParam: (_, allPages) => allPages.length + 1,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.hasNext ? allPages.length + 1 : undefined;
+    },
     initialPageParam: 1,
     staleTime: 1000 * 60 * 5
   });
@@ -154,7 +158,7 @@ export default function ProfilePage() {
             />
           ) : (
             myFeedList?.pages.map(page =>
-              page?.map((feed: FeedType) => (
+              page?.items?.map((feed: FeedType) => (
                 <FeedCard
                   key={feed.id}
                   content={feed}
@@ -181,7 +185,7 @@ export default function ProfilePage() {
             />
           ) : (
             myBookmarksList?.pages.map(page =>
-              page?.map((feed: FeedType) => (
+              page?.items?.map((feed: FeedType) => (
                 <FeedCard
                   key={feed.id}
                   content={feed}
