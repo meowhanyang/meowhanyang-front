@@ -35,23 +35,20 @@ export const getMyProfile = async () => {
 
 export const getMyFeeds = async ({
   page,
-  size,
-  offset
+  size
 }: {
   page: number;
   size: number;
-  offset?: number;
 }) => {
   try {
     const memberToken = getCookie('Authorization');
 
     const queryParams = new URLSearchParams({
       page: page.toString(),
-      size: size.toString(),
-      offset: offset ? offset.toString() : '0'
+      size: size.toString()
     });
 
-    const response = await fetchExtendedAuth(
+    const response = await fetchExtended(
       `/profiles/posts?${queryParams.toString()}`,
       {
         method: 'GET',
@@ -61,8 +58,13 @@ export const getMyFeeds = async ({
         }
       }
     );
-    const responseBody = response.body as { items?: any[] };
-    return responseBody?.items;
+    if (response.body) {
+      const responseBody = await response.text();
+      const parsedBody = JSON.parse(responseBody);
+      return parsedBody;
+    } else {
+      throw new Error('응답 본문이 없습니다.');
+    }
   } catch (error) {
     if (error instanceof Error) {
       throw new Error('내 피드 조회 중 오류 발생: ' + error.message);
@@ -72,23 +74,20 @@ export const getMyFeeds = async ({
 
 export const getMyBookmarks = async ({
   page,
-  size,
-  offset
+  size
 }: {
   page: number;
   size: number;
-  offset?: number;
 }) => {
   try {
     const memberToken = getCookie('Authorization');
 
     const queryParams = new URLSearchParams({
       page: page.toString(),
-      size: size.toString(),
-      offset: offset ? offset.toString() : '0'
+      size: size.toString()
     });
 
-    const response = await fetchExtendedAuth(
+    const response = await fetchExtended(
       `/profiles/bookmarks?${queryParams.toString()}`,
       {
         method: 'GET',
@@ -98,8 +97,13 @@ export const getMyBookmarks = async ({
         }
       }
     );
-    const responseBody = response.body as { items?: any[] };
-    return responseBody?.items;
+    if (response.body) {
+      const responseBody = await response.text();
+      const parsedBody = JSON.parse(responseBody);
+      return parsedBody;
+    } else {
+      throw new Error('응답 본문이 없습니다.');
+    }
   } catch (error) {
     if (error instanceof Error) {
       throw new Error('내 피드 조회 중 오류 발생: ' + error.message);
