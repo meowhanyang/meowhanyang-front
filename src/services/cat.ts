@@ -198,6 +198,33 @@ export const getCoParentCat = async (coParentId: number) => {
   }
 };
 
+type CoParentsSearchOption = {
+  page: number;
+  size: number;
+  keyword: string;
+  'cat-id': number;
+};
+
+export const getCoParents = async (reqObj: CoParentsSearchOption) => {
+  try {
+    const response = await fetchExtended(
+      // `/cats/co-parents/members?cat-id=${catId}&keyword=${keyword}`
+      `/cats/co-parents/members?${objectToQueryString(reqObj)}`
+    );
+    if (response.body) {
+      const responseBody = await response.text();
+      const parsedBody = JSON.parse(responseBody);
+      return parsedBody;
+    } else {
+      throw new Error('응답 본문이 없습니다.');
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error('함께할 공동집사 찾기 중 오류 발생: ' + error.message);
+    }
+  }
+};
+
 export const cancelCoParenting = async (reqObj: {
   catId: number;
   memberId: number;
