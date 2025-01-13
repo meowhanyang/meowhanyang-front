@@ -10,7 +10,7 @@ const ZipDetailCoParents = ({ ...props }: CoParent) => {
         alt={props.nickname}
         width={56}
         height={56}
-        className="rounded-full"
+        className="max-h-14 max-w-14 rounded-full"
       />
       <h3 className="text-body-4 text-gr-black">{props.nickname}</h3>
     </div>
