@@ -40,7 +40,7 @@ const FindCoParentsModal = ({
     isError,
     fetchNextPage
   } = useInfiniteQuery({
-    queryKey: ['myFeeds'],
+    queryKey: ['coParents', catId],
     queryFn: ({ pageParam = 1 }) =>
       getCoParents({
         keyword: keyword,
