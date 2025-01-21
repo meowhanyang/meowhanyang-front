@@ -43,7 +43,11 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
     <>
       <Topbar type="two">
         <Topbar.Back onClick={() => router.back()} />
-        <Topbar.More onClick={() => setEditBottomSheet(true)} />
+        {catDetail?.isOwner ? (
+          <Topbar.More onClick={() => setEditBottomSheet(true)} />
+        ) : (
+          <Topbar.Empty />
+        )}
       </Topbar>
       <section className="mx-auto flex h-screen max-w-[640px] flex-col gap-4 overflow-auto bg-gr-50 px-4 pb-32 pt-[72px]">
         <article className="rounded-16">
@@ -55,7 +59,7 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
             onClick: () => setCoParentsBottomSheet(true)
           }}
           btnObj={
-            catDetail.isMine && {
+            catDetail.isOwner && {
               text: '함께할 공동집사 찾기',
               onClick: () => setShowCoParentsModal(true)
             }
@@ -67,7 +71,7 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
             ))}
           </div>
         </DetailCardLayout>
-        {catDetail.isMine && (
+        {catDetail.isAccessibleToDiaries && (
           <DetailCardLayout
             titleObj={{ title: '일지' }}
             btnObj={{
