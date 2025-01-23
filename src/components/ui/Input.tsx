@@ -61,7 +61,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
 
     const sizeClass = inputSize ? `input-${inputSize}` : '';
     const inputClassName = cn(
-      'common-input flex h-12 font-normal w-full rounded-md border px-4 py-3 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-gr-50 disabled:font-regular focus:border-2 focus:border-pr-500',
+      'common-input flex h-12 font-normal w-full rounded-md border px-4 py-3 text-[16px] ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-gr-50 disabled:font-regular focus:border-2 focus:border-pr-500',
       {
         'border-input bg-background': variant !== 'outlined',
         'bg-gr-50 border-none focus:border-none max-h-[60px]':
