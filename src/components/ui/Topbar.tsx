@@ -197,7 +197,7 @@ const Topbar = ({
   return (
     <div
       className={cn(
-        'fixed z-10 h-12 w-full bg-gr-white px-[6px]',
+        'fixed left-1/2 top-0 z-10 h-12 w-full max-w-[640px] -translate-x-1/2 transform bg-gr-white px-[6px]',
         TopbarTypeVariants[type],
         className
       )}

@@ -10,11 +10,7 @@ import { sendPwdResetEmail, signInOnServer } from '@/services/signin';
 import { useRouter } from 'next/navigation';
 import Modal from '../ui/Modal';
 
-interface PasswordProps {
-  setStep: () => void;
-}
-
-export default function Password({ setStep }: PasswordProps) {
+export default function Password() {
   const { password, handlePwdChange } = usePasswordHandler();
   const { email } = useUser();
   const router = useRouter();
@@ -70,7 +66,7 @@ export default function Password({ setStep }: PasswordProps) {
   });
 
   return (
-    <section className="w-full px-6 text-[24px] font-bold text-gray-800">
+    <section className="w-full px-6 pt-12 text-[24px] font-bold text-gray-800">
       <div className="mb-[32px]">
         비밀번호를 입력하여 <br /> 로그인해 주세요
       </div>

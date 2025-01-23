@@ -3,7 +3,7 @@ import React from 'react';
 
 const ProfileSkeleton = () => {
   return (
-    <div className="mx-auto w-screen bg-gr-white">
+    <div className="mx-auto w-full bg-gr-white">
       <div className="relative mx-auto flex flex-col items-center justify-center gap-2 py-4">
         <Skeleton className="h-[72px] w-[72px] rounded-full" />
         <Skeleton className="h-[16px] w-[50px]" />

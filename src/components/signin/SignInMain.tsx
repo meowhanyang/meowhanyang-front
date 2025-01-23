@@ -17,17 +17,18 @@ const SignInMain = ({ setStep }: SignInMainProps) => {
             <br /> 모든 길냥이들을 위해
           </p>
           <Image
-            className="my-4"
+            className="my-4 rounded-lg"
             src={DEFAULT_CAT_IMAGES[1].imageSrc}
             alt="cat-image"
             width={300}
             height={200}
+            quality={100}
           />
         </div>
-        <div className="flex-col items-center p-4">
+        <div className="flex flex-col items-center p-4">
           <Button
             onClick={setStep}
-            className="w-full rounded-16 bg-pr-500 px-4 py-2"
+            className="w-full max-w-[320px] rounded-16 bg-pr-500 px-4 py-2"
           >
             <Button.Text
               text="이메일로 계속하기"

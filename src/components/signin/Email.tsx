@@ -32,7 +32,7 @@ const Email = ({ setStep }: EmailProps) => {
   };
 
   return (
-    <section className="w-full px-6 text-[24px] font-bold text-gray-800">
+    <section className="w-full px-6 pt-12 text-[24px] font-bold text-gray-800">
       <div className="mb-[32px]">
         이메일을 입력하여 <br /> 로그인해 주세요
       </div>
