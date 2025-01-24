@@ -67,7 +67,7 @@ export default function CatPhoto({
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 top-0 z-50 h-full bg-gr-white galaxy-fold:min-w-[320px]">
+    <div className="fixed bottom-0 left-0 right-0 top-0 z-50 mx-auto h-full max-w-[678px] bg-gr-white galaxy-fold:min-w-[320px]">
       <Topbar type="three">
         <Topbar.Back onClick={setPrev} />
         <Topbar.Title title="고양이 등록(2/3)" />

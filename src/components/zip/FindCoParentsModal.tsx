@@ -113,11 +113,8 @@ const FindCoParentsModal = ({
     });
   };
 
-  if (isLoading) return <div>로딩중</div>;
-  if (isError) return <div>에러</div>;
-
   return (
-    <div className="fixed bottom-0 left-0 right-0 top-0 z-50 h-full min-w-[320px] overflow-scroll bg-gr-white">
+    <div className="fixed bottom-0 left-0 right-0 top-0 z-50 mx-auto h-full min-w-[320px] max-w-[678px] overflow-scroll bg-gr-white">
       <section>
         <Topbar type="two" className="justify-start">
           <Topbar.Back onClick={() => setShowCoParentsModal(false)} />

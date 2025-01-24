@@ -64,13 +64,13 @@ const DetailPage = ({ params: { slug } }: { params: { slug: number } }) => {
   };
 
   return (
-    <div className="fixed top-0 z-50 h-screen w-full bg-gr-white">
+    <div className="fixed top-0 z-50 mx-auto h-screen w-full max-w-[678px] bg-gr-white">
       <Topbar type="three">
         <Topbar.Back onClick={() => router.back()} />
         <Topbar.Title title="피드" />
         <Topbar.Empty />
       </Topbar>
-      <div className="mx-auto max-w-[640px] pb-28 pt-12">
+      <div className="pb-28 pt-12">
         <FeedCard
           variant="detail"
           content={feedDetail}

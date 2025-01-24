@@ -79,7 +79,7 @@ const AlarmPage = () => {
   }, [coParentInView, fetchNextCoparentNofi]);
 
   return (
-    <div className="fixed left-0 top-0 z-20 h-screen w-full overflow-y-auto bg-gr-white">
+    <div className="fixed left-1/2 top-0 z-20 h-screen w-full max-w-[678px] -translate-x-1/2 overflow-y-auto bg-gr-white">
       <Topbar type="three">
         <Topbar.Back onClick={() => router.push('/profile')} />
         <Topbar.Title title="내 소식" />

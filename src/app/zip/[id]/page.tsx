@@ -36,9 +36,6 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
     }
   }, [catDetail, id, catData]);
 
-  if (isLoading) return <div>로딩중</div>;
-  if (isError) return <div>에러</div>;
-
   return (
     <>
       <Topbar type="two">

@@ -49,9 +49,6 @@ const DiaryDetailPage = ({ params: { id } }: { params: { id: number } }) => {
     }
   });
 
-  if (isLoading) return <div>로딩중</div>;
-  if (isError) return <div>에러</div>;
-
   return (
     <div className="fixed left-0 top-0 z-50 h-screen w-screen overflow-y-auto bg-gr-white">
       <Topbar type="two">
