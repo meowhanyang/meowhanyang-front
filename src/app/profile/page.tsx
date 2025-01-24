@@ -112,7 +112,7 @@ export default function ProfilePage() {
         {isProfileLoading ? (
           <ProfileSkeleton />
         ) : (
-          <div className="flex w-screen flex-col items-center justify-center bg-gr-white">
+          <div className="flex w-full flex-col items-center justify-center bg-gr-white">
             <div className="relative mx-auto my-4 flex h-[72px] w-[72px] flex-col items-center justify-center gap-1">
               <Image
                 src={myProfile?.profileImageUrl || DEFAULT_PROFILE_IMAGE_SRC}
