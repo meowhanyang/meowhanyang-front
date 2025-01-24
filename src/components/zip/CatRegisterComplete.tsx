@@ -18,7 +18,7 @@ export default function CatRegisterComplete({
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 top-0 z-50 h-full min-w-[320px] bg-gr-white">
+    <div className="fixed bottom-0 left-0 right-0 top-0 z-50 mx-auto h-full min-w-[320px] max-w-[678px] bg-gr-white">
       <Topbar type="three">
         <Topbar.Back onClick={setPrev} />
         <Topbar.Title title="등록 완료" />

@@ -98,7 +98,11 @@ const SearchInput = ({
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
   return (
-    <Input variant="search" placeholder="고양이 검색..." onChange={onChange} />
+    <Input
+      variant="search"
+      placeholder="검색어를 입력해주세요"
+      onChange={onChange}
+    />
   );
 };
 

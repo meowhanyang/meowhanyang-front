@@ -78,7 +78,7 @@ const SettingPage = () => {
 
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 top-0 z-50 h-full min-w-[320px] bg-gr-white">
+      <div className="fixed left-1/2 top-0 z-50 h-full w-full max-w-[678px] -translate-x-1/2 overflow-y-auto bg-gr-white">
         <Topbar type="three">
           <Topbar.Back onClick={() => router.back()} />
           <Topbar.Title title="설정" />
@@ -116,7 +116,7 @@ const SettingPage = () => {
         <Toaster />
 
         {termsModal !== '' && (
-          <div className="fixed left-0 top-0 z-[50] mx-auto h-screen w-full max-w-[640px] overflow-y-auto bg-gr-white">
+          <div className="fixed left-0 top-0 z-[50] mx-auto h-screen w-full max-w-[680px] overflow-y-auto bg-gr-white">
             <Topbar type="three">
               <Topbar.Back onClick={() => setTermsModal('')} />
               <Topbar.Title
