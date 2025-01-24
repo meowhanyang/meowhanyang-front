@@ -14,7 +14,7 @@ const DiaryEmptyState = () => {
           src={DEFAULT_CAT_IMAGES[1].imageSrc}
           width={200}
           height={200}
-          className="pb-4"
+          className="mb-4 rounded-xl"
         />
       }
     />
