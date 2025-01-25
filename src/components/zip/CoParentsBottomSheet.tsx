@@ -25,7 +25,7 @@ const CoParentsBottomSheet = ({
         공동집사
       </div>
       <ul className="px-4">
-        {coParents.map((coParent: CoParent) => (
+        {coParents?.map((coParent: CoParent) => (
           <li
             key={coParent.memberId}
             className="flex items-center justify-start gap-4 py-2"

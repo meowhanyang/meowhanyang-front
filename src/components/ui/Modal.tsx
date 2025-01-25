@@ -30,7 +30,7 @@ const Modal = ({ contents, buttons, scrim, customContent }: ModalProps) => {
     };
   }, []);
 
-  const modalClassName = `absolute left-1/2 top-1/2 h-fit w-[90%] -translate-x-1/2 -translate-y-1/2 transform rounded-2xl bg-gr-white px-4 pb-4 pt-6 text-left shadow-modal max-w-[400px] mx-auto ${
+  const modalClassName = `absolute left-1/2 top-1/2 h-fit w-[90%] -translate-x-1/2 -translate-y-1/2 transform rounded-2xl bg-gr-white px-4 pb-4 pt-6 text-left shadow-modal ${
     customContent && 'w-full h-full rounded-none' // Append a specific className when customContent is present
   }`;
 

@@ -56,19 +56,19 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
             onClick: () => setCoParentsBottomSheet(true)
           }}
           btnObj={
-            catDetail.isOwner && {
+            catDetail?.isOwner && {
               text: '함께할 공동집사 찾기',
               onClick: () => setShowCoParentsModal(true)
             }
           }
         >
           <div className="flex pt-2">
-            {catDetail.coParents?.map((coParent: CoParent) => (
+            {catDetail?.coParents?.map((coParent: CoParent) => (
               <ZipDetailCoParents key={coParent.memberId} {...coParent} />
             ))}
           </div>
         </DetailCardLayout>
-        {catDetail.isAccessibleToDiaries && (
+        {catDetail?.isAccessibleToDiaries && (
           <DetailCardLayout
             titleObj={{ title: '일지' }}
             btnObj={{
@@ -101,7 +101,7 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
       <CoParentsBottomSheet
         isVisible={coParentsBottomSheet}
         setIsVisible={() => setCoParentsBottomSheet(!coParentsBottomSheet)}
-        coParents={catDetail.coParents}
+        coParents={catDetail?.coParents}
       />
 
       {showCatEditModal && catData && (

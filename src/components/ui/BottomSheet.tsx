@@ -105,7 +105,7 @@ const BottomSheet: React.FC<BottomSheetProps> = ({
               onDragEnd: handleDragEnd
             })}
             style={{ y, height: bottomSheetHeight }}
-            className={`fixed inset-x-0 bottom-0 z-50 mx-auto max-w-[680px] rounded-tl-3xl rounded-tr-3xl bg-white shadow-lg ${
+            className={`fixed inset-x-0 bottom-0 z-50 mx-auto max-w-[640px] rounded-tl-3xl rounded-tr-3xl bg-white shadow-lg ${
               overflow ? overflow : 'overflow-hidden'
             }`}
             {...props}
