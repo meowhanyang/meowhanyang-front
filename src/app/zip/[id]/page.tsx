@@ -6,7 +6,6 @@ import Topbar from '@/components/ui/Topbar';
 import { useRouter } from 'next/navigation';
 import MoreBtnBottomSheet from '@/components/community/MoreBtnBottomSheet';
 import DetailCardLayout from '@/components/zip/DetailCardLayout';
-import { useCatDetail } from '@/hooks/useCats';
 import { DiaryObj } from '@/app/diary/diaryType';
 import ZipDetailCoParents from '@/components/zip/ZipDetailCoParents';
 import { CatRegisterReqObj, CoParent } from '@/app/zip/catType';
@@ -16,7 +15,8 @@ import FindCoParentsModal from '../../../components/zip/FindCoParentsModal';
 import { Toaster } from '@/components/ui/Toaster';
 import Link from 'next/link';
 import CatInfo from '@/components/zip/CatInfo';
-import { deleteCat } from '@/services/cat';
+import { deleteCat, getCatDetail } from '@/services/cat';
+import { useQuery } from '@tanstack/react-query';
 
 const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
   const router = useRouter();
@@ -25,9 +25,13 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
   const [coParentsBottomSheet, setCoParentsBottomSheet] = useState(false);
   const [showCatEditModal, setShowCatEditModal] = useState(false);
   const [showCoParentsModal, setShowCoParentsModal] = useState(false);
-
-  const { data: catDetail, isError, isLoading } = useCatDetail(id);
   const [catData, setCatData] = useState<CatRegisterReqObj | null>(null);
+
+  const { data: catDetail, isLoading } = useQuery({
+    queryKey: ['catDetail', id],
+    queryFn: () => getCatDetail(id),
+    staleTime: 1000
+  });
 
   useEffect(() => {
     if (!catDetail) return;
@@ -35,6 +39,8 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
       setCatData(catDetail);
     }
   }, [catDetail, id, catData]);
+
+  if (isLoading) return <div>로딩중</div>;
 
   return (
     <>
@@ -56,19 +62,19 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
             onClick: () => setCoParentsBottomSheet(true)
           }}
           btnObj={
-            catDetail?.isOwner && {
+            catDetail.isOwner && {
               text: '함께할 공동집사 찾기',
               onClick: () => setShowCoParentsModal(true)
             }
           }
         >
           <div className="flex pt-2">
-            {catDetail?.coParents?.map((coParent: CoParent) => (
+            {catDetail.coParents?.map((coParent: CoParent) => (
               <ZipDetailCoParents key={coParent.memberId} {...coParent} />
             ))}
           </div>
         </DetailCardLayout>
-        {catDetail?.isAccessibleToDiaries && (
+        {catDetail.isAccessibleToDiaries && (
           <DetailCardLayout
             titleObj={{ title: '일지' }}
             btnObj={{
@@ -101,7 +107,7 @@ const ZipDiaryPage = ({ params: { id } }: { params: { id: number } }) => {
       <CoParentsBottomSheet
         isVisible={coParentsBottomSheet}
         setIsVisible={() => setCoParentsBottomSheet(!coParentsBottomSheet)}
-        coParents={catDetail?.coParents}
+        coParents={catDetail.coParents}
       />
 
       {showCatEditModal && catData && (
