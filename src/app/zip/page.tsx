@@ -48,12 +48,12 @@ const ZipPage = () => {
   };
 
   return (
-    <>
+    <div className="mx-auto h-screen w-full max-w-[640px] bg-gr-50">
       <h1 className="flex h-12 w-full items-center bg-gr-white px-4 text-heading-3 text-gr-900">
         모음집
       </h1>
       <div className="bg-gr-50">
-        <section className="mx-auto max-w-[640px] p-4 px-4 pb-28">
+        <section className="p-4 px-4 pb-28">
           {isLoading ? (
             <div className="grid grid-cols-2 gap-4">
               <ZipSkeleton />
@@ -85,7 +85,7 @@ const ZipPage = () => {
           )}
         </section>
       </div>
-    </>
+    </div>
   );
 };
 
