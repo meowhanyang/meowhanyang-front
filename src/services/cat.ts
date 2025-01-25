@@ -118,6 +118,25 @@ export const getCatsOnServer = async ({
   }
 };
 
+export const getCatDetail = async (id: number) => {
+  try {
+    const response = await fetchExtendedAuth(`/cats/${id}`);
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+
+    const data = (response.body as any).data;
+    return data;
+  } catch (error) {
+    console.error(error);
+    if (error instanceof Error) {
+      throw new Error('고양이 상세 정보 조회 중 오류 발생:' + error.message);
+    } else {
+      throw new Error('고양이 상세 정보 조회 중 오류 발생:');
+    }
+  }
+};
+
 export const requestCoParenting = async (reqObj: {
   catId: number;
   memberId: number;
@@ -208,7 +227,6 @@ type CoParentsSearchOption = {
 export const getCoParents = async (reqObj: CoParentsSearchOption) => {
   try {
     const response = await fetchExtended(
-      // `/cats/co-parents/members?cat-id=${catId}&keyword=${keyword}`
       `/cats/co-parents/members?${objectToQueryString(reqObj)}`
     );
     if (response.body) {
