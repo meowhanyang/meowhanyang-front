@@ -150,7 +150,7 @@ export default function ProfilePage() {
         >
           {isFeedLoading ? (
             <ProfileFeedSkeleton />
-          ) : myFeedList?.pages[0]?.length === 0 ? (
+          ) : myFeedList?.pages[0]?.items?.length === 0 ? (
             <ProfileEmptyState
               title="아직 작성한 글이 없어요"
               body="사람들과 나누고 싶은 일들을 공유해보세요!"
