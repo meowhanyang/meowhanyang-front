@@ -64,7 +64,7 @@ const CoParentAlarmPage = ({ params: { id } }: { params: { id: number } }) => {
   });
 
   return (
-    <div className="fixed left-0 top-0 z-50 mx-auto h-screen w-full max-w-[678px] overflow-y-auto bg-gr-white">
+    <div className="fixed left-0 top-0 z-50 mx-auto h-screen w-full max-w-[640px] overflow-y-auto bg-gr-white">
       <Topbar type="three">
         <Topbar.Back onClick={() => router.back()} />
         <Topbar.Empty />
